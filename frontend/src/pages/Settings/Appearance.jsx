@@ -79,41 +79,41 @@ export default function Appearance() {
       />
 
       {savedMessage && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs rounded-sm flex items-center gap-2">
-          <Check className="w-4 h-4 text-emerald-600" />
+        <div className="p-3 bg-emerald-50/90 border border-emerald-300 text-emerald-900 text-xs font-bold rounded-sm flex items-center gap-2">
+          <Check className="w-4 h-4 text-emerald-700" />
           {savedMessage}
         </div>
       )}
 
-      <form onSubmit={handleSaveTheme} className="bg-white border border-pink-200 p-6 rounded-sm shadow-sm space-y-6">
+      <form onSubmit={handleSaveTheme} className="glass-card p-6 rounded-sm shadow-sm space-y-6">
 
         {/* Wallpaper Upload */}
         <div>
-          <h3 className="font-serif text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
-            <ImageIcon className="w-4 h-4 text-pink-500" />
+          <h3 className="font-serif text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <ImageIcon className="w-4 h-4 text-pink-600" />
             Background Wallpaper Image
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 Upload Custom Wallpaper Image
               </label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleWallpaperUpload}
-                className="modal-input text-xs cursor-pointer"
+                className="modal-input text-xs cursor-pointer font-semibold"
               />
-              {uploading && <p className="text-[11px] text-pink-600 mt-1">Uploading wallpaper...</p>}
+              {uploading && <p className="text-[11px] font-bold text-pink-700 mt-1">Uploading wallpaper...</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 Or Wallpaper Image Direct URL
               </label>
               <input
                 type="text"
-                className="modal-input"
+                className="modal-input font-semibold"
                 placeholder="https://images.unsplash.com/..."
                 value={wallpaperUrl}
                 onChange={(e) => setWallpaperUrl(e.target.value)}
@@ -122,7 +122,7 @@ export default function Appearance() {
           </div>
 
           {wallpaperUrl && (
-            <div className="mt-3 relative h-32 border border-slate-200 rounded-sm overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url("${wallpaperUrl}")` }}>
+            <div className="mt-3 relative h-32 border border-slate-300 rounded-sm overflow-hidden bg-cover bg-center shadow-xs" style={{ backgroundImage: `url("${wallpaperUrl}")` }}>
               <button
                 type="button"
                 onClick={() => { setWallpaperUrl(''); updateTheme({ bg_wallpaper: '' }); }}
@@ -135,15 +135,15 @@ export default function Appearance() {
         </div>
 
         {/* Font Color & Styling */}
-        <div className="pt-4 border-t border-slate-100">
-          <h3 className="font-serif text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-            <Palette className="w-4 h-4 text-pink-500" />
+        <div className="pt-4 border-t border-slate-200/80">
+          <h3 className="font-serif text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <Palette className="w-4 h-4 text-pink-600" />
             Color Palette & Font Styling
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 Global Background Color
               </label>
               <div className="flex items-center gap-2">
@@ -155,7 +155,7 @@ export default function Appearance() {
                 />
                 <input
                   type="text"
-                  className="modal-input flex-1"
+                  className="modal-input flex-1 font-semibold"
                   value={bgColor}
                   onChange={(e) => setBgColor(e.target.value)}
                 />
@@ -163,7 +163,7 @@ export default function Appearance() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 Global Font Text Color
               </label>
               <div className="flex items-center gap-2">
@@ -175,7 +175,7 @@ export default function Appearance() {
                 />
                 <input
                   type="text"
-                  className="modal-input flex-1"
+                  className="modal-input flex-1 font-semibold"
                   value={textColor}
                   onChange={(e) => setTextColor(e.target.value)}
                 />
@@ -183,7 +183,7 @@ export default function Appearance() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 Pink Accent Theme Color
               </label>
               <div className="flex items-center gap-2">
@@ -195,7 +195,7 @@ export default function Appearance() {
                 />
                 <input
                   type="text"
-                  className="modal-input flex-1"
+                  className="modal-input flex-1 font-semibold"
                   value={accentColor}
                   onChange={(e) => setAccentColor(e.target.value)}
                 />
@@ -205,15 +205,15 @@ export default function Appearance() {
         </div>
 
         {/* Font Family */}
-        <div className="pt-4 border-t border-slate-100">
-          <h3 className="font-serif text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-            <Type className="w-4 h-4 text-pink-500" />
+        <div className="pt-4 border-t border-slate-200/80">
+          <h3 className="font-serif text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <Type className="w-4 h-4 text-pink-600" />
             Global Font Family
           </h3>
 
           <div className="max-w-xs">
             <select
-              className="modal-select"
+              className="modal-select font-semibold"
               value={fontFamily}
               onChange={(e) => setFontFamily(e.target.value)}
             >
@@ -225,7 +225,7 @@ export default function Appearance() {
           </div>
         </div>
 
-        <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+        <div className="pt-4 border-t border-slate-200/80 flex items-center justify-between">
           <button
             type="button"
             onClick={resetDefault}

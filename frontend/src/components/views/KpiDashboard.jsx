@@ -7,9 +7,9 @@ import EditableTable from '../shared/EditableTable';
 import AddEntryModal from '../shared/AddEntryModal';
 import { SECTION_CONFIGS } from '../../data/sectionConfigs';
 
-const COLOR_GOOD = '#6B8E7B';
-const COLOR_MID  = '#C5A059';
-const COLOR_BAD  = '#C07070';
+const COLOR_GOOD = '#10B981';
+const COLOR_MID  = '#F59E0B';
+const COLOR_BAD  = '#F43F5E';
 
 function completionColor(pct) {
   if (pct >= 80) return COLOR_GOOD;
@@ -28,7 +28,6 @@ export default function KpiDashboard() {
   const onTarget  = completions.filter(p=>p>=80).length;
   const offTarget = completions.filter(p=>p<80).length;
 
-  // Horizontal bar chart data
   const chartData = items.map((k,i) => ({
     name: k.kpi,
     completion: completions[i],
@@ -38,7 +37,7 @@ export default function KpiDashboard() {
   }));
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="space-y-6">
       <SectionHeader
         title="KPI Dashboard"
         description="Key Performance Indicators — track progress against your targets."
@@ -59,19 +58,19 @@ export default function KpiDashboard() {
           const pct = completions[i];
           const col = completionColor(pct);
           return (
-            <div key={kpi.id} className="bg-white border border-cream-200 rounded-2xl p-5 shadow-subtle">
+            <div key={kpi.id} className="glass-card rounded-sm p-5 shadow-sm">
               <div className="flex items-start justify-between mb-3">
-                <h4 className="font-semibold text-cream-700 text-sm leading-tight">{kpi.kpi}</h4>
-                <span className="text-xs text-cream-400 bg-cream-100 px-2 py-0.5 rounded-full ml-2 shrink-0">{kpi.category}</span>
+                <h4 className="font-bold text-slate-900 text-sm leading-tight">{kpi.kpi}</h4>
+                <span className="badge badge-pink shrink-0 ml-2">{kpi.category}</span>
               </div>
               <div className="flex items-end gap-1 mb-3">
-                <span className="font-serif text-3xl font-bold text-cream-800">{kpi.value}</span>
-                <span className="text-cream-500 text-sm mb-1">{kpi.unit}</span>
-                <span className="text-xs text-cream-400 mb-1 ml-1">/ {kpi.target} {kpi.unit}</span>
+                <span className="font-serif text-3xl font-bold text-slate-900">{kpi.value}</span>
+                <span className="text-slate-700 font-bold text-xs mb-1">{kpi.unit}</span>
+                <span className="text-xs text-slate-600 font-semibold mb-1 ml-1">/ {kpi.target} {kpi.unit}</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="flex-1 bg-cream-200 rounded-full h-2 overflow-hidden">
-                  <div className="h-full rounded-full transition-all" style={{ width:`${Math.min(100,pct)}%`, background: col }} />
+                <div className="flex-1 bg-slate-200 rounded-sm h-2 overflow-hidden">
+                  <div className="h-full rounded-sm transition-all" style={{ width:`${Math.min(100,pct)}%`, background: col }} />
                 </div>
                 <span className="text-xs font-bold" style={{ color: col }}>{pct}%</span>
               </div>
@@ -82,18 +81,18 @@ export default function KpiDashboard() {
 
       {/* Completion bar chart */}
       {chartData.length > 0 && (
-        <div className="bg-white border border-cream-200 rounded-2xl p-6 shadow-subtle">
-          <h3 className="font-serif text-base font-semibold text-cream-700 mb-4">Completion Rate by KPI</h3>
+        <div className="glass-card rounded-sm p-6 shadow-sm">
+          <h3 className="font-serif text-base font-bold text-slate-900 mb-4">Completion Rate by KPI</h3>
           <ResponsiveContainer width="100%" height={Math.max(180, chartData.length * 45)}>
             <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F5ECE4" horizontal={false} />
-              <XAxis type="number" domain={[0,100]} tick={{ fontSize: 11, fill: '#8A6953' }} tickFormatter={v=>`${v}%`} />
-              <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: '#594030' }} width={160} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#CBD5E1" horizontal={false} />
+              <XAxis type="number" domain={[0,100]} tick={{ fontSize: 11, fill: '#1A1A2E', fontWeight: 'bold' }} tickFormatter={v=>`${v}%`} />
+              <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: '#1A1A2E', fontWeight: 'bold' }} width={160} />
               <Tooltip
-                contentStyle={{ background:'#fff', border:'1px solid #EADCD0', borderRadius:12, fontSize:12, color:'#594030' }}
+                contentStyle={{ background:'#fff', border:'1px solid #CBD5E1', borderRadius:4, fontSize:12, color:'#1A1A2E' }}
                 formatter={(v, _, props) => [`${v}% (${props.payload.current}/${props.payload.target} ${props.payload.unit})`, 'Completion']}
               />
-              <Bar dataKey="completion" radius={[0,4,4,0]} name="Completion %">
+              <Bar dataKey="completion" radius={[0,2,2,0]} name="Completion %">
                 {chartData.map((_, i) => <Cell key={i} fill={completionColor(completions[i])} />)}
               </Bar>
             </BarChart>

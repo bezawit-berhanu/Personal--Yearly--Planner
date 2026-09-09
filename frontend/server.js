@@ -104,7 +104,8 @@ app.get('/api/sections/:sectionId', requireAuth, async (req, res) => {
     if (rows.length === 0) {
       return res.json({ data: null });
     }
-    res.json({ data: rows[0].data });
+    const parsedData = typeof rows[0].data === 'string' ? JSON.parse(rows[0].data) : rows[0].data;
+    res.json({ data: parsedData });
   } catch (err) {
     console.error('Get section error:', err);
     res.status(500).json({ error: 'Failed to fetch section data.' });
@@ -430,9 +431,12 @@ app.post('/api/theme', requireAuth, async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Backend Express server running on port ${PORT}`);
-});
+// Start local listener only when not running in Vercel Serverless environment
+if (process.env.VERCEL !== '1' && !process.env.VERCEL_ENV) {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Backend Express server running on port ${PORT}`);
+  });
+}
 
 export default app;
