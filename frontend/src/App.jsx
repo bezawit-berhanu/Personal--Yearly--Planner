@@ -1,3 +1,4 @@
+import { Component } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { PlannerContext } from './context/PlannerContext';
@@ -18,26 +19,64 @@ import Cashflow from './pages/Finance/Cashflow';
 import Budget from './pages/Finance/Budget';
 import Appearance from './pages/Settings/Appearance';
 
-const SPECIAL_VIEWS = {
-  dashboard:       <Dashboard />,
-  files:           <Files />,
-  financeCashflow: <Cashflow />,
-  financeBudget:   <Budget />,
-  habits:          <HabitTracker />,
-  goals:           <GoalTracker />,
-  healthDashboard: <HealthDashboard />,
-  kpiDashboard:    <KpiDashboard />,
-  appearance:      <Appearance />
-};
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("Uncaught error in Bezawit's Planner OS:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-center">
+          <div className="max-w-md bg-white border border-rose-200 p-8 rounded-sm shadow-sm space-y-4">
+            <h2 className="font-serif text-xl font-bold text-slate-900">Something went wrong</h2>
+            <p className="text-xs text-rose-600 font-semibold bg-rose-50 p-3 rounded-sm border border-rose-100 font-mono text-left overflow-auto max-h-32">
+              {this.state.error?.toString() || 'Unknown error occurred.'}
+            </p>
+            <button
+              onClick={() => {
+                this.setState({ hasError: false, error: null });
+                window.location.reload();
+              }}
+              className="btn-primary text-xs w-full justify-center"
+            >
+              Reload Application
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function ActiveView({ tab }) {
-  if (SPECIAL_VIEWS[tab]) return SPECIAL_VIEWS[tab];
-  return <GenericSection sectionId={tab} />;
+  switch (tab) {
+    case 'dashboard':       return <Dashboard />;
+    case 'files':           return <Files />;
+    case 'financeCashflow': return <Cashflow />;
+    case 'financeBudget':   return <Budget />;
+    case 'habits':          return <HabitTracker />;
+    case 'goals':           return <GoalTracker />;
+    case 'healthDashboard': return <HealthDashboard />;
+    case 'kpiDashboard':    return <KpiDashboard />;
+    case 'appearance':      return <Appearance />;
+    default:                return <GenericSection sectionId={tab} />;
+  }
 }
 
 function MainAppContent() {
   const { user, loading } = useAuth();
-  const planner = usePlanner();
+  const planner = usePlanner(user);
 
   if (loading) {
     return (
@@ -68,10 +107,12 @@ function MainAppContent() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ThemeProvider>
-        <MainAppContent />
-      </ThemeProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <ThemeProvider>
+          <MainAppContent />
+        </ThemeProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }

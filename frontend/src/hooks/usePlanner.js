@@ -1,14 +1,21 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import api from '../api/client';
 
-export function usePlanner() {
+export function usePlanner(user) {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sections, setSections] = useState({});
   const loadedSectionsRef = useRef(new Set());
 
+  // Reset loaded cache when user changes (login/logout)
+  useEffect(() => {
+    loadedSectionsRef.current.clear();
+    setSections({});
+  }, [user?.id]);
+
   // Fetch active tab section data from API
   const fetchSectionData = useCallback(async (tab) => {
+    if (!user) return;
     try {
       const res = await api.get(`/sections/${tab}`);
       const data = res.data && res.data.data ? res.data.data : [];
@@ -18,15 +25,17 @@ export function usePlanner() {
     } catch (e) {
       console.error(`Failed to load section ${tab}:`, e);
       setSections(prev => ({ ...prev, [tab]: prev[tab] || [] }));
-      loadedSectionsRef.current.add(tab);
+      if (e.response && e.response.status !== 401) {
+        loadedSectionsRef.current.add(tab);
+      }
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    if (!loadedSectionsRef.current.has(activeTab)) {
+    if (user && !loadedSectionsRef.current.has(activeTab)) {
       fetchSectionData(activeTab);
     }
-  }, [activeTab, fetchSectionData]);
+  }, [user, activeTab, fetchSectionData]);
 
   const navigateTo = useCallback((tab) => {
     setActiveTab(tab);
@@ -47,7 +56,6 @@ export function usePlanner() {
   }, []);
 
   const updateField = useCallback(async (key, id, field, value) => {
-    // If section not loaded yet, fetch first
     if (!loadedSectionsRef.current.has(key)) {
       await fetchSectionData(key);
     }
