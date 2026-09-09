@@ -10,7 +10,7 @@ export default function StatCard({ label, value, color = 'default', onClick }) {
 
   return (
     <div
-      className={`flex flex-col gap-0.5 px-4 py-3 rounded-sm border backdrop-blur-md text-sm font-semibold shadow-xs ${colorMap[color] ?? colorMap.default} ${onClick ? 'cursor-pointer hover:opacity-90 transition' : ''}`}
+      className={`flex flex-col gap-0.5 px-4 py-3 rounded-sm border backdrop-blur-md text-sm font-semibold shadow-sm ${colorMap[color] ?? colorMap.default} ${onClick ? 'cursor-pointer hover:opacity-90 transition' : ''}`}
       onClick={onClick}
     >
       <span className="text-[10px] font-bold uppercase tracking-wider opacity-80">{label}</span>

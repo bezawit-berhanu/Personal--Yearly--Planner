@@ -170,7 +170,7 @@ export default function EditableTable({ config, items, dataKey }) {
   const fieldMap    = Object.fromEntries((config.fields || []).map((f) => [f.key, f]));
 
   return (
-    <div className="glass-table rounded-sm shadow-xs overflow-hidden">
+    <div className="glass-table rounded-sm shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left min-w-max border-collapse">
           <thead>

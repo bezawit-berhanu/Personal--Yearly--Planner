@@ -22,7 +22,7 @@ export default function TopNavbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-pink-200/80 shadow-xs">
+    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-pink-200/80 shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
 
@@ -58,7 +58,7 @@ export default function TopNavbar() {
                     onClick={() => setOpenDropdown(isOpen ? null : group.label)}
                     className={`flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider transition-all rounded-sm cursor-pointer whitespace-nowrap ${
                       hasActiveChild
-                        ? 'bg-pink-500 text-white border border-pink-500 shadow-xs'
+                        ? 'bg-pink-500 text-white border border-pink-500 shadow-sm'
                         : 'text-slate-800 hover:text-pink-700 hover:bg-pink-50/80'
                     }`}
                   >
@@ -99,7 +99,7 @@ export default function TopNavbar() {
           <div className="flex items-center gap-3 shrink-0">
             {user && (
               <div className="hidden sm:flex items-center gap-2 border-l border-slate-300 pl-3">
-                <div className="w-8 h-8 bg-pink-500 text-white flex items-center justify-center font-bold text-xs rounded-sm shadow-xs">
+                <div className="w-8 h-8 bg-pink-500 text-white flex items-center justify-center font-bold text-xs rounded-sm shadow-sm">
                   {user.name ? user.name.charAt(0).toUpperCase() : 'B'}
                 </div>
                 <span className="text-xs font-bold text-slate-800">{user.name}</span>

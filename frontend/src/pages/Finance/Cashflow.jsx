@@ -75,9 +75,9 @@ export default function Cashflow() {
   const netCashflow = totalIncome - totalExpenses;
 
   const renderTable = (title, items, type, badgeColor) => (
-    <div className="bg-white border border-slate-200 rounded-sm shadow-sm overflow-hidden mb-6">
-      <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-        <h4 className="font-serif text-sm font-bold text-slate-800 flex items-center gap-2">
+    <div className="glass-table rounded-sm shadow-sm overflow-hidden mb-6">
+      <div className="px-4 py-3 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between">
+        <h4 className="font-serif text-sm font-bold text-slate-900 flex items-center gap-2">
           <span className={`badge ${badgeColor}`}>{type}</span>
           {title} ({items.length})
         </h4>
@@ -89,7 +89,7 @@ export default function Cashflow() {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-xs">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-100 text-slate-600 font-semibold uppercase tracking-wider">
+            <tr className="border-b border-slate-200 bg-slate-100/70 text-slate-800 font-bold uppercase tracking-wider">
               <th className="p-2.5">Name / Description</th>
               <th className="p-2.5">Category</th>
               <th className="p-2.5 text-right">Amount ($)</th>
@@ -97,22 +97,22 @@ export default function Cashflow() {
               <th className="p-2.5 text-right w-12">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-200/60">
             {items.length === 0 ? (
               <tr>
-                <td colSpan={5} className="p-6 text-center text-slate-400 italic">
+                <td colSpan={5} className="p-6 text-center text-slate-500 font-medium italic">
                   No {type.toLowerCase()} items recorded. Click "Add Entry" to log.
                 </td>
               </tr>
             ) : (
               items.map((item) => (
-                <tr key={item.id} className="hover:bg-pink-50/20">
-                  <td className="p-2.5 font-medium text-slate-800">{item.name}</td>
+                <tr key={item.id} className="hover:bg-pink-50/40">
+                  <td className="p-2.5 font-bold text-slate-900">{item.name}</td>
                   <td className="p-2.5"><span className="badge badge-gray">{item.category}</span></td>
                   <td className="p-2.5 text-right font-bold text-slate-900">
                     ${Number(item.amount).toLocaleString()}
                   </td>
-                  <td className="p-2.5 text-slate-500">{item.notes || '—'}</td>
+                  <td className="p-2.5 font-semibold text-slate-700">{item.notes || '—'}</td>
                   <td className="p-2.5 text-right">
                     <button onClick={() => handleDelete(item.id)} className="btn-danger p-1">
                       <Trash2 className="w-3.5 h-3.5" />
@@ -152,14 +152,14 @@ export default function Cashflow() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white border border-pink-200 p-6 rounded-sm max-w-md w-full shadow-md space-y-4">
-            <h3 className="font-serif text-lg font-bold text-slate-800">Add Cashflow Item</h3>
+            <h3 className="font-serif text-lg font-bold text-slate-900">Add Cashflow Item</h3>
 
             <form onSubmit={handleAdd} className="space-y-3 text-xs">
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Entry Type</label>
-                <select className="modal-select" value={entryType} onChange={(e) => setEntryType(e.target.value)}>
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Entry Type</label>
+                <select className="modal-select font-semibold" value={entryType} onChange={(e) => setEntryType(e.target.value)}>
                   <option value="Asset">Asset (Real Estate, Stock, Cash...)</option>
                   <option value="Liability">Liability (Mortgage, Debt, Loan...)</option>
                   <option value="Income">Income (Salary, Business, Dividend...)</option>
@@ -168,23 +168,23 @@ export default function Cashflow() {
               </div>
 
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Item Name</label>
-                <input type="text" required className="modal-input" placeholder="e.g. Primary Residence, Tech Salary" value={name} onChange={(e) => setName(e.target.value)} />
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Item Name</label>
+                <input type="text" required className="modal-input font-semibold" placeholder="e.g. Primary Residence, Tech Salary" value={name} onChange={(e) => setName(e.target.value)} />
               </div>
 
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Amount ($)</label>
-                <input type="number" step="0.01" required className="modal-input" placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Amount ($)</label>
+                <input type="number" step="0.01" required className="modal-input font-bold" placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} />
               </div>
 
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Category</label>
-                <input type="text" className="modal-input" placeholder="General, Real Estate, Work..." value={category} onChange={(e) => setCategory(e.target.value)} />
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Category</label>
+                <input type="text" className="modal-input font-semibold" placeholder="General, Real Estate, Work..." value={category} onChange={(e) => setCategory(e.target.value)} />
               </div>
 
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Notes</label>
-                <input type="text" className="modal-input" placeholder="Additional info..." value={notes} onChange={(e) => setNotes(e.target.value)} />
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Notes</label>
+                <input type="text" className="modal-input font-semibold" placeholder="Additional info..." value={notes} onChange={(e) => setNotes(e.target.value)} />
               </div>
 
               <div className="flex justify-end gap-2 pt-2">

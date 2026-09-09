@@ -22,11 +22,11 @@
 
 /* Glassmorphism translucent containers & cards */
 .glass-card {
-  @apply bg-white/85 backdrop-blur-md border border-pink-200/80 shadow-xs text-slate-900;
+  @apply bg-white/85 backdrop-blur-md border border-pink-200/80 shadow-sm text-slate-900;
 }
 
 .glass-table {
-  @apply bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-xs text-slate-900;
+  @apply bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-sm text-slate-900;
 }
 
 .glass-input {
@@ -56,11 +56,11 @@
 
 /* Buttons - flat & high contrast */
 .btn-primary {
-  @apply bg-pink-500/90 hover:bg-pink-600 active:bg-pink-700 text-white font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 shadow-sm cursor-pointer backdrop-blur-xs;
+  @apply bg-pink-500/90 hover:bg-pink-600 active:bg-pink-700 text-white font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 shadow-sm cursor-pointer backdrop-blur-sm;
 }
 
 .btn-secondary {
-  @apply bg-white/80 hover:bg-pink-50 text-slate-800 hover:text-pink-700 border border-slate-300 font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 cursor-pointer backdrop-blur-xs;
+  @apply bg-white/80 hover:bg-pink-50 text-slate-800 hover:text-pink-700 border border-slate-300 font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 cursor-pointer backdrop-blur-sm;
 }
 
 .btn-ghost {
@@ -73,7 +73,7 @@
 
 /* Badges with high text contrast */
 .badge {
-  @apply inline-flex items-center px-2 py-0.5 text-xs font-bold rounded-sm border uppercase tracking-wider backdrop-blur-xs;
+  @apply inline-flex items-center px-2 py-0.5 text-xs font-bold rounded-sm border uppercase tracking-wider backdrop-blur-sm;
 }
 .badge-green { @apply bg-emerald-50/90 text-emerald-800 border-emerald-300; }
 .badge-amber { @apply bg-amber-50/90 text-amber-900 border-amber-300; }

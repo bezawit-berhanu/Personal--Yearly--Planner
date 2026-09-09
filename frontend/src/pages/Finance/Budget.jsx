@@ -96,13 +96,13 @@ export default function Budget() {
       />
 
       {/* Month Selector & Controls */}
-      <div className="bg-white border border-pink-200 p-4 rounded-sm shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="glass-card p-4 rounded-sm shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-pink-500" />
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Select Month:</span>
+          <Calendar className="w-4 h-4 text-pink-600" />
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-800">Select Month:</span>
           <input
             type="month"
-            className="modal-input w-auto py-1 font-semibold text-xs"
+            className="modal-input w-auto py-1 font-bold text-xs"
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
           />
@@ -122,12 +122,12 @@ export default function Budget() {
       </div>
 
       {/* Budget Table */}
-      <div className="bg-white border border-slate-200 rounded-sm shadow-sm overflow-hidden">
-        <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-          <h4 className="font-serif text-sm font-bold text-slate-800">
+      <div className="glass-table rounded-sm shadow-sm overflow-hidden">
+        <div className="px-4 py-3 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between">
+          <h4 className="font-serif text-sm font-bold text-slate-900">
             Budget Table — {selectedMonth} ({entries.length} items)
           </h4>
-          <span className={`text-xs font-bold ${netRemaining >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+          <span className={`text-xs font-bold ${netRemaining >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
             Unallocated / Net Balance: ${netRemaining.toLocaleString()}
           </span>
         </div>
@@ -135,7 +135,7 @@ export default function Budget() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-100 text-slate-600 font-semibold uppercase tracking-wider">
+              <tr className="border-b border-slate-200 bg-slate-100/70 text-slate-800 font-bold uppercase tracking-wider">
                 <th className="p-2.5">Type</th>
                 <th className="p-2.5">Category</th>
                 <th className="p-2.5">Description / Written Expense</th>
@@ -143,16 +143,16 @@ export default function Budget() {
                 <th className="p-2.5 text-right w-12">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-200/60">
               {entries.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="p-8 text-center text-slate-400 italic">
+                  <td colSpan={5} className="p-8 text-center text-slate-500 font-medium italic">
                     No budget entries logged for {selectedMonth}. Click "Add Budget Log" to start.
                   </td>
                 </tr>
               ) : (
                 entries.map((item) => (
-                  <tr key={item.id} className="hover:bg-pink-50/20">
+                  <tr key={item.id} className="hover:bg-pink-50/40">
                     <td className="p-2.5">
                       <span className={`badge ${
                         item.entry_type === 'Income' ? 'badge-green' :
@@ -162,8 +162,8 @@ export default function Budget() {
                         {item.entry_type}
                       </span>
                     </td>
-                    <td className="p-2.5 font-medium text-slate-700">{item.category}</td>
-                    <td className="p-2.5 font-semibold text-slate-900">{item.description}</td>
+                    <td className="p-2.5 font-semibold text-slate-800">{item.category}</td>
+                    <td className="p-2.5 font-bold text-slate-900">{item.description}</td>
                     <td className="p-2.5 text-right font-bold text-slate-900">
                       ${Number(item.amount).toLocaleString()}
                     </td>
@@ -181,9 +181,9 @@ export default function Budget() {
       </div>
 
       {/* Year-End Report Summary */}
-      <div className="bg-white border border-slate-200 p-6 rounded-sm shadow-sm">
-        <h3 className="font-serif text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <BarChart2 className="w-4 h-4 text-pink-500" />
+      <div className="glass-card p-6 rounded-sm shadow-sm">
+        <h3 className="font-serif text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <BarChart2 className="w-4 h-4 text-pink-600" />
           Year-End Financial Overview ({currentYear})
         </h3>
 
@@ -195,10 +195,10 @@ export default function Budget() {
             const mExpense = mEntries.filter(r => r.entry_type === 'Expense').reduce((s, r) => s + Number(r.total || 0), 0);
 
             return (
-              <div key={mKey} className="border border-slate-200 p-3 rounded-sm text-xs text-center bg-slate-50">
-                <div className="font-bold text-slate-800 mb-1">{mName}</div>
-                <div className="text-[10px] text-emerald-700 font-semibold">+${mIncome.toLocaleString()}</div>
-                <div className="text-[10px] text-rose-600 font-semibold">-${mExpense.toLocaleString()}</div>
+              <div key={mKey} className="border border-slate-200/80 p-3 rounded-sm text-xs text-center bg-white/70 backdrop-blur-xs">
+                <div className="font-bold text-slate-900 mb-1">{mName}</div>
+                <div className="text-[10px] text-emerald-800 font-bold">+${mIncome.toLocaleString()}</div>
+                <div className="text-[10px] text-rose-700 font-bold">-${mExpense.toLocaleString()}</div>
               </div>
             );
           })}
@@ -207,19 +207,19 @@ export default function Budget() {
 
       {/* Add Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white border border-pink-200 p-6 rounded-sm max-w-md w-full shadow-md space-y-4">
-            <h3 className="font-serif text-lg font-bold text-slate-800">Add Budget Entry</h3>
+            <h3 className="font-serif text-lg font-bold text-slate-900">Add Budget Entry</h3>
 
             <form onSubmit={handleAddEntry} className="space-y-3 text-xs">
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Target Month</label>
-                <input type="month" className="modal-input font-semibold" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} />
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Target Month</label>
+                <input type="month" className="modal-input font-bold" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} />
               </div>
 
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Budget Type</label>
-                <select className="modal-select" value={entryType} onChange={(e) => setEntryType(e.target.value)}>
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Budget Type</label>
+                <select className="modal-select font-semibold" value={entryType} onChange={(e) => setEntryType(e.target.value)}>
                   <option value="Expense">Expense (User Written Log)</option>
                   <option value="Income">Income Source</option>
                   <option value="Savings">Savings Allocation</option>
@@ -228,8 +228,8 @@ export default function Budget() {
               </div>
 
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Category</label>
-                <select className="modal-select" value={category} onChange={(e) => setCategory(e.target.value)}>
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Category</label>
+                <select className="modal-select font-semibold" value={category} onChange={(e) => setCategory(e.target.value)}>
                   <option value="Housing & Rent">Housing & Rent</option>
                   <option value="Food & Dining">Food & Dining</option>
                   <option value="Transportation">Transportation</option>
@@ -243,13 +243,13 @@ export default function Budget() {
               </div>
 
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Description / Written Expense</label>
-                <input type="text" required className="modal-input" placeholder="e.g. Grocery restock, Monthly Substack sub..." value={description} onChange={(e) => setDescription(e.target.value)} />
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Description / Written Expense</label>
+                <input type="text" required className="modal-input font-semibold" placeholder="e.g. Grocery restock, Monthly Substack sub..." value={description} onChange={(e) => setDescription(e.target.value)} />
               </div>
 
               <div>
-                <label className="block font-semibold uppercase text-slate-600 mb-1">Amount ($)</label>
-                <input type="number" step="0.01" required className="modal-input" placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                <label className="block font-semibold uppercase text-slate-700 mb-1">Amount ($)</label>
+                <input type="number" step="0.01" required className="modal-input font-bold" placeholder="0.00" value={amount} onChange={(e) => setAmount(e.target.value)} />
               </div>
 
               <div className="flex justify-end gap-2 pt-2">
