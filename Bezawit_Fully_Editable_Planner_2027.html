@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solyana & Bezawit's 2027 Fully Editable Personal Digital Planner OS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Playfair Display & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        creamy: {
+                            50: '#FFFFFF',  /* Pure crisp white background */
+                            100: '#FEFCFA', /* Soft warm white surface */
+                            200: '#F5ECE4', /* Creamy border & divider */
+                            300: '#EADCD0', /* Soft warm accent */
+                            400: '#D6C0B0', /* Warm taupe */
+                            600: '#8A6953', /* Rich warm text */
+                            700: '#594030', /* Deep warm espresso */
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: #594030;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        input[type="text"], input[type="date"], input[type="number"], select, textarea {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            padding: 4px 8px;
+            transition: all 0.2s;
+            width: 100%;
+            color: #594030;
+        }
+        input[type="text"]:hover, input[type="date"]:hover, input[type="number"]:hover, textarea:hover {
+            border-color: #EADCD0;
+            background: #FEFCFA;
+        }
+        input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, textarea:focus {
+            outline: none;
+            border-color: #8A6953;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 2px rgba(138, 105, 83, 0.1);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FEFCFA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #EADCD0;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D6C0B0;
+        }
+    </style>
+</head>
+<body class="bg-creamy-50 text-creamy-700 min-h-screen flex flex-col antialiased">
+
+    <!-- App Shell Container -->
+    <div id="app" class="flex h-screen overflow-hidden">
+        <!-- Rendered via JavaScript -->
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        const STORAGE_KEY = 'solyana_bezawit_planner_editable_2027_v4';
+        
+        let defaultData = {
+            activeTab: 'dashboard',
+            sidebarOpen: true,
+            tasks: [
+                { id: 1, title: 'Finalize Q1 Strategic Roadmap', category: 'Career', priority: 'High', date: '2027-04-01', status: 'In Progress', notes: 'Review with partners' },
+                { id: 2, title: 'Complete Half Marathon Training run (15km)', category: 'Health', priority: 'Medium', date: '2027-04-03', status: 'Completed', notes: 'Felt great' }
+            ],
+            goals: [
+                { id: 1, title: 'Launch AI Venture Platform V2', category: 'Career & Business', priority: 'High', deadline: '2027-06-30', progress: 65, status: 'In Progress', why: 'Scale deep tech footprint', next: 'Finalize pilot testing' }
+            ],
+            habits: [
+                { id: 1, name: 'Morning Journaling & Reflection', frequency: 'Daily', streak: 12, target: 7, history: [1,1,1,1,1,1,1] },
+                { id: 2, name: 'Deep Work (4 hours)', frequency: 'Daily', streak: 5, target: 5, history: [1,1,1,1,0,1,1] }
+            ],
+            startupOS: [{ id: 1, title: 'Multi-Agent Workflow Architecture', category: 'Core Product', status: 'In Progress', notes: 'V2 deployment' }],
+            investorCRM: [{ id: 1, title: 'Venture Capital Partners', category: 'Seed Round', status: 'Active', notes: 'Follow up Q2' }],
+            grantTracker: [{ id: 1, title: 'AI Research Grant', category: 'Non-dilutive', status: 'Submitted', notes: 'Pending review' }],
+            competitionTracker: [{ id: 1, title: 'Global Tech Innovation Challenge', category: 'Pitch', status: 'Registered', notes: 'Deck ready' }],
+            acceleratorTracker: [{ id: 1, title: 'DeepTech Ventures Cohort', category: 'Incubation', status: 'Interviewing', notes: 'Call scheduled' }],
+            readingDatabase: [{ id: 1, title: 'The Sovereign Individual', author: 'James Dale Davidson', genre: 'Economics', status: 'Completed', rating: 5 }],
+            networkingCRM: [{ id: 1, person: 'Dr. Sarah Jenkins', field: 'AI Research', status: 'Connected', notes: 'Met at conference' }],
+            careerTracker: [{ id: 1, role: 'Lead AI Architect', organization: 'iCog Labs', status: 'Active', notes: 'Executing roadmap' }],
+            travelPlanner: [{ id: 1, destination: 'San Francisco, CA', dates: '2027-09-10', purpose: 'Tech Conference', status: 'Planned' }],
+            knowledgeDatabase: [{ id: 1, topic: 'Vector Retrieval Optimization', category: 'Engineering', notes: 'HNSW index tuning' }],
+            relationshipManager: [{ id: 1, person: 'Family Sunday Dinners', category: 'Family', status: 'Active', notes: 'Weekly cadence' }],
+            contentPlanner: [{ id: 1, title: 'The Future of Decentralized AI', platform: 'Substack', status: 'Drafting', date: '2027-04-12' }],
+            aiSecondBrain: [{ id: 1, prompt: 'Autonomous Agent Loop Refinement', category: 'Prompt Engineering', notes: 'Saved template' }],
+            opportunityTracker: [{ id: 1, title: 'Strategic Advisory Role', category: 'Consulting', status: 'Evaluating', notes: 'High upside' }],
+            learningOS: [{ id: 1, course: 'Advanced Reinforcement Learning', platform: 'DeepLearning.AI', status: 'In Progress', hours: 45 }],
+            healthDashboard: [{ id: 1, metric: 'Sleep Average', value: '7.5 hours', status: 'Optimal', notes: 'Consistent routine' }],
+            financeTracker: [{ id: 1, source: 'iCog Labs Salary', category: 'Income', amount: 4500, date: '2027-04-01' }],
+            lifePlanning: [{ id: 1, domain: 'Personal Growth', vision: 'Cultivate deep presence and mastery', status: 'Active' }],
+            annualPlanning: [{ id: 1, quarter: 'Q1 2027', focus: 'AI Product Launch & Wealth Foundation', status: 'Completed' }],
+            quarterlyPlanning: [{ id: 1, milestone: 'Complete Pilot Testing', category: 'Operations', status: 'In Progress' }],
+            reflectionJournal: [{ id: 1, date: '2027-04-01', reflection: 'Patience and focused execution compound rapidly.' }],
+            decisionJournal: [{ id: 1, decision: 'Adopt Vector Search DB', rationale: 'Scalability & speed', outcome: 'Successful' }],
+            weeklyPlanner: [{ id: 1, week: 'Week 14', priority: 'Submit grant proposal', status: 'In Progress' }],
+            dailyPlanner: [{ id: 1, date: '2027-04-05', task: 'Review architecture docs', status: 'Pending' }],
+            kpiDashboard: [{ id: 1, kpi: 'Goal Completion Rate', value: '65%', target: '80%' }],
+            substackIdeas: [{ id: 1, title: 'Autonomous Multi-Agent Frameworks', topic: 'AI', priority: 'High', status: 'Drafting' }],
+            substackReads: [{ id: 1, title: 'State of AI 2027', author: 'Air Street Capital', status: 'To Read' }],
+            journalingIdeas: [{ id: 1, prompt: 'What am I optimizing for this quarter?', category: 'Purpose' }],
+            toVisit: [{ id: 1, place: 'Lalibela Rock-Hewn Churches', location: 'Ethiopia', status: 'Planned' }],
+            toBuy: [{ id: 1, item: 'Ergonomic Keyboard', price: '$180', status: 'Wishlist' }],
+            hobbies: [{ id: 1, hobby: 'Classical Piano', status: 'Exploring' }],
+            passwords: [{ id: 1, service: 'Substack', username: 'bezawit@icog-labs.com', purpose: 'Publishing' }],
+            debts: [{ id: 1, person: 'Equipment Loan', original: 5000, remaining: 3000, status: 'Active' }],
+            courses: [{ id: 1, course: 'Advanced RL', platform: 'DeepLearning.AI', status: 'In Progress' }],
+            ideasRemember: [{ id: 1, idea: 'P2P Inference Networks', category: 'Tech', importance: 'High' }],
+            ideasResearch: [{ id: 1, topic: 'Horn of Africa Monetary History', priority: 'Medium' }],
+            peopleToKnow: [{ id: 1, person: 'Dr. Ben Goertzel', field: 'AGI', why: 'Pioneer' }],
+            birthdays: [{ id: 1, person: 'Close Friend', birthday: '2027-05-12', relationship: 'Friend' }],
+            giftIdeas: [{ id: 1, person: 'Sister', gift: 'Ceramic tea set', price: '$65' }],
+            artFigures: [{ id: 1, artist: 'Afewerk Tekle', field: 'Fine Art', era: '20th Century' }],
+            philosophyIdeas: [{ id: 1, concept: 'Stoic Dichotomy of Control', philosopher: 'Epictetus' }],
+            bookReview: [{ id: 1, book: 'The Sovereign Individual', author: 'James Dale Davidson', rating: 5 }]
+        };
+
+        let db = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultData;
+
+        function saveDB() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+        }
+
+        function updateField(key, id, field, value) {
+            const items = db[key];
+            if (!items) return;
+            const item = items.find(i => i.id === id);
+            if (item) {
+                item[field] = value;
+                saveDB();
+            }
+        }
+
+        function navigate(tab) {
+            db.activeTab = tab;
+            saveDB();
+            render();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const navItems = [
+            { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
+            { id: 'ceoDashboard', label: 'CEO Dashboard', icon: 'crown' },
+            { id: 'startupOS', label: 'Startup OS', icon: 'rocket' },
+            { id: 'investorCRM', label: 'Investor CRM', icon: 'users' },
+            { id: 'grantTracker', label: 'Grant Tracker', icon: 'award' },
+            { id: 'competitionTracker', label: 'Competition Tracker', icon: 'trophy' },
+            { id: 'acceleratorTracker', label: 'Accelerator Tracker', icon: 'zap' },
+            { id: 'readingDatabase', label: 'Reading Database', icon: 'book-open' },
+            { id: 'networkingCRM', label: 'Networking CRM', icon: 'network' },
+            { id: 'careerTracker', label: 'Career Tracker', icon: 'briefcase' },
+            { id: 'travelPlanner', label: 'Travel Planner', icon: 'plane' },
+            { id: 'knowledgeDatabase', label: 'Knowledge Database', icon: 'database' },
+            { id: 'relationshipManager', label: 'Relationship Manager', icon: 'heart-handshake' },
+            { id: 'contentPlanner', label: 'Content Planner', icon: 'pen-tool' },
+            { id: 'aiSecondBrain', label: 'AI Second Brain', icon: 'cpu' },
+            { id: 'opportunityTracker', label: 'Opportunity Tracker', icon: 'compass' },
+            { id: 'learningOS', label: 'Learning OS', icon: 'graduation-cap' },
+            { id: 'habitTracker', label: 'Habit Tracker', icon: 'repeat' },
+            { id: 'healthDashboard', label: 'Health Dashboard', icon: 'activity' },
+            { id: 'financeTracker', label: 'Finance Tracker', icon: 'dollar-sign' },
+            { id: 'lifePlanning', label: 'Life Planning', icon: 'sun' },
+            { id: 'annualPlanning', label: 'Annual Planning', icon: 'calendar-days' },
+            { id: 'quarterlyPlanning', label: 'Quarterly Planning', icon: 'calendar' },
+            { id: 'reflectionJournal', label: 'Reflection Journal', icon: 'book' },
+            { id: 'decisionJournal', label: 'Decision Journal', icon: 'check-circle-2' },
+            { id: 'weeklyPlanner', label: 'Weekly Planner', icon: 'calendar-range' },
+            { id: 'dailyPlanner', label: 'Daily Planner', icon: 'check-square' },
+            { id: 'kpiDashboard', label: 'KPI Dashboard', icon: 'bar-chart-3' },
+            { id: 'substackIdeas', label: 'Substack Post Ideas', icon: 'file-text' },
+            { id: 'substackReads', label: 'Substack Posts to Read', icon: 'bookmark' },
+            { id: 'journalingIdeas', label: 'Journaling Ideas', icon: 'lightbulb' },
+            { id: 'toVisit', label: 'To Visit List', icon: 'map-pin' },
+            { id: 'toBuy', label: 'To Buy List', icon: 'shopping-bag' },
+            { id: 'hobbies', label: 'Hobbies to Try', icon: 'smile' },
+            { id: 'passwords', label: 'Emails & Passwords', icon: 'shield' },
+            { id: 'debts', label: 'Debts I Own', icon: 'credit-card' },
+            { id: 'courses', label: 'Courses to Take', icon: 'book-marked' },
+            { id: 'ideasRemember', label: 'Ideas to Remember', icon: 'star' },
+            { id: 'ideasResearch', label: 'Ideas to Research', icon: 'search' },
+            { id: 'peopleToKnow', label: 'People to Know', icon: 'user-check' },
+            { id: 'birthdays', label: "People's Birthdays", icon: 'cake' },
+            { id: 'giftIdeas', label: 'Gift Ideas', icon: 'gift' },
+            { id: 'artFigures', label: 'Art Figures to Learn', icon: 'palette' },
+            { id: 'philosophyIdeas', label: 'Philosophy Ideas', icon: 'feather' },
+            { id: 'bookReview', label: 'Book Review', icon: 'star' }
+        ];
+
+        function render() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <!-- Sidebar -->
+                <aside class="w-72 bg-creamy-100 border-r border-creamy-200 flex flex-col transition-all duration-300 z-20 ${db.sidebarOpen ? 'translate-x-0' : '-translate-x-72 absolute h-full'} lg:relative shadow-sm">
+                    <div class="p-6 border-b border-creamy-200 flex items-center justify-between bg-white">
+                        <div>
+                            <h1 class="font-serif text-xl font-bold text-creamy-700 tracking-wide">Bezawit's 2027</h1>
+                            <p class="text-xs text-creamy-600 font-medium tracking-wider uppercase mt-0.5">Personal OS & Planner</p>
+                        </div>
+                        <button onclick="toggleSidebar()" class="lg:hidden text-creamy-600 hover:text-creamy-700">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <nav class="flex-1 overflow-y-auto p-4 space-y-1 bg-creamy-100/50">
+                        ${navItems.map(item => `
+                            <button onclick="navigate('${item.id}')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${db.activeTab === item.id ? 'bg-white text-creamy-700 shadow-sm font-semibold border border-creamy-200' : 'text-creamy-600 hover:bg-white/80 hover:text-creamy-700'}">
+                                <i data-lucide="${item.icon}" class="w-4 h-4 shrink-0"></i>
+                                <span class="truncate">${item.label}</span>
+                            </button>
+                        `).join('')}
+                    </nav>
+                    <div class="p-4 border-t border-creamy-200 text-xs text-center text-creamy-600 bg-white">
+                        ✨ Fully Editable Edition
+                    </div>
+                </aside>
+
+                <!-- Main Content Area -->
+                <div class="flex-1 flex flex-col h-screen overflow-hidden bg-white">
+                    <!-- Top Header -->
+                    <header class="h-16 bg-white border-b border-creamy-200 px-6 flex items-center justify-between z-10 shrink-0 shadow-xs">
+                        <div class="flex items-center gap-4">
+                            <button onclick="toggleSidebar()" class="text-creamy-600 hover:text-creamy-700 p-1.5 rounded-lg hover:bg-creamy-100 transition">
+                                <i data-lucide="menu" class="w-5 h-5"></i>
+                            </button>
+                            <h2 class="font-serif text-lg font-semibold text-creamy-700 capitalize">
+                                ${navItems.find(i => i.id === db.activeTab)?.label || 'Planner'}
+                            </h2>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm text-creamy-600">
+                            <span class="hidden sm:inline bg-creamy-100 border border-creamy-200 px-3.5 py-1.5 rounded-full font-medium text-xs shadow-xs">
+                                📅 Today: ${new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                            </span>
+                            <div class="w-8 h-8 rounded-full bg-creamy-200 flex items-center justify-center font-serif font-bold text-creamy-700 shadow-xs">
+                                B
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Scrollable Viewport -->
+                    <main class="flex-1 overflow-y-auto p-6 lg:p-10 max-w-7xl mx-auto w-full bg-white">
+                        ${renderView()}
+                    </main>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function toggleSidebar() {
+            db.sidebarOpen = !db.sidebarOpen;
+            render();
+        }
+
+        function renderView() {
+            if (db.activeTab === 'dashboard') return renderDashboard();
+            
+            const tabDataMap = {
+                ceoDashboard: { title: 'CEO Dashboard', key: 'startupOS', fields: ['title', 'category', 'status', 'notes'], headers: ['Initiative', 'Category', 'Status', 'Notes'] },
+                startupOS: { title: 'Startup OS', key: 'startupOS', fields: ['title', 'category', 'status', 'notes'], headers: ['Initiative', 'Category', 'Status', 'Notes'] },
+                investorCRM: { title: 'Investor CRM', key: 'investorCRM', fields: ['title', 'category', 'status', 'notes'], headers: ['Entity', 'Category', 'Status', 'Notes'] },
+                grantTracker: { title: 'Grant Tracker', key: 'grantTracker', fields: ['title', 'category', 'status', 'notes'], headers: ['Grant', 'Category', 'Status', 'Notes'] },
+                competitionTracker: { title: 'Competition Tracker', key: 'competitionTracker', fields: ['title', 'category', 'status', 'notes'], headers: ['Competition', 'Category', 'Status', 'Notes'] },
+                acceleratorTracker: { title: 'Accelerator Tracker', key: 'acceleratorTracker', fields: ['title', 'category', 'status', 'notes'], headers: ['Accelerator', 'Category', 'Status', 'Notes'] },
+                readingDatabase: { title: 'Reading Database', key: 'readingDatabase', fields: ['title', 'author', 'genre', 'status'], headers: ['Title', 'Author', 'Genre', 'Status'] },
+                networkingCRM: { title: 'Networking CRM', key: 'networkingCRM', fields: ['person', 'field', 'status', 'notes'], headers: ['Person', 'Field', 'Status', 'Notes'] },
+                careerTracker: { title: 'Career Tracker', key: 'careerTracker', fields: ['role', 'organization', 'status', 'notes'], headers: ['Role', 'Organization', 'Status', 'Notes'] },
+                travelPlanner: { title: 'Travel Planner', key: 'travelPlanner', fields: ['destination', 'dates', 'purpose', 'status'], headers: ['Destination', 'Dates', 'Purpose', 'Status'] },
+                knowledgeDatabase: { title: 'Knowledge Database', key: 'knowledgeDatabase', fields: ['topic', 'category', 'notes'], headers: ['Topic', 'Category', 'Notes'] },
+                relationshipManager: { title: 'Relationship Manager', key: 'relationshipManager', fields: ['person', 'category', 'status'], headers: ['Relationship', 'Category', 'Status'] },
+                contentPlanner: { title: 'Content Planner', key: 'contentPlanner', fields: ['title', 'platform', 'status', 'date'], headers: ['Title', 'Platform', 'Status', 'Date'] },
+                aiSecondBrain: { title: 'AI Second Brain', key: 'aiSecondBrain', fields: ['prompt', 'category', 'notes'], headers: ['Prompt / Concept', 'Category', 'Notes'] },
+                opportunityTracker: { title: 'Opportunity Tracker', key: 'opportunityTracker', fields: ['title', 'category', 'status'], headers: ['Opportunity', 'Category', 'Status'] },
+                learningOS: { title: 'Learning OS', key: 'learningOS', fields: ['course', 'platform', 'status', 'hours'], headers: ['Course', 'Platform', 'Status', 'Hours'] },
+                habitTracker: { title: 'Habit Tracker', key: 'habits', fields: ['name', 'frequency', 'streak'], headers: ['Habit', 'Frequency', 'Streak'] },
+                healthDashboard: { title: 'Health Dashboard', key: 'healthDashboard', fields: ['metric', 'value', 'status'], headers: ['Metric', 'Value', 'Status'] },
+                financeTracker: { title: 'Finance Tracker', key: 'financeTracker', fields: ['source', 'category', 'amount', 'date'], headers: ['Source', 'Category', 'Amount', 'Date'] },
+                lifePlanning: { title: 'Life Planning', key: 'lifePlanning', fields: ['domain', 'vision', 'status'], headers: ['Domain', 'Vision', 'Status'] },
+                annualPlanning: { title: 'Annual Planning', key: 'annualPlanning', fields: ['quarter', 'focus', 'status'], headers: ['Quarter', 'Focus', 'Status'] },
+                quarterlyPlanning: { title: 'Quarterly Planning', key: 'quarterlyPlanning', fields: ['milestone', 'category', 'status'], headers: ['Milestone', 'Category', 'Status'] },
+                reflectionJournal: { title: 'Reflection Journal', key: 'reflectionJournal', fields: ['date', 'reflection'], headers: ['Date', 'Reflection'] },
+                decisionJournal: { title: 'Decision Journal', key: 'decisionJournal', fields: ['decision', 'rationale', 'outcome'], headers: ['Decision', 'Rationale', 'Outcome'] },
+                weeklyPlanner: { title: 'Weekly Planner', key: 'weeklyPlanner', fields: ['week', 'priority', 'status'], headers: ['Week', 'Priority', 'Status'] },
+                dailyPlanner: { title: 'Daily Planner', key: 'dailyPlanner', fields: ['date', 'task', 'status'], headers: ['Date', 'Task', 'Status'] },
+                kpiDashboard: { title: 'KPI Dashboard', key: 'kpiDashboard', fields: ['kpi', 'value', 'target'], headers: ['KPI', 'Value', 'Target'] },
+                substackIdeas: { title: 'Substack Post Ideas', key: 'substackIdeas', fields: ['title', 'topic', 'priority', 'status'], headers: ['Title', 'Topic', 'Priority', 'Status'] },
+                substackReads: { title: 'Substack Posts to Read', key: 'substackReads', fields: ['title', 'author', 'status'], headers: ['Title', 'Author', 'Status'] },
+                journalingIdeas: { title: 'Journaling Ideas', key: 'journalingIdeas', fields: ['prompt', 'category'], headers: ['Prompt', 'Category'] },
+                toVisit: { title: 'To Visit List', key: 'toVisit', fields: ['place', 'location', 'status'], headers: ['Place', 'Location', 'Status'] },
+                toBuy: { title: 'To Buy List', key: 'toBuy', fields: ['item', 'price', 'status'], headers: ['Item', 'Price', 'Status'] },
+                hobbies: { title: 'Hobbies to Try', key: 'hobbies', fields: ['hobby', 'status'], headers: ['Hobby', 'Status'] },
+                passwords: { title: 'Emails & Passwords', key: 'passwords', fields: ['service', 'username', 'purpose'], headers: ['Service', 'Username', 'Purpose'] },
+                debts: { title: 'Debts I Own', key: 'debts', fields: ['person', 'original', 'remaining', 'status'], headers: ['Person/Company', 'Original', 'Remaining', 'Status'] },
+                courses: { title: 'Courses to Take', key: 'courses', fields: ['course', 'platform', 'status'], headers: ['Course', 'Platform', 'Status'] },
+                ideasRemember: { title: 'Ideas to Remember', key: 'ideasRemember', fields: ['idea', 'category', 'importance'], headers: ['Idea', 'Category', 'Importance'] },
+                ideasResearch: { title: 'Ideas to Research', key: 'ideasResearch', fields: ['topic', 'priority'], headers: ['Topic', 'Priority'] },
+                peopleToKnow: { title: 'People to Know', key: 'peopleToKnow', fields: ['person', 'field', 'why'], headers: ['Person', 'Field', 'Why'] },
+                birthdays: { title: "People's Birthdays", key: 'birthdays', fields: ['person', 'birthday', 'relationship'], headers: ['Person', 'Birthday', 'Relationship'] },
+                giftIdeas: { title: 'Gift Ideas', key: 'giftIdeas', fields: ['person', 'gift', 'price'], headers: ['Person', 'Gift', 'Price'] },
+                artFigures: { title: 'Art Figures to Learn', key: 'artFigures', fields: ['artist', 'field', 'era'], headers: ['Artist', 'Field', 'Era'] },
+                philosophyIdeas: { title: 'Philosophy Ideas', key: 'philosophyIdeas', fields: ['concept', 'philosopher'], headers: ['Concept', 'Philosopher'] },
+                bookReview: { title: 'Book Review', key: 'bookReview', fields: ['book', 'author', 'rating'], headers: ['Book', 'Author', 'Rating'] }
+            };
+
+            const config = tabDataMap[db.activeTab];
+            if (!config) return `<div class="p-8 text-center font-serif text-xl">Section loading...</div>`;
+
+            const items = db[config.key] || [];
+            return `
+                <div class="space-y-6 animate-fadeIn">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-creamy-100 border border-creamy-200 p-6 rounded-2xl shadow-xs">
+                        <div>
+                            <h2 class="font-serif text-2xl font-bold text-creamy-700">${config.title}</h2>
+                            <p class="text-xs text-creamy-600 mt-1">Every field below is fully editable inline. Changes save automatically.</p>
+                        </div>
+                        <button onclick="addItem('${config.key}', ${JSON.stringify(config.fields)})" class="px-4 py-2 bg-creamy-700 text-white text-sm font-medium rounded-xl shadow-xs hover:bg-creamy-600 transition flex items-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Add Entry
+                        </button>
+                    </div>
+
+                    <div class="bg-white border border-creamy-200 rounded-2xl shadow-xs overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-creamy-100 text-xs font-bold uppercase tracking-wider text-creamy-700 border-b border-creamy-200">
+                                    ${config.headers.map(h => `<th class="p-4">${h}</th>`).join('')}
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-creamy-200 text-sm text-creamy-700">
+                                ${items.length === 0 ? `<tr><td colspan="${config.headers.length + 1}" class="p-8 text-center text-creamy-600 italic">No entries yet. Click 'Add Entry' above.</td></tr>` : 
+                                items.map(item => `
+                                    <tr class="hover:bg-creamy-100/30 transition">
+                                        ${config.fields.map(f => `
+                                            <td class="p-3">
+                                                <input type="text" value="${item[f] !== undefined ? item[f] : ''}" oninput="updateField('${config.key}', ${item.id}, '${f}', this.value)" />
+                                            </td>
+                                        `).join('')}
+                                        <td class="p-3 text-right">
+                                            <button onclick="deleteItem('${config.key}', ${item.id})" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDashboard() {
+            return `
+                <div class="space-y-8 animate-fadeIn">
+                    <div class="bg-creamy-100 border border-creamy-200 rounded-2xl p-8 shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                        <div>
+                            <span class="text-xs font-semibold tracking-wider text-creamy-600 uppercase bg-white border border-creamy-200 px-3 py-1 rounded-full shadow-xs">✨ Fully Editable 2027 Edition</span>
+                            <h2 class="font-serif text-3xl font-bold text-creamy-700 mt-3">Welcome back, Bezawit.</h2>
+                            <p class="text-sm text-creamy-600 mt-1 max-w-xl">Every planner section, table, and field across your 27+ tabs is fully editable in real-time.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <button onclick="navigate('dailyPlanner')" class="px-5 py-2.5 bg-creamy-700 text-white text-sm font-medium rounded-xl shadow-xs hover:bg-creamy-600 transition">
+                                Daily Planner
+                            </button>
+                            <button onclick="navigate('annualPlanning')" class="px-5 py-2.5 bg-white border border-creamy-200 text-creamy-700 text-sm font-medium rounded-xl hover:bg-creamy-100 transition shadow-xs">
+                                Annual Goals
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div class="bg-creamy-100 border border-creamy-200 rounded-2xl p-5 shadow-xs">
+                            <span class="text-xs font-bold uppercase tracking-wider text-creamy-600">Active Planners</span>
+                            <div class="text-3xl font-serif font-bold text-creamy-700 mt-2">27+ Tabs</div>
+                            <p class="text-xs text-creamy-600 mt-2">Fully editable OS</p>
+                        </div>
+                        <div class="bg-creamy-100 border border-creamy-200 rounded-2xl p-5 shadow-xs">
+                            <span class="text-xs font-bold uppercase tracking-wider text-creamy-600">Goal Progress</span>
+                            <div class="text-3xl font-serif font-bold text-creamy-700 mt-2">65%</div>
+                            <div class="w-full bg-creamy-200 rounded-full h-2 mt-3 overflow-hidden">
+                                <div class="bg-creamy-700 h-full rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="bg-creamy-100 border border-creamy-200 rounded-2xl p-5 shadow-xs">
+                            <span class="text-xs font-bold uppercase tracking-wider text-creamy-600">Habit Streaks</span>
+                            <div class="text-3xl font-serif font-bold text-creamy-700 mt-2">12 Days</div>
+                            <p class="text-xs text-creamy-600 mt-2">Consistent momentum</p>
+                        </div>
+                        <div class="bg-creamy-100 border border-creamy-200 rounded-2xl p-5 shadow-xs">
+                            <span class="text-xs font-bold uppercase tracking-wider text-creamy-600">Books Tracked</span>
+                            <div class="text-3xl font-serif font-bold text-creamy-700 mt-2">24 Target</div>
+                            <p class="text-xs text-creamy-600 mt-2">Knowledge repository</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function addItem(key, fields) {
+            if (!db[key]) db[key] = [];
+            const newItem = { id: Date.now() };
+            fields.forEach(f => {
+                newItem[f] = 'New ' + f;
+            });
+            db[key].push(newItem);
+            saveDB();
+            render();
+        }
+
+        function deleteItem(key, id) {
+            db[key] = db[key].filter(i => i.id !== id);
+            saveDB();
+            render();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            render();
+        });
+    </script>
+</body>
+</html>

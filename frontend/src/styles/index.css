@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-slate-900 font-sans antialiased selection:bg-pink-200 selection:text-pink-900 min-h-screen;
+    background-color: var(--theme-bg-color, #FFFFFF);
+    color: var(--theme-text-color, #1A1A2E);
+    font-family: var(--theme-font-family, 'Inter', sans-serif);
+  }
+}
+
+/* Custom aesthetic classes */
+.app-wallpaper {
+  background-image: var(--theme-wallpaper-url, none);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Cell inputs - clean and minimal */
+.cell-input {
+  @apply w-full bg-transparent border border-transparent px-2 py-1 text-sm transition-all focus:bg-white focus:border-pink-300 focus:outline-none rounded-sm text-slate-800;
+}
+
+.cell-select {
+  @apply bg-transparent border border-transparent px-2 py-1 text-sm focus:bg-white focus:border-pink-300 focus:outline-none rounded-sm text-slate-800 cursor-pointer;
+}
+
+.cell-textarea {
+  @apply w-full bg-transparent border border-transparent p-2 text-sm transition-all focus:bg-white focus:border-pink-300 focus:outline-none rounded-sm text-slate-800 resize-y;
+}
+
+.modal-input {
+  @apply w-full bg-slate-50 border border-slate-200 px-3 py-2 text-sm focus:bg-white focus:border-pink-400 focus:outline-none rounded-sm text-slate-800 transition-all;
+}
+
+.modal-select {
+  @apply w-full bg-slate-50 border border-slate-200 px-3 py-2 text-sm focus:bg-white focus:border-pink-400 focus:outline-none rounded-sm text-slate-800 cursor-pointer transition-all;
+}
+
+/* Buttons - flat & clean */
+.btn-primary {
+  @apply bg-pink-500 hover:bg-pink-600 active:bg-pink-700 text-white font-medium px-4 py-2 text-sm transition-colors rounded-sm inline-flex items-center gap-2 shadow-none cursor-pointer;
+}
+
+.btn-secondary {
+  @apply bg-slate-100 hover:bg-pink-50 active:bg-pink-100 text-slate-700 hover:text-pink-700 border border-slate-200 font-medium px-4 py-2 text-sm transition-colors rounded-sm inline-flex items-center gap-2 cursor-pointer;
+}
+
+.btn-ghost {
+  @apply text-slate-600 hover:text-pink-600 hover:bg-pink-50/50 p-2 text-sm transition-colors rounded-sm cursor-pointer;
+}
+
+.btn-danger {
+  @apply bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 px-2 py-1 text-xs transition-colors rounded-sm cursor-pointer;
+}
+
+/* Badges */
+.badge {
+  @apply inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-sm border uppercase tracking-wider;
+}
+.badge-green { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+.badge-amber { @apply bg-amber-50 text-amber-700 border-amber-200; }
+.badge-red   { @apply bg-rose-50 text-rose-700 border-rose-200; }
+.badge-blue  { @apply bg-sky-50 text-sky-700 border-sky-200; }
+.badge-gray  { @apply bg-slate-100 text-slate-600 border-slate-200; }
+.badge-pink  { @apply bg-pink-50 text-pink-700 border-pink-200; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
