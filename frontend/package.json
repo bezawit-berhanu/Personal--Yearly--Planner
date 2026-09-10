@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node server.js & vite",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server.js",
     "client": "vite",
     "build": "vite build",
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
+    "concurrently": "^10.0.5",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6",
     "vite": "^5.3.4"
