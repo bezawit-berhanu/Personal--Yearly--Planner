@@ -20,17 +20,17 @@
   background-repeat: no-repeat;
 }
 
-/* Glassmorphism translucent containers & cards */
+/* Glassmorphism translucent containers & cards — fully visible background wallpaper */
 .glass-card {
-  @apply bg-white/85 backdrop-blur-md border border-pink-200/80 shadow-sm text-slate-900;
+  @apply bg-white/70 backdrop-blur-md border border-pink-200/80 shadow-sm text-slate-900 transition-all;
 }
 
 .glass-table {
-  @apply bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-sm text-slate-900;
+  @apply bg-white/75 backdrop-blur-md border border-slate-200/90 shadow-sm text-slate-900 transition-all;
 }
 
 .glass-input {
-  @apply bg-white/70 backdrop-blur-sm border border-slate-300 text-slate-900 placeholder:text-slate-500 font-medium focus:bg-white focus:border-pink-400 focus:outline-none transition-all;
+  @apply bg-white/60 backdrop-blur-md border border-slate-300 text-slate-900 placeholder:text-slate-500 font-medium focus:bg-white/95 focus:border-pink-400 focus:outline-none transition-all;
 }
 
 /* Cell inputs - clean, translucent and highly legible */
@@ -47,11 +47,11 @@
 }
 
 .modal-input {
-  @apply w-full bg-white/80 backdrop-blur-sm border border-slate-300 px-3 py-2 text-sm font-medium focus:bg-white focus:border-pink-500 focus:outline-none rounded-sm text-slate-900 transition-all;
+  @apply w-full bg-white/75 backdrop-blur-md border border-slate-300 px-3 py-2 text-sm font-medium focus:bg-white focus:border-pink-500 focus:outline-none rounded-sm text-slate-900 transition-all;
 }
 
 .modal-select {
-  @apply w-full bg-white/80 backdrop-blur-sm border border-slate-300 px-3 py-2 text-sm font-medium focus:bg-white focus:border-pink-500 focus:outline-none rounded-sm text-slate-900 cursor-pointer transition-all;
+  @apply w-full bg-white/75 backdrop-blur-md border border-slate-300 px-3 py-2 text-sm font-medium focus:bg-white focus:border-pink-500 focus:outline-none rounded-sm text-slate-900 cursor-pointer transition-all;
 }
 
 /* Buttons - flat & high contrast */
@@ -60,7 +60,7 @@
 }
 
 .btn-secondary {
-  @apply bg-white/80 hover:bg-pink-50 text-slate-800 hover:text-pink-700 border border-slate-300 font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 cursor-pointer backdrop-blur-sm;
+  @apply bg-white/75 hover:bg-pink-50 text-slate-800 hover:text-pink-700 border border-slate-300 font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 cursor-pointer backdrop-blur-sm;
 }
 
 .btn-ghost {
@@ -88,7 +88,7 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(248, 250, 252, 0.5);
+  background: rgba(248, 250, 252, 0.4);
 }
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
