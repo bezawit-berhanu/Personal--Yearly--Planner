@@ -37,7 +37,7 @@ export default function TopNavbar() {
               </div>
               <div>
                 <h1 className="font-serif text-base font-bold text-slate-900 tracking-tight leading-none">
-                  Bezawit's 2027
+                  Bezawit's 2019
                 </h1>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-pink-700">
                   Planner OS

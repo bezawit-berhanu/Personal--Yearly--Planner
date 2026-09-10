@@ -47,7 +47,7 @@ export default function LoginRegister() {
             <Sparkles className="w-6 h-6" />
           </div>
           <h1 className="font-serif text-2xl font-bold text-slate-800 tracking-tight">
-            Bezawit's Planner OS
+            2019 Planner OS
           </h1>
           <p className="text-xs text-pink-600 font-semibold tracking-wider uppercase mt-1">
             {isRegister ? 'Create Your Account' : 'Sign In To Your Workspace'}
