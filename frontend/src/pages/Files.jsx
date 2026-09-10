@@ -3,6 +3,16 @@ import api from '../api/client';
 import SectionHeader from '../components/shared/SectionHeader';
 import { FileText, Upload, Trash2, ExternalLink, Image as ImageIcon, File, Loader2 } from 'lucide-react';
 
+function parseErrorText(err) {
+  if (!err) return '';
+  const e = err.response?.data?.error ?? err.response?.data ?? err.message ?? err;
+  if (typeof e === 'string') return e;
+  if (typeof e === 'object' && e !== null) {
+    return e.message || e.error || (e.code ? `Error (${e.code}): ${e.message || JSON.stringify(e)}` : JSON.stringify(e));
+  }
+  return 'File operation failed.';
+}
+
 export default function Files() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,22 +60,27 @@ export default function Files() {
       const reader = new FileReader();
       reader.readAsDataURL(selectedFile);
       reader.onloadend = async () => {
-        const base64data = reader.result;
-        await api.post('/files/upload', {
-          file_base64: base64data,
-          file_name: fileName || selectedFile.name,
-          section_category: category,
-          notes
-        });
+        try {
+          const base64data = reader.result;
+          await api.post('/files/upload', {
+            file_base64: base64data,
+            file_name: fileName || selectedFile.name,
+            section_category: category,
+            notes
+          });
 
-        setSelectedFile(null);
-        setFileName('');
-        setNotes('');
-        setUploading(false);
-        fetchFiles();
+          setSelectedFile(null);
+          setFileName('');
+          setNotes('');
+          setUploading(false);
+          fetchFiles();
+        } catch (err) {
+          setError(parseErrorText(err));
+          setUploading(false);
+        }
       };
     } catch (err) {
-      setError(err.response?.data?.error || 'File upload failed.');
+      setError(parseErrorText(err));
       setUploading(false);
     }
   };
@@ -95,7 +110,7 @@ export default function Files() {
 
         {error && (
           <div className="mb-4 p-3 bg-rose-50/90 border border-rose-300 text-rose-800 text-xs font-bold rounded-sm">
-            {error}
+            {typeof error === 'string' ? error : JSON.stringify(error)}
           </div>
         )}
 

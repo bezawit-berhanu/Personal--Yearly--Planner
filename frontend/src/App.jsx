@@ -35,12 +35,19 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
+      const err = this.state.error;
+      const displayMessage = typeof err === 'string'
+        ? err
+        : err?.message && typeof err.message === 'string'
+          ? err.message
+          : JSON.stringify(err || 'Unknown error occurred.');
+
       return (
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-center">
           <div className="max-w-md bg-white border border-rose-200 p-8 rounded-sm shadow-sm space-y-4">
             <h2 className="font-serif text-xl font-bold text-slate-900">Something went wrong</h2>
             <p className="text-xs text-rose-600 font-semibold bg-rose-50 p-3 rounded-sm border border-rose-100 font-mono text-left overflow-auto max-h-32">
-              {this.state.error?.toString() || 'Unknown error occurred.'}
+              {displayMessage}
             </p>
             <button
               onClick={() => {

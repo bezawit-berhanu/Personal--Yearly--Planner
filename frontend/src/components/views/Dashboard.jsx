@@ -6,6 +6,14 @@ import StatCard from '../shared/StatCard';
 import { NAV_GROUPS } from '../../data/sectionConfigs';
 import { Plus, Clock, Sparkles, Send, Trash2 } from 'lucide-react';
 
+function safeString(val, fallback = '') {
+  if (val === null || val === undefined) return fallback;
+  if (typeof val === 'string') return val;
+  if (typeof val === 'number') return String(val);
+  if (typeof val === 'object') return val.message || JSON.stringify(val);
+  return String(val);
+}
+
 export default function Dashboard() {
   const { user } = useAuth();
   const { db, navigateTo } = usePlannerContext();
@@ -17,7 +25,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     api.get('/quick-logs')
-      .then(res => setQuickLogs(res.data.logs || []))
+      .then(res => setQuickLogs(Array.isArray(res.data.logs) ? res.data.logs : []))
       .catch(console.error);
   }, []);
 
@@ -114,7 +122,7 @@ export default function Dashboard() {
         </form>
 
         {/* Quick Log History */}
-        {quickLogs.length > 0 && (
+        {Array.isArray(quickLogs) && quickLogs.length > 0 && (
           <div className="mt-4 pt-4 border-t border-slate-200/80 space-y-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 block mb-2">
               Recent Log History ({quickLogs.length})
@@ -129,14 +137,14 @@ export default function Dashboard() {
                   >
                     <div className="flex items-center gap-2 min-w-0 pr-2">
                       <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                      <span className="text-slate-900 font-bold truncate">{log.content}</span>
+                      <span className="text-slate-900 font-bold truncate">{safeString(log.content)}</span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => navigateTo(log.category)}
                         className="badge badge-pink hover:bg-pink-100 cursor-pointer"
                       >
-                        → {targetNav ? targetNav.label : log.category}
+                        → {targetNav ? targetNav.label : safeString(log.category)}
                       </button>
                       <button
                         onClick={() => handleDeleteLog(log.id)}

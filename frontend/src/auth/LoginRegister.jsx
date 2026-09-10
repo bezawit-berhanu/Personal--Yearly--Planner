@@ -2,6 +2,16 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Sparkles, ArrowRight, Lock, Mail, User } from 'lucide-react';
 
+function parseErrorText(err) {
+  if (!err) return '';
+  const e = err.response?.data?.error ?? err.response?.data ?? err.message ?? err;
+  if (typeof e === 'string') return e;
+  if (typeof e === 'object' && e !== null) {
+    return e.message || e.error || (e.code ? `Error (${e.code}): ${e.message || JSON.stringify(e)}` : JSON.stringify(e));
+  }
+  return 'Authentication failed. Please check credentials.';
+}
+
 export default function LoginRegister() {
   const { login, register } = useAuth();
   const [isRegister, setIsRegister] = useState(false);
@@ -23,7 +33,7 @@ export default function LoginRegister() {
         await login(email, password);
       }
     } catch (err) {
-      setError(err.response?.data?.error || 'Authentication failed. Please check credentials.');
+      setError(parseErrorText(err));
     } finally {
       setLoading(false);
     }
@@ -45,8 +55,8 @@ export default function LoginRegister() {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-sm">
-            {error}
+          <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-sm font-semibold">
+            {typeof error === 'string' ? error : JSON.stringify(error)}
           </div>
         )}
 

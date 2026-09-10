@@ -8,13 +8,17 @@ export default function StatCard({ label, value, color = 'default', onClick }) {
     default: 'bg-white/85 text-slate-900 border-pink-200/80',
   };
 
+  const displayVal = typeof value === 'object' && value !== null
+    ? (value.message || JSON.stringify(value))
+    : String(value ?? '');
+
   return (
     <div
       className={`flex flex-col gap-0.5 px-4 py-3 rounded-sm border backdrop-blur-md text-sm font-semibold shadow-sm ${colorMap[color] ?? colorMap.default} ${onClick ? 'cursor-pointer hover:opacity-90 transition' : ''}`}
       onClick={onClick}
     >
       <span className="text-[10px] font-bold uppercase tracking-wider opacity-80">{label}</span>
-      <span className="text-xl font-bold font-serif">{value}</span>
+      <span className="text-xl font-bold font-serif">{displayVal}</span>
     </div>
   );
 }
