@@ -9,7 +9,7 @@ import {
   PenTool, FileText, Bookmark, BookHeart,
   Network, HeartHandshake, UserCheck, Cake, Gift,
   Plane, MapPin, Book, CheckCircle2,
-  Shield, ChevronDown, ChevronRight,
+  Shield, ChevronDown, ChevronRight, Sparkles
 } from 'lucide-react';
 import { NAV_GROUPS } from '../../data/sectionConfigs';
 import { usePlannerContext } from '../../context/PlannerContext';
@@ -83,7 +83,7 @@ export default function Sidebar() {
       {/* Brand */}
       <div className="px-5 py-5 border-b border-cream-200 bg-white shrink-0">
         <h1 className="font-serif text-lg font-bold text-cream-800 tracking-wide leading-tight">
-          Bezawit's 2019
+          Bezawit's 2027
         </h1>
         <p className="text-[11px] font-semibold uppercase tracking-widest text-cream-500 mt-0.5">
           Personal OS · Planner
@@ -98,8 +98,8 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="px-4 py-3 border-t border-cream-200 text-center text-[11px] text-cream-400 bg-white shrink-0">
-        ✨ Fully Editable · Auto-saves
+      <div className="px-4 py-3 border-t border-cream-200 text-center text-[11px] text-cream-400 bg-white shrink-0 flex items-center justify-center gap-1">
+        <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Fully Editable · Auto-saves
       </div>
     </aside>
   );

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, Check } from 'lucide-react';
+import { X, Check, Star } from 'lucide-react';
 
 /* ─── Field input renderers for the modal ─────────────────────────────────── */
 function FieldInput({ field, value, onChange }) {
@@ -76,9 +76,10 @@ function FieldInput({ field, value, onChange }) {
               key={s}
               type="button"
               onClick={() => onChange(s === value ? 0 : s)}
-              className={`text-xl transition-all hover:scale-110 focus:outline-none ${s <= (value || 0) ? 'text-amber-400' : 'text-slate-300'}`}
+              className="p-1 cursor-pointer focus:outline-none"
+              title={`Rate ${s} stars`}
             >
-              ★
+              <Star className={`w-5 h-5 transition-all hover:scale-110 ${s <= (value || 0) ? 'text-amber-400 fill-amber-400' : 'text-slate-300'}`} />
             </button>
           ))}
         </div>

@@ -4,7 +4,7 @@ import StatCard from '../shared/StatCard';
 import SectionHeader from '../shared/SectionHeader';
 import AddEntryModal from '../shared/AddEntryModal';
 import { SECTION_CONFIGS } from '../../data/sectionConfigs';
-import { Trash2 } from 'lucide-react';
+import { Trash2, ArrowRight } from 'lucide-react';
 
 function priorityColor(p = '') {
   if (p === 'High') return 'border-l-rose-500';
@@ -122,7 +122,9 @@ export default function GoalTracker() {
 
             {/* Next action */}
             <div className="mt-3">
-              <span className="text-[10px] font-bold uppercase tracking-wide text-slate-600">Next Action →</span>
+              <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-600">
+                Next Action <ArrowRight className="w-3 h-3" />
+              </span>
               <input
                 className="cell-input text-xs font-semibold text-slate-900 mt-0.5"
                 value={goal.next || ''}

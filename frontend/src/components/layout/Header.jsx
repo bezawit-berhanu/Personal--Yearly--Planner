@@ -1,4 +1,4 @@
-import { Menu } from 'lucide-react';
+import { Menu, Calendar } from 'lucide-react';
 import { usePlannerContext } from '../../context/PlannerContext';
 import { NAV_GROUPS } from '../../data/sectionConfigs';
 
@@ -32,8 +32,9 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-3">
-        <span className="hidden sm:inline text-xs font-medium text-cream-500 bg-cream-100 border border-cream-200 px-3 py-1.5 rounded-full">
-          📅 {today}
+        <span className="hidden sm:inline-flex items-center text-xs font-medium text-cream-500 bg-cream-100 border border-cream-200 px-3 py-1.5 rounded-full">
+          <Calendar className="w-3.5 h-3.5 text-pink-600 mr-1.5" />
+          <span>{today}</span>
         </span>
         <div className="w-8 h-8 rounded-full bg-cream-700 flex items-center justify-center text-white text-sm font-bold font-serif">
           B

@@ -4,7 +4,10 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../api/client';
 import StatCard from '../shared/StatCard';
 import { NAV_GROUPS } from '../../data/sectionConfigs';
-import { Plus, Clock, Sparkles, Send, Trash2 } from 'lucide-react';
+import {
+  Plus, Clock, Sparkles, Send, Trash2, ArrowRight, Upload, Palette,
+  Calendar, Target, Flame, DollarSign, BarChart2, Folder
+} from 'lucide-react';
 
 function safeString(val, fallback = '') {
   if (val === null || val === undefined) return fallback;
@@ -58,16 +61,26 @@ export default function Dashboard() {
 
   const allCategoryOptions = NAV_GROUPS.flatMap(g => g.items);
 
+  const shortcutCards = [
+    { id: 'dailyPlanner', Icon: Calendar, label: 'Daily Planner', color: 'text-pink-600' },
+    { id: 'goals', Icon: Target, label: 'Goals Tracker', color: 'text-rose-600' },
+    { id: 'habits', Icon: Flame, label: 'Habits Tracker', color: 'text-amber-500' },
+    { id: 'financeCashflow', Icon: DollarSign, label: 'Cashflow Statement', color: 'text-emerald-600' },
+    { id: 'financeBudget', Icon: BarChart2, label: 'Monthly Budget', color: 'text-sky-600' },
+    { id: 'files', Icon: Folder, label: 'Files & Scans', color: 'text-indigo-600' },
+  ];
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fadeIn">
       {/* Welcome Banner */}
       <div className="glass-card p-6 rounded-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-widest text-pink-700 bg-pink-50/90 border border-pink-200 px-2 py-0.5 rounded-sm">
             Full-Stack TiDB System
           </span>
-          <h2 className="font-serif text-2xl font-bold text-slate-900 mt-2">
-            Welcome back, {user?.name || 'Bezawit'} 👋
+          <h2 className="font-serif text-2xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+            Welcome back, {user?.name || 'Bezawit'}
+            <Sparkles className="w-5 h-5 text-amber-500" />
           </h2>
           <p className="text-xs font-semibold text-slate-700 mt-0.5">
             Log anything quickly below or navigate to any section. All data is backed up to your TiDB database.
@@ -75,10 +88,10 @@ export default function Dashboard() {
         </div>
         <div className="flex gap-2 shrink-0">
           <button onClick={() => navigateTo('files')} className="btn-secondary text-xs">
-            📄 Upload Files / Scans
+            <Upload className="w-3.5 h-3.5" /> Upload Files / Scans
           </button>
           <button onClick={() => navigateTo('appearance')} className="btn-primary text-xs">
-            ✨ Change Theme
+            <Palette className="w-3.5 h-3.5" /> Change Theme
           </button>
         </div>
       </div>
@@ -142,9 +155,10 @@ export default function Dashboard() {
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => navigateTo(log.category)}
-                        className="badge badge-pink hover:bg-pink-100 cursor-pointer"
+                        className="badge badge-pink hover:bg-pink-100 cursor-pointer flex items-center gap-1"
                       >
-                        → {targetNav ? targetNav.label : safeString(log.category)}
+                        <span>{targetNav ? targetNav.label : safeString(log.category)}</span>
+                        <ArrowRight className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => handleDeleteLog(log.id)}
@@ -166,21 +180,16 @@ export default function Dashboard() {
       <div>
         <h3 className="font-serif text-base font-bold text-slate-900 mb-3">Planner Shortcuts</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          {[
-            { id: 'dailyPlanner', emoji: '📅', label: 'Daily Planner' },
-            { id: 'goals', emoji: '🎯', label: 'Goals Tracker' },
-            { id: 'habits', emoji: '🔥', label: 'Habits Tracker' },
-            { id: 'financeCashflow', emoji: '💰', label: 'Cashflow Statement' },
-            { id: 'financeBudget', emoji: '📊', label: 'Monthly Budget' },
-            { id: 'files', emoji: '📁', label: 'Files & Scans' },
-          ].map(c => (
+          {shortcutCards.map(({ id, Icon, label, color }) => (
             <button
-              key={c.id}
-              onClick={() => navigateTo(c.id)}
-              className="glass-card p-4 text-left rounded-sm hover:border-pink-400 hover:bg-white/95 transition-all cursor-pointer"
+              key={id}
+              onClick={() => navigateTo(id)}
+              className="glass-card p-4 text-left rounded-sm hover:border-pink-400 hover:bg-white/95 transition-all cursor-pointer group"
             >
-              <div className="text-2xl mb-1.5">{c.emoji}</div>
-              <div className="text-xs font-bold text-slate-900">{c.label}</div>
+              <div className="mb-2">
+                <Icon className={`w-6 h-6 ${color} transition-transform group-hover:scale-110`} />
+              </div>
+              <div className="text-xs font-bold text-slate-900">{label}</div>
             </button>
           ))}
         </div>

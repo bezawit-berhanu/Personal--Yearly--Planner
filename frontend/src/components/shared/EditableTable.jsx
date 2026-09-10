@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Trash2, Eye, EyeOff, Copy, Check } from 'lucide-react';
+import { Trash2, Eye, EyeOff, Copy, Check, Star } from 'lucide-react';
 import { usePlannerContext } from '../../context/PlannerContext';
 
 /* ─── Status badge helper ─────────────────────────────────────────────────── */
@@ -110,9 +110,10 @@ function EditableCell({ field, value, onChange }) {
               key={s}
               type="button"
               onClick={() => onChange(s)}
-              className={`text-sm leading-none transition-transform hover:scale-110 ${s <= (value || 0) ? 'text-amber-500 font-bold' : 'text-slate-300'}`}
+              className="p-0.5 cursor-pointer focus:outline-none"
+              title={`Rate ${s} stars`}
             >
-              ★
+              <Star className={`w-4 h-4 transition-all hover:scale-110 ${s <= (value || 0) ? 'text-amber-400 fill-amber-400' : 'text-slate-300'}`} />
             </button>
           ))}
         </div>

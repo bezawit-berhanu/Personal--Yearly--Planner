@@ -5,7 +5,7 @@ import StatCard from '../shared/StatCard';
 import SectionHeader from '../shared/SectionHeader';
 import AddEntryModal from '../shared/AddEntryModal';
 import { SECTION_CONFIGS } from '../../data/sectionConfigs';
-import { BarChart2, Calendar, RotateCcw, Award } from 'lucide-react';
+import { BarChart2, Calendar, RotateCcw, Award, Flame, Trash2, Check, X } from 'lucide-react';
 
 const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -113,8 +113,17 @@ export default function HabitTracker() {
                   onChange={(e) => updateField('habits', habit.id, 'name', e.target.value)}
                 />
                 <div className="flex items-center gap-3 shrink-0">
-                  <span className="badge badge-pink">🔥 {habit.streak || 0} day streak</span>
-                  <button onClick={() => deleteItem('habits', habit.id)} className="btn-danger p-1">×</button>
+                  <span className="badge badge-pink flex items-center gap-1">
+                    <Flame className="w-3.5 h-3.5 text-pink-600" />
+                    <span>{habit.streak || 0} day streak</span>
+                  </span>
+                  <button
+                    onClick={() => deleteItem('habits', habit.id)}
+                    className="btn-danger p-1 flex items-center justify-center"
+                    title="Delete habit"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
 
@@ -131,11 +140,11 @@ export default function HabitTracker() {
                           updateField('habits', habit.id, 'history', newHist);
                           if (!done) updateField('habits', habit.id, 'streak', (habit.streak || 0) + 1);
                         }}
-                        className={`w-9 h-9 text-xs font-bold transition-all border rounded-sm ${
+                        className={`w-9 h-9 text-xs font-bold transition-all border rounded-sm flex items-center justify-center ${
                           done ? 'bg-pink-500 text-white border-pink-500' : 'bg-slate-50 text-slate-400 border-slate-200 hover:border-pink-300'
                         }`}
                       >
-                        {done ? '✓' : ''}
+                        {done ? <Check className="w-4 h-4 text-white" /> : null}
                       </button>
                       <span className="text-[10px] text-slate-400 font-semibold">{day}</span>
                     </div>
@@ -166,7 +175,9 @@ export default function HabitTracker() {
               <h3 className="font-serif text-lg font-bold text-slate-800 flex items-center gap-2">
                 <Award className="w-5 h-5 text-pink-500" /> Weekly & Monthly Reports
               </h3>
-              <button onClick={() => setShowReportsModal(false)} className="btn-ghost text-slate-400">✕</button>
+              <button onClick={() => setShowReportsModal(false)} className="btn-ghost p-1 text-slate-400 hover:text-slate-600">
+                <X className="w-4 h-4" />
+              </button>
             </div>
 
             <div className="max-h-64 overflow-y-auto space-y-2">
@@ -184,8 +195,8 @@ export default function HabitTracker() {
                         <div className="font-bold text-slate-800">Period: {rep.period_key}</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-bold text-emerald-700">{data.completion_rate} Done</div>
-                        <div className="text-[10px] text-slate-400">{data.total_habits} Habits Tracked</div>
+                        <div className="text-sm font-bold text-emerald-700">{data?.completion_rate} Done</div>
+                        <div className="text-[10px] text-slate-400">{data?.total_habits} Habits Tracked</div>
                       </div>
                     </div>
                   );
