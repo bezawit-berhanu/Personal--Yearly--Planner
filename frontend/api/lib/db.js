@@ -42,9 +42,9 @@ export function getPool() {
     pool = mysql.createPool({
       host: process.env.TIDB_HOST || 'gateway01.eu-central-1.prod.aws.tidbcloud.com',
       port: Number(process.env.TIDB_PORT) || 4000,
-      user: process.env.TIDB_USER || 'URcENfDyA1KZC7Y.root',
-      password: process.env.TIDB_PASSWORD || '<PASSWORD>',
-      database: process.env.TIDB_DATABASE || 'DormitoryManagementSystemDB',
+      user: process.env.TIDB_USER || '31FwaATgxkvo1q9.root',
+      password: process.env.TIDB_PASSWORD || 'pPtt3fgQ7zow5INT',
+      database: process.env.TIDB_DATABASE || 'sys',
       ssl: { rejectUnauthorized: false },
       waitForConnections: true,
       connectionLimit: 10,
