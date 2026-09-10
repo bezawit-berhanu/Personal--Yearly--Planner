@@ -105,7 +105,7 @@ export default function HabitTracker() {
           const consistency = Math.round((history.filter(Boolean).length / 7) * 100);
 
           return (
-            <div key={habit.id} className="bg-white border border-slate-200 p-5 rounded-sm shadow-xs group">
+            <div key={habit.id} className="glass-card p-5 rounded-sm shadow-xs group">
               <div className="flex items-center justify-between mb-3">
                 <input
                   className="cell-input font-bold text-slate-800 text-base"

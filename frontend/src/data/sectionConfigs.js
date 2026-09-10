@@ -74,6 +74,7 @@ export const NAV_GROUPS = [
   {
     label: 'Knowledge & Ideas',
     items: [
+      { id: 'notes',             label: 'Quick Notes',      icon: 'StickyNote' },
       { id: 'knowledgeDatabase', label: 'Knowledge Base',   icon: 'Database' },
       { id: 'aiSecondBrain',     label: 'AI Second Brain',  icon: 'Cpu' },
       { id: 'ideasRemember',     label: 'Ideas to Remember',icon: 'Lightbulb' },
@@ -85,6 +86,7 @@ export const NAV_GROUPS = [
   {
     label: 'Content & Journal',
     items: [
+      { id: 'journal',         label: 'My Journal',       icon: 'BookHeart' },
       { id: 'contentPlanner',  label: 'Content Planner',  icon: 'PenTool' },
       { id: 'substackIdeas',   label: 'Substack Ideas',   icon: 'FileText' },
       { id: 'substackReads',   label: 'Substack Reads',   icon: 'Bookmark' },

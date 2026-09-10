@@ -55,44 +55,35 @@ export function usePlanner(user) {
     }
   }, []);
 
-  const updateField = useCallback(async (key, id, field, value) => {
-    if (!loadedSectionsRef.current.has(key)) {
-      await fetchSectionData(key);
-    }
-
+  const updateField = useCallback((key, id, field, value) => {
     setSections(prev => {
       const list = prev[key] || [];
       const updated = list.map(item => item.id === id ? { ...item, [field]: value } : item);
       api.post(`/sections/${key}`, { data: updated }).catch(console.error);
       return { ...prev, [key]: updated };
     });
-  }, [fetchSectionData]);
+    loadedSectionsRef.current.add(key);
+  }, []);
 
-  const addItem = useCallback(async (key, newItem) => {
-    if (!loadedSectionsRef.current.has(key)) {
-      await fetchSectionData(key);
-    }
-
+  const addItem = useCallback((key, newItem) => {
     setSections(prev => {
       const list = prev[key] || [];
       const updated = [{ id: Date.now() + Math.floor(Math.random() * 1000), ...newItem }, ...list];
       api.post(`/sections/${key}`, { data: updated }).catch(console.error);
       return { ...prev, [key]: updated };
     });
-  }, [fetchSectionData]);
+    loadedSectionsRef.current.add(key);
+  }, []);
 
-  const deleteItem = useCallback(async (key, id) => {
-    if (!loadedSectionsRef.current.has(key)) {
-      await fetchSectionData(key);
-    }
-
+  const deleteItem = useCallback((key, id) => {
     setSections(prev => {
       const list = prev[key] || [];
       const updated = list.filter(item => item.id !== id);
       api.post(`/sections/${key}`, { data: updated }).catch(console.error);
       return { ...prev, [key]: updated };
     });
-  }, [fetchSectionData]);
+    loadedSectionsRef.current.add(key);
+  }, []);
 
   const db = {
     activeTab,

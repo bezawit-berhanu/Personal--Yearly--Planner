@@ -160,9 +160,9 @@ export default function AddEntryModal({ config, onSave, onClose }) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="bg-white border border-pink-200 rounded-sm shadow-md w-full max-w-xl max-h-[90vh] flex flex-col">
+      <div className="glass-modal rounded-sm shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-pink-100">
           <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600">Add New Entry</span>
             <h3 className="font-serif text-lg font-bold text-slate-800">{config.title}</h3>
@@ -172,47 +172,49 @@ export default function AddEntryModal({ config, onSave, onClose }) {
           </button>
         </div>
 
-        {/* Form Body */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-          {gridFields.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {gridFields.map((field) => (
-                <div key={field.key} className={field.type === 'progress' || field.type === 'rating' ? 'sm:col-span-2' : ''}>
-                  <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
-                    {field.label} {field.required && <span className="text-rose-500">*</span>}
-                  </label>
-                  <FieldInput field={field} value={form[field.key]} onChange={(v) => handleChange(field.key, v)} />
-                  {errors[field.key] && (
-                    <p className="text-rose-500 text-[11px] mt-0.5">Required field</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+        {/* Form Body & Footer */}
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+          <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+            {gridFields.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {gridFields.map((field) => (
+                  <div key={field.key} className={field.type === 'progress' || field.type === 'rating' ? 'sm:col-span-2' : ''}>
+                    <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+                      {field.label} {field.required && <span className="text-rose-500">*</span>}
+                    </label>
+                    <FieldInput field={field} value={form[field.key]} onChange={(v) => handleChange(field.key, v)} />
+                    {errors[field.key] && (
+                      <p className="text-rose-500 text-[11px] mt-0.5">Required field</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
 
-          {wideFields.map((field) => (
-            <div key={field.key}>
-              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
-                {field.label} {field.required && <span className="text-rose-500">*</span>}
-              </label>
-              <FieldInput field={field} value={form[field.key]} onChange={(v) => handleChange(field.key, v)} />
-              {errors[field.key] && (
-                <p className="text-rose-500 text-[11px] mt-0.5">Required field</p>
-              )}
-            </div>
-          ))}
-        </form>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between px-5 py-3 border-t border-slate-100 bg-slate-50">
-          <span className="text-[11px] text-slate-400">* Required fields</span>
-          <div className="flex gap-2">
-            <button type="button" onClick={onClose} className="btn-secondary text-xs">Cancel</button>
-            <button type="submit" disabled={saving} className="btn-primary text-xs">
-              {saving ? 'Saving...' : 'Save Entry'}
-            </button>
+            {wideFields.map((field) => (
+              <div key={field.key}>
+                <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+                  {field.label} {field.required && <span className="text-rose-500">*</span>}
+                </label>
+                <FieldInput field={field} value={form[field.key]} onChange={(v) => handleChange(field.key, v)} />
+                {errors[field.key] && (
+                  <p className="text-rose-500 text-[11px] mt-0.5">Required field</p>
+                )}
+              </div>
+            ))}
           </div>
-        </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-between px-5 py-3 border-t border-pink-100 bg-white/40 backdrop-blur-md shrink-0">
+            <span className="text-[11px] text-slate-400">* Required fields</span>
+            <div className="flex gap-2">
+              <button type="button" onClick={onClose} className="btn-secondary text-xs">Cancel</button>
+              <button type="submit" disabled={saving} className="btn-primary text-xs">
+                {saving ? 'Saving...' : 'Save Entry'}
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );

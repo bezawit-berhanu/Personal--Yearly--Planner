@@ -13,6 +13,8 @@ import HabitTracker from './components/views/HabitTracker';
 import HealthDashboard from './components/views/HealthDashboard';
 import KpiDashboard from './components/views/KpiDashboard';
 import GenericSection from './components/views/GenericSection';
+import Journal from './components/views/Journal';
+import Notes from './components/views/Notes';
 
 import Files from './pages/Files';
 import Cashflow from './pages/Finance/Cashflow';
@@ -77,6 +79,10 @@ function ActiveView({ tab }) {
     case 'healthDashboard': return <HealthDashboard />;
     case 'kpiDashboard':    return <KpiDashboard />;
     case 'appearance':      return <Appearance />;
+    case 'journal':
+    case 'reflectionJournal':
+    case 'journalingIdeas': return <Journal />;
+    case 'notes':           return <Notes />;
     default:                return <GenericSection sectionId={tab} />;
   }
 }
@@ -99,12 +105,12 @@ function MainAppContent() {
 
   return (
     <PlannerContext.Provider value={planner}>
-      <div className="min-h-screen flex flex-col bg-white app-wallpaper">
+      <div className="min-h-screen flex flex-col app-wallpaper">
         <TopNavbar />
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
           <ActiveView tab={planner.activeTab} />
         </main>
-        <footer className="py-4 text-center text-xs text-slate-400 border-t border-slate-100 bg-white/80">
+        <footer className="py-4 text-center text-xs font-semibold text-slate-500 border-t border-pink-200/50 bg-white/60 backdrop-blur-md">
           Bezawit's 2027 Planner OS · Connected to TiDB Cloud Serverless Database
         </footer>
       </div>

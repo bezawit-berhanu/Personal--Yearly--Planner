@@ -11,76 +11,113 @@
   }
 }
 
-/* Custom wallpaper background */
+/* Custom wallpaper background with blur intensity filter */
 .app-wallpaper {
+  position: relative;
+  background-color: var(--theme-bg-color, #FFFFFF);
+  transition: background-color 0.3s ease;
+}
+
+.app-wallpaper::before {
+  content: '';
+  position: fixed;
+  inset: -12px;
+  z-index: 0;
   background-image: var(--theme-wallpaper-url, none);
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   background-repeat: no-repeat;
+  filter: blur(var(--theme-wallpaper-blur, 0px));
+  pointer-events: none;
+  transition: filter 0.3s ease;
 }
 
-/* Glassmorphism translucent containers & cards — fully visible background wallpaper */
+.app-wallpaper > header {
+  position: relative;
+  z-index: 10000;
+}
+
+.app-wallpaper > main {
+  position: relative;
+  z-index: 10;
+}
+
+.app-wallpaper > footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Glassmorphism translucent containers & cards — borderless style */
 .glass-card {
-  @apply bg-white/70 backdrop-blur-md border border-pink-200/80 shadow-sm text-slate-900 transition-all;
+  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.60));
+  @apply backdrop-blur-md shadow-sm text-slate-900 transition-all border-none;
 }
 
 .glass-table {
-  @apply bg-white/75 backdrop-blur-md border border-slate-200/90 shadow-sm text-slate-900 transition-all;
+  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.65));
+  @apply backdrop-blur-md shadow-sm text-slate-900 transition-all border-none;
+}
+
+.glass-modal {
+  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.85));
+  @apply backdrop-blur-xl shadow-2xl text-slate-900 transition-all border-none;
 }
 
 .glass-input {
-  @apply bg-white/60 backdrop-blur-md border border-slate-300 text-slate-900 placeholder:text-slate-500 font-medium focus:bg-white/95 focus:border-pink-400 focus:outline-none transition-all;
+  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.50));
+  @apply backdrop-blur-md text-slate-900 placeholder:text-slate-500 font-medium focus:bg-white/90 focus:outline-none transition-all border-none;
 }
 
 /* Cell inputs - clean, translucent and highly legible */
 .cell-input {
-  @apply w-full bg-transparent border border-transparent px-2 py-1 text-sm font-semibold transition-all focus:bg-white/90 focus:border-pink-400 focus:outline-none rounded-sm text-slate-900;
+  @apply w-full bg-transparent border-none px-2 py-1 text-sm font-semibold transition-all focus:bg-white/80 focus:outline-none rounded-sm text-slate-900;
 }
 
 .cell-select {
-  @apply bg-transparent border border-transparent px-2 py-1 text-sm font-semibold focus:bg-white/90 focus:border-pink-400 focus:outline-none rounded-sm text-slate-900 cursor-pointer;
+  @apply bg-transparent border-none px-2 py-1 text-sm font-semibold focus:bg-white/80 focus:outline-none rounded-sm text-slate-900 cursor-pointer;
 }
 
 .cell-textarea {
-  @apply w-full bg-transparent border border-transparent p-2 text-sm font-semibold transition-all focus:bg-white/90 focus:border-pink-400 focus:outline-none rounded-sm text-slate-900 resize-y;
+  @apply w-full bg-transparent border-none p-2 text-sm font-semibold transition-all focus:bg-white/80 focus:outline-none rounded-sm text-slate-900 resize-y;
 }
 
 .modal-input {
-  @apply w-full bg-white/75 backdrop-blur-md border border-slate-300 px-3 py-2 text-sm font-medium focus:bg-white focus:border-pink-500 focus:outline-none rounded-sm text-slate-900 transition-all;
+  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.65));
+  @apply backdrop-blur-md border-none px-3 py-2 text-sm font-medium focus:bg-white/95 focus:outline-none rounded-sm text-slate-900 transition-all;
 }
 
 .modal-select {
-  @apply w-full bg-white/75 backdrop-blur-md border border-slate-300 px-3 py-2 text-sm font-medium focus:bg-white focus:border-pink-500 focus:outline-none rounded-sm text-slate-900 cursor-pointer transition-all;
+  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.65));
+  @apply backdrop-blur-md border-none px-3 py-2 text-sm font-medium focus:bg-white/95 focus:outline-none rounded-sm text-slate-900 cursor-pointer transition-all;
 }
 
 /* Buttons - flat & high contrast */
 .btn-primary {
-  @apply bg-pink-500/90 hover:bg-pink-600 active:bg-pink-700 text-white font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 shadow-sm cursor-pointer backdrop-blur-sm;
+  @apply bg-pink-500/90 hover:bg-pink-600 active:bg-pink-700 text-white font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 shadow-sm cursor-pointer backdrop-blur-sm border-none;
 }
 
 .btn-secondary {
-  @apply bg-white/75 hover:bg-pink-50 text-slate-800 hover:text-pink-700 border border-slate-300 font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 cursor-pointer backdrop-blur-sm;
+  @apply bg-white/75 hover:bg-pink-50 text-slate-800 hover:text-pink-700 font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 cursor-pointer backdrop-blur-sm border-none;
 }
 
 .btn-ghost {
-  @apply text-slate-800 font-bold hover:text-pink-600 hover:bg-pink-50/70 p-2 text-sm transition-colors rounded-sm cursor-pointer;
+  @apply text-slate-800 font-bold hover:text-pink-600 hover:bg-pink-50/70 p-2 text-sm transition-colors rounded-sm cursor-pointer border-none;
 }
 
 .btn-danger {
-  @apply bg-rose-50/90 hover:bg-rose-100 text-rose-700 border border-rose-300 font-bold px-2 py-1 text-xs transition-colors rounded-sm cursor-pointer;
+  @apply bg-rose-50/90 hover:bg-rose-100 text-rose-700 font-bold px-2 py-1 text-xs transition-colors rounded-sm cursor-pointer border-none;
 }
 
 /* Badges with high text contrast */
 .badge {
-  @apply inline-flex items-center px-2 py-0.5 text-xs font-bold rounded-sm border uppercase tracking-wider backdrop-blur-sm;
+  @apply inline-flex items-center px-2 py-0.5 text-xs font-bold rounded-sm border-none uppercase tracking-wider backdrop-blur-sm;
 }
-.badge-green { @apply bg-emerald-50/90 text-emerald-800 border-emerald-300; }
-.badge-amber { @apply bg-amber-50/90 text-amber-900 border-amber-300; }
-.badge-red   { @apply bg-rose-50/90 text-rose-800 border-rose-300; }
-.badge-blue  { @apply bg-sky-50/90 text-sky-900 border-sky-300; }
-.badge-gray  { @apply bg-slate-100/90 text-slate-800 border-slate-300; }
-.badge-pink  { @apply bg-pink-50/90 text-pink-800 border-pink-300; }
+.badge-green { @apply bg-emerald-50/90 text-emerald-800 border-none; }
+.badge-amber { @apply bg-amber-50/90 text-amber-900 border-none; }
+.badge-red   { @apply bg-rose-50/90 text-rose-800 border-none; }
+.badge-blue  { @apply bg-sky-50/90 text-sky-900 border-none; }
+.badge-gray  { @apply bg-slate-100/90 text-slate-800 border-none; }
+.badge-pink  { @apply bg-pink-50/90 text-pink-800 border-none; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

@@ -8,6 +8,12 @@ export default function Appearance() {
   const { theme, updateTheme } = useTheme();
 
   const [wallpaperUrl, setWallpaperUrl] = useState(theme.bg_wallpaper || '');
+  const [wallpaperBlur, setWallpaperBlur] = useState(
+    theme.wallpaper_blur !== undefined ? theme.wallpaper_blur : (theme.custom_theme_json?.wallpaper_blur ?? 0)
+  );
+  const [cardOpacity, setCardOpacity] = useState(
+    theme.card_opacity !== undefined ? theme.card_opacity : (theme.custom_theme_json?.card_opacity ?? 60)
+  );
   const [bgColor, setBgColor] = useState(theme.bg_color || '#FFFFFF');
   const [textColor, setTextColor] = useState(theme.text_color || '#1A1A2E');
   const [accentColor, setAccentColor] = useState(theme.accent_color || '#E879A0');
@@ -19,6 +25,8 @@ export default function Appearance() {
     e.preventDefault();
     await updateTheme({
       bg_wallpaper: wallpaperUrl,
+      wallpaper_blur: Number(wallpaperBlur),
+      card_opacity: Number(cardOpacity),
       bg_color: bgColor,
       text_color: textColor,
       accent_color: accentColor,
@@ -45,7 +53,11 @@ export default function Appearance() {
 
         if (res.data && res.data.file_url) {
           setWallpaperUrl(res.data.file_url);
-          updateTheme({ bg_wallpaper: res.data.file_url });
+          updateTheme({
+            bg_wallpaper: res.data.file_url,
+            wallpaper_blur: Number(wallpaperBlur),
+            card_opacity: Number(cardOpacity)
+          });
         }
         setUploading(false);
       };
@@ -58,12 +70,16 @@ export default function Appearance() {
   const resetDefault = () => {
     const def = {
       bg_wallpaper: '',
+      wallpaper_blur: 0,
+      card_opacity: 60,
       bg_color: '#FFFFFF',
       text_color: '#1A1A2E',
       font_family: 'Inter',
       accent_color: '#E879A0'
     };
     setWallpaperUrl('');
+    setWallpaperBlur(0);
+    setCardOpacity(60);
     setBgColor('#FFFFFF');
     setTextColor('#1A1A2E');
     setAccentColor('#E879A0');
@@ -71,11 +87,27 @@ export default function Appearance() {
     updateTheme(def);
   };
 
+  const BLUR_PRESETS = [
+    { label: '0px (Crisp)', val: 0 },
+    { label: '4px (Soft)', val: 4 },
+    { label: '8px (Balanced)', val: 8 },
+    { label: '16px (Heavy)', val: 16 },
+    { label: '24px (Ultra)', val: 24 }
+  ];
+
+  const OPACITY_PRESETS = [
+    { label: '0% (Fully Clear)', val: 0 },
+    { label: '30% (Light Glass)', val: 30 },
+    { label: '60% (Balanced)', val: 60 },
+    { label: '85% (Solid Glass)', val: 85 },
+    { label: '100% (Solid White)', val: 100 }
+  ];
+
   return (
     <div className="space-y-6">
       <SectionHeader
         title="Aesthetic Theme & UI Customization"
-        description="Upload custom wallpaper background, customize font colors, font families, and accent colors."
+        description="Upload custom wallpaper background, customize font colors, blur intensity, card transparency, and accent themes."
       />
 
       {savedMessage && (
@@ -116,20 +148,120 @@ export default function Appearance() {
                 className="modal-input font-semibold"
                 placeholder="https://images.unsplash.com/..."
                 value={wallpaperUrl}
-                onChange={(e) => setWallpaperUrl(e.target.value)}
+                onChange={(e) => {
+                  setWallpaperUrl(e.target.value);
+                  updateTheme({ bg_wallpaper: e.target.value, wallpaper_blur: Number(wallpaperBlur), card_opacity: Number(cardOpacity) });
+                }}
               />
+            </div>
+          </div>
+
+          {/* Wallpaper Blur Intensity Control */}
+          <div className="mt-4 pt-4 border-t border-slate-200/60">
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-800">
+                Wallpaper Blur Intensity: <span className="text-pink-600 font-extrabold">{wallpaperBlur}px</span>
+              </label>
+              <div className="flex items-center gap-1">
+                {BLUR_PRESETS.map((p) => (
+                  <button
+                    key={p.val}
+                    type="button"
+                    onClick={() => {
+                      setWallpaperBlur(p.val);
+                      updateTheme({ wallpaper_blur: p.val });
+                    }}
+                    className={`px-2 py-0.5 text-[11px] font-bold rounded-sm border cursor-pointer transition-colors ${
+                      Number(wallpaperBlur) === p.val
+                        ? 'bg-pink-500 text-white border-pink-500'
+                        : 'bg-white/80 text-slate-700 border-slate-300 hover:bg-pink-50'
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-bold text-slate-500">0px</span>
+              <input
+                type="range"
+                min={0}
+                max={30}
+                step={1}
+                value={wallpaperBlur}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  setWallpaperBlur(val);
+                  updateTheme({ wallpaper_blur: val });
+                }}
+                className="flex-1 accent-pink-500 cursor-pointer"
+              />
+              <span className="text-xs font-bold text-slate-500">30px</span>
+            </div>
+          </div>
+
+          {/* Component Card Transparency Control */}
+          <div className="mt-4 pt-4 border-t border-slate-200/60">
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-800">
+                Component Card Opacity / Transparency: <span className="text-pink-600 font-extrabold">{cardOpacity}% Solid ({100 - cardOpacity}% Translucent)</span>
+              </label>
+              <div className="flex items-center gap-1 overflow-x-auto">
+                {OPACITY_PRESETS.map((p) => (
+                  <button
+                    key={p.val}
+                    type="button"
+                    onClick={() => {
+                      setCardOpacity(p.val);
+                      updateTheme({ card_opacity: p.val });
+                    }}
+                    className={`px-2 py-0.5 text-[10px] font-bold rounded-sm border cursor-pointer transition-colors whitespace-nowrap ${
+                      Number(cardOpacity) === p.val
+                        ? 'bg-pink-500 text-white border-pink-500'
+                        : 'bg-white/80 text-slate-700 border-slate-300 hover:bg-pink-50'
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-bold text-slate-500">0% (Clear)</span>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={5}
+                value={cardOpacity}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  setCardOpacity(val);
+                  updateTheme({ card_opacity: val });
+                }}
+                className="flex-1 accent-pink-500 cursor-pointer"
+              />
+              <span className="text-xs font-bold text-slate-500">100% (Opaque)</span>
             </div>
           </div>
 
           {wallpaperUrl && (
             <div className="mt-3 relative h-32 border border-slate-300 rounded-sm overflow-hidden bg-cover bg-center shadow-xs" style={{ backgroundImage: `url("${wallpaperUrl}")` }}>
-              <button
-                type="button"
-                onClick={() => { setWallpaperUrl(''); updateTheme({ bg_wallpaper: '' }); }}
-                className="absolute top-2 right-2 btn-danger text-[10px] py-0.5 px-2"
-              >
-                Remove Wallpaper
-              </button>
+              <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-xs flex items-center justify-between px-4 text-white">
+                <span className="text-xs font-bold drop-shadow-md">
+                  Wallpaper Preview (Active Blur: {wallpaperBlur}px)
+                </span>
+                <button
+                  type="button"
+                  onClick={() => { setWallpaperUrl(''); updateTheme({ bg_wallpaper: '' }); }}
+                  className="btn-danger text-[10px] py-0.5 px-2"
+                >
+                  Remove Wallpaper
+                </button>
+              </div>
             </div>
           )}
         </div>
