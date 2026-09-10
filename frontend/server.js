@@ -442,8 +442,15 @@ app.post('/api/theme', requireAuth, async (req, res) => {
 // Start local listener only when not running in Vercel Serverless environment
 if (process.env.VERCEL !== '1' && !process.env.VERCEL_ENV) {
   const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`Backend Express server running on port ${PORT}`);
+  });
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.warn(`[Port Notice] Port ${PORT} is already active/in use. Reusing existing running backend.`);
+    } else {
+      console.error('Server error:', err);
+    }
   });
 }
 
