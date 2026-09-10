@@ -110,7 +110,7 @@ function MainAppContent() {
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
           <ActiveView tab={planner.activeTab} />
         </main>
-        <footer className="py-4 text-center text-xs font-semibold text-slate-500 border-t border-pink-200/50 bg-white/60 backdrop-blur-md">
+        <footer className="py-4 text-center text-xs font-semibold text-slate-500 bg-white/60 backdrop-blur-md">
           Bezawit's 2027 Planner OS · Connected to TiDB Cloud Serverless Database
         </footer>
       </div>

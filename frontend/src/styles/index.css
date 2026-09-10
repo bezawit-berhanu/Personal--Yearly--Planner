@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  *, ::before, ::after {
+    border-style: none !important;
+    border-width: 0 !important;
+    outline: none !important;
+  }
+
   body {
     @apply bg-white text-slate-900 font-sans antialiased selection:bg-pink-200 selection:text-pink-900 min-h-screen;
     background-color: var(--theme-bg-color, #FFFFFF);

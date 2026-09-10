@@ -171,11 +171,11 @@ export default function EditableTable({ config, items, dataKey }) {
   const fieldMap    = Object.fromEntries((config.fields || []).map((f) => [f.key, f]));
 
   return (
-    <div className="glass-table rounded-sm shadow-sm overflow-hidden">
+    <div className="glass-table rounded-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left min-w-max border-collapse">
           <thead>
-            <tr className="bg-slate-100/90 border-b border-slate-200">
+            <tr className="bg-slate-100/90">
               {tableFields.map((fk) => (
                 <th key={fk} className="px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-800 whitespace-nowrap">
                   {fieldMap[fk]?.label ?? fk}
@@ -186,7 +186,7 @@ export default function EditableTable({ config, items, dataKey }) {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200/60">
+          <tbody>
             {items.length === 0 ? (
               <tr>
                 <td colSpan={tableFields.length + 1} className="px-6 py-12 text-center text-slate-500 font-medium italic text-xs">

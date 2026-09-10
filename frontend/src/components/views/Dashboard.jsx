@@ -71,55 +71,56 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="space-y-6 animate-fadeIn">
-      {/* Welcome Banner */}
-      <div className="glass-card p-6 rounded-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="space-y-10 animate-fadeIn">
+      
+      {/* Editorial Welcome Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 pb-6 border-b border-pink-100/50">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-pink-700 bg-pink-50/90 border border-pink-200 px-2 py-0.5 rounded-sm">
-            Full-Stack TiDB System
+          <span className="text-[10px] font-bold uppercase tracking-widest text-pink-700 bg-pink-50 px-2.5 py-1 rounded-full">
+            Bezawit's 2027 Planner OS
           </span>
-          <h2 className="font-serif text-2xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+          <h1 className="font-serif text-3xl md:text-4xl font-bold text-slate-900 mt-2 flex items-center gap-2">
             Welcome back, {user?.name || 'Bezawit'}
-            <Sparkles className="w-5 h-5 text-amber-500" />
-          </h2>
-          <p className="text-xs font-semibold text-slate-700 mt-0.5">
-            Log anything quickly below or navigate to any section. All data is backed up to your TiDB database.
+            <Sparkles className="w-6 h-6 text-amber-500" />
+          </h1>
+          <p className="text-xs font-semibold text-slate-500 mt-1">
+            Connected to TiDB Cloud Serverless · Instant sync across all 52 planner views
           </p>
         </div>
-        <div className="flex gap-2 shrink-0">
-          <button onClick={() => navigateTo('files')} className="btn-secondary text-xs">
-            <Upload className="w-3.5 h-3.5" /> Upload Files / Scans
+        <div className="flex items-center gap-2 shrink-0">
+          <button onClick={() => navigateTo('files')} className="btn-secondary rounded-full px-4 py-2 text-xs">
+            <Upload className="w-3.5 h-3.5" /> Upload Files
           </button>
-          <button onClick={() => navigateTo('appearance')} className="btn-primary text-xs">
-            <Palette className="w-3.5 h-3.5" /> Change Theme
+          <button onClick={() => navigateTo('appearance')} className="btn-primary rounded-full px-4 py-2 text-xs">
+            <Palette className="w-3.5 h-3.5" /> Theme Settings
           </button>
         </div>
       </div>
 
-      {/* QUICK LOG ANYTHING SECTION */}
-      <div className="glass-card p-5 rounded-sm">
-        <div className="flex items-center gap-2 mb-3">
+      {/* QUICK LOG ANYTHING SECTION - OPEN EDITORIAL STYLE */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-pink-600" />
-          <h3 className="font-serif text-base font-bold text-slate-900">Quick Log Anything</h3>
-          <span className="text-xs font-semibold text-slate-600">— Log thoughts, expenses, tasks, or notes & categorize instantly</span>
+          <h3 className="font-serif text-lg font-bold text-slate-900">Quick Log Anything</h3>
+          <span className="text-xs text-slate-500 font-medium">— Capture thoughts, tasks, or entries instantly</span>
         </div>
 
         <form onSubmit={handleAddLog} className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
-            className="modal-input flex-1 font-semibold"
-            placeholder="Type anything to log (e.g., 'Paid $45 for Internet', 'Completed 3km run', 'Idea for Substack')..."
+            className="modal-input flex-1 font-semibold text-sm py-2.5"
+            placeholder="Type anything to log (e.g., 'Paid $45 for Internet', 'Idea for Substack')..."
             value={logContent}
-            onChange={(e) => setLogContent(e.target.value)}
+            onChange={(e) => setSearchContent ? setLogContent(e.target.value) : setLogContent(e.target.value)}
           />
           <select
-            className="modal-select sm:w-56 font-semibold"
+            className="modal-select sm:w-56 font-semibold text-xs py-2.5"
             value={logCategory}
             onChange={(e) => setLogCategory(e.target.value)}
           >
             {allCategoryOptions.map((opt) => (
               <option key={opt.id} value={opt.id}>
-                Categorize to: {opt.label}
+                Category: {opt.label}
               </option>
             ))}
           </select>
@@ -127,35 +128,35 @@ export default function Dashboard() {
           <button
             type="submit"
             disabled={logging || !logContent.trim()}
-            className="btn-primary text-xs whitespace-nowrap justify-center"
+            className="btn-primary rounded-full px-5 py-2.5 text-xs whitespace-nowrap justify-center"
           >
             <Send className="w-3.5 h-3.5" />
             Log Entry
           </button>
         </form>
 
-        {/* Quick Log History */}
+        {/* Quick Log History - Open Row List */}
         {Array.isArray(quickLogs) && quickLogs.length > 0 && (
-          <div className="mt-4 pt-4 border-t border-slate-200/80 space-y-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 block mb-2">
-              Recent Log History ({quickLogs.length})
+          <div className="pt-2 space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 block mb-1">
+              Recent Log Entries ({quickLogs.length})
             </span>
-            <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1">
+            <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
               {quickLogs.map((log) => {
                 const targetNav = allCategoryOptions.find(o => o.id === log.category);
                 return (
                   <div
                     key={log.id}
-                    className="flex items-center justify-between bg-white/70 backdrop-blur-xs border border-slate-200 px-3 py-2 text-xs rounded-sm group hover:border-pink-400 transition-colors"
+                    className="flex items-center justify-between py-2 px-3 hover:bg-pink-50/40 rounded-sm transition-colors group"
                   >
-                    <div className="flex items-center gap-2 min-w-0 pr-2">
-                      <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                      <span className="text-slate-900 font-bold truncate">{safeString(log.content)}</span>
+                    <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                      <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span className="text-slate-900 text-xs font-semibold truncate">{safeString(log.content)}</span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => navigateTo(log.category)}
-                        className="badge badge-pink hover:bg-pink-100 cursor-pointer flex items-center gap-1"
+                        className="text-[11px] font-bold text-pink-600 hover:text-pink-700 flex items-center gap-1 cursor-pointer"
                       >
                         <span>{targetNav ? targetNav.label : safeString(log.category)}</span>
                         <ArrowRight className="w-3 h-3" />
@@ -176,20 +177,21 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Quick Navigation Cards */}
-      <div>
-        <h3 className="font-serif text-base font-bold text-slate-900 mb-3">Planner Shortcuts</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      {/* Quick Navigation Shortcuts - Open Editorial Row */}
+      <div className="pt-4 border-t border-pink-100/50">
+        <h3 className="font-serif text-lg font-bold text-slate-900 mb-4">Planner Shortcuts</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {shortcutCards.map(({ id, Icon, label, color }) => (
             <button
               key={id}
               onClick={() => navigateTo(id)}
-              className="glass-card p-4 text-left rounded-sm hover:border-pink-400 hover:bg-white/95 transition-all cursor-pointer group"
+              className="py-3 px-3 text-left transition-all cursor-pointer group hover:bg-pink-50/50 rounded-sm"
             >
               <div className="mb-2">
-                <Icon className={`w-6 h-6 ${color} transition-transform group-hover:scale-110`} />
+                <Icon className={`w-5 h-5 ${color} transition-transform group-hover:scale-110`} />
               </div>
               <div className="text-xs font-bold text-slate-900">{label}</div>
+              <div className="text-[10px] text-slate-500 font-medium mt-0.5">Jump to section →</div>
             </button>
           ))}
         </div>

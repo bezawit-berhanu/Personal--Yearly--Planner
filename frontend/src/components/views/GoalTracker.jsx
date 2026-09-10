@@ -46,20 +46,20 @@ export default function GoalTracker() {
         <StatCard label="Avg Progress"  value={`${avgProgress}%`} color="blue" />
       </div>
 
-      {/* Goal cards */}
-      <div className="space-y-4">
+      {/* Goal Items — Open Editorial Rows */}
+      <div className="space-y-8">
         {goals.map((goal) => (
-          <div key={goal.id} className={`glass-card border-l-4 ${priorityColor(goal.priority)} rounded-sm p-5 shadow-sm group`}>
-            <div className="flex items-start justify-between gap-4 mb-3">
+          <div key={goal.id} className="pb-6 border-b border-pink-100/50 group space-y-3">
+            <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <input
-                  className="cell-input font-bold text-slate-900 text-base w-full"
+                  className="cell-input font-serif font-bold text-slate-900 text-lg md:text-xl w-full p-0"
                   value={goal.title || ''}
                   onChange={(e) => updateField('goals', goal.id, 'title', e.target.value)}
                   placeholder="Goal title..."
                 />
                 {goal.why && (
-                  <p className="text-xs font-semibold text-slate-700 mt-1 px-2 italic truncate">Why: {goal.why}</p>
+                  <p className="text-xs text-slate-500 font-medium mt-1 italic">Why: {goal.why}</p>
                 )}
               </div>
               <div className="flex items-center gap-2 shrink-0">
@@ -71,15 +71,15 @@ export default function GoalTracker() {
             </div>
 
             {/* Progress bar */}
-            <div className="mb-3">
-              <div className="flex items-center justify-between text-xs text-slate-700 font-bold mb-1">
-                <span>Progress</span>
+            <div>
+              <div className="flex items-center justify-between text-xs text-slate-600 font-bold mb-1">
+                <span className="text-[10px] uppercase tracking-widest text-slate-500">Progress</span>
                 <span className="font-bold text-slate-900">{goal.progress || 0}%</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex-1 bg-slate-200/90 rounded-sm h-3 overflow-hidden">
+                <div className="flex-1 bg-pink-100/40 h-2 rounded-full overflow-hidden">
                   <div
-                    className="h-full rounded-sm bg-pink-500 transition-all duration-300"
+                    className="h-full rounded-full bg-pink-500 transition-all duration-300"
                     style={{ width: `${goal.progress || 0}%` }}
                   />
                 </div>
@@ -94,39 +94,39 @@ export default function GoalTracker() {
             </div>
 
             {/* Meta row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs pt-1">
               <label className="flex flex-col gap-0.5">
-                <span className="text-slate-600 uppercase tracking-wide font-bold text-[10px]">Category</span>
-                <select className="cell-select text-xs font-semibold text-slate-900" value={goal.category||''} onChange={e=>updateField('goals',goal.id,'category',e.target.value)}>
+                <span className="text-slate-400 uppercase tracking-widest font-bold text-[9px]">Category</span>
+                <select className="cell-select text-xs font-bold text-slate-800 p-0" value={goal.category||''} onChange={e=>updateField('goals',goal.id,'category',e.target.value)}>
                   <option value="">—</option>
                   {['Career & Business','Health & Wellness','Finance','Learning','Relationships','Personal Growth','Creativity'].map(o=><option key={o}>{o}</option>)}
                 </select>
               </label>
               <label className="flex flex-col gap-0.5">
-                <span className="text-slate-600 uppercase tracking-wide font-bold text-[10px]">Priority</span>
-                <select className="cell-select text-xs font-semibold text-slate-900" value={goal.priority||''} onChange={e=>updateField('goals',goal.id,'priority',e.target.value)}>
+                <span className="text-slate-400 uppercase tracking-widest font-bold text-[9px]">Priority</span>
+                <select className="cell-select text-xs font-bold text-slate-800 p-0" value={goal.priority||''} onChange={e=>updateField('goals',goal.id,'priority',e.target.value)}>
                   {['High','Medium','Low'].map(o=><option key={o}>{o}</option>)}
                 </select>
               </label>
               <label className="flex flex-col gap-0.5">
-                <span className="text-slate-600 uppercase tracking-wide font-bold text-[10px]">Status</span>
-                <select className="cell-select text-xs font-semibold text-slate-900" value={goal.status||''} onChange={e=>updateField('goals',goal.id,'status',e.target.value)}>
+                <span className="text-slate-400 uppercase tracking-widest font-bold text-[9px]">Status</span>
+                <select className="cell-select text-xs font-bold text-slate-800 p-0" value={goal.status||''} onChange={e=>updateField('goals',goal.id,'status',e.target.value)}>
                   {['Not Started','In Progress','Completed','On Hold','Abandoned'].map(o=><option key={o}>{o}</option>)}
                 </select>
               </label>
               <label className="flex flex-col gap-0.5">
-                <span className="text-slate-600 uppercase tracking-wide font-bold text-[10px]">Deadline</span>
-                <input type="date" className="cell-input text-xs font-semibold text-slate-900" value={goal.deadline||''} onChange={e=>updateField('goals',goal.id,'deadline',e.target.value)} />
+                <span className="text-slate-400 uppercase tracking-widest font-bold text-[9px]">Deadline</span>
+                <input type="date" className="cell-input text-xs font-bold text-slate-800 p-0" value={goal.deadline||''} onChange={e=>updateField('goals',goal.id,'deadline',e.target.value)} />
               </label>
             </div>
 
             {/* Next action */}
-            <div className="mt-3">
-              <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-600">
+            <div className="pt-1">
+              <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                 Next Action <ArrowRight className="w-3 h-3" />
               </span>
               <input
-                className="cell-input text-xs font-semibold text-slate-900 mt-0.5"
+                className="cell-input text-xs font-semibold text-slate-800 p-0 mt-0.5"
                 value={goal.next || ''}
                 onChange={(e) => updateField('goals', goal.id, 'next', e.target.value)}
                 placeholder="What is your next step?"
@@ -136,8 +136,8 @@ export default function GoalTracker() {
         ))}
 
         {goals.length === 0 && (
-          <div className="text-center py-14 text-slate-500 font-medium italic text-sm glass-card rounded-sm">
-            No goals yet — click <strong>Add Entry</strong> to set your first goal.
+          <div className="text-center py-14 text-slate-400 font-medium italic text-sm">
+            No goals recorded yet — click <strong>Add Entry</strong> to set your first goal.
           </div>
         )}
       </div>

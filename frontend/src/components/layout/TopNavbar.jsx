@@ -77,7 +77,7 @@ export default function TopNavbar() {
   const activeCategory = NAV_GROUPS.find(g => g.items.some(i => i.id === db.activeTab));
 
   return (
-    <header className="sticky top-0 z-[10000] bg-white/90 backdrop-blur-md border-b border-pink-200/90 shadow-sm">
+    <header className="sticky top-0 z-[10000] bg-white/90 backdrop-blur-md shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 gap-3">
 
@@ -87,7 +87,7 @@ export default function TopNavbar() {
               onClick={() => navigateTo('dashboard')}
               className="flex items-center gap-2.5 text-left focus:outline-none cursor-pointer group"
             >
-              <div className="w-9 h-9 bg-pink-100/90 border border-pink-300 text-pink-700 flex items-center justify-center rounded-sm group-hover:bg-pink-200 transition-colors shadow-xs">
+              <div className="w-9 h-9 bg-pink-100/90 text-pink-700 flex items-center justify-center rounded-sm group-hover:bg-pink-200 transition-colors shadow-xs">
                 <Sparkles className="w-5 h-5 text-pink-600" />
               </div>
               <div>
@@ -122,8 +122,8 @@ export default function TopNavbar() {
                 onClick={() => setMegaMenuOpen(!megaMenuOpen)}
                 className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-sm transition-all cursor-pointer shadow-sm ${
                   megaMenuOpen || (activeCategory && db.activeTab !== 'dashboard')
-                    ? 'bg-pink-500 text-white border border-pink-500'
-                    : 'bg-white/85 text-slate-800 border border-slate-300 hover:border-pink-400 hover:bg-pink-50'
+                    ? 'bg-pink-500 text-white'
+                    : 'bg-white/85 text-slate-800 hover:bg-pink-50'
                 }`}
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -136,10 +136,10 @@ export default function TopNavbar() {
 
               {/* SINGLE UNIFIED MEGA DROPDOWN POPUP */}
               {megaMenuOpen && (
-                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[92vw] max-w-5xl glass-modal border border-pink-200 shadow-2xl rounded-sm p-5 z-[10000] animate-fadeIn max-h-[85vh] flex flex-col">
+                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[92vw] max-w-5xl glass-modal shadow-2xl rounded-sm p-5 z-[10000] animate-fadeIn max-h-[85vh] flex flex-col">
                   
                   {/* Top Bar: Title & Search */}
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3 pb-3 border-b border-pink-100">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3 pb-3">
                     <div>
                       <h3 className="font-serif text-sm font-bold text-slate-900 flex items-center gap-2">
                         <span>All {TOTAL_SECTIONS} Planner Sections</span>
@@ -175,7 +175,7 @@ export default function TopNavbar() {
                   </div>
 
                   {/* Category Filter Pills Bar */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-3 scrollbar-none border-b border-slate-100 shrink-0">
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-3 scrollbar-none shrink-0">
                     <button
                       onClick={() => setSelectedCategory('ALL')}
                       className={`px-2.5 py-1 text-[11px] font-bold rounded-sm transition-colors shrink-0 cursor-pointer ${
@@ -211,12 +211,12 @@ export default function TopNavbar() {
                   {/* Multi-Column Responsive Grid of All Categories */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto pr-1 flex-1 max-h-[60vh]">
                     {filteredGroups.map((group) => (
-                      <div key={group.label} className="bg-white/40 border border-pink-100/70 rounded-sm p-2.5 space-y-1.5 flex flex-col justify-start">
-                        <div className="flex items-center justify-between bg-pink-50/90 px-2 py-1 rounded-sm border-l-2 border-pink-500">
+                      <div key={group.label} className="bg-white/40 rounded-sm p-2.5 space-y-1.5 flex flex-col justify-start">
+                        <div className="flex items-center justify-between bg-pink-50/90 px-2 py-1 rounded-sm">
                           <h4 className="text-[11px] font-bold uppercase tracking-wider text-pink-700 truncate">
                             {group.label}
                           </h4>
-                          <span className="text-[10px] font-extrabold text-pink-600 bg-white/80 px-1.5 py-0.2 rounded-full border border-pink-200 shrink-0">
+                          <span className="text-[10px] font-extrabold text-pink-600 bg-white/80 px-1.5 py-0.2 rounded-full shrink-0">
                             {group.items.length}
                           </span>
                         </div>
@@ -252,7 +252,7 @@ export default function TopNavbar() {
                   </div>
 
                   {/* Footer info bar */}
-                  <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-semibold shrink-0">
+                  <div className="mt-3 pt-2.5 flex items-center justify-between text-[11px] text-slate-500 font-semibold shrink-0">
                     <span>Bezawit's Planner OS · Showing all {TOTAL_SECTIONS} active sections</span>
                     <button
                       onClick={() => { navigateTo('appearance'); setMegaMenuOpen(false); }}
@@ -281,8 +281,8 @@ export default function TopNavbar() {
               </button>
 
               {themeMenuOpen && (
-                <div className="absolute right-0 mt-2 w-64 glass-modal border border-pink-200 shadow-2xl rounded-sm py-2 z-[10000] animate-fadeIn">
-                  <div className="px-3 py-1 font-bold text-[10px] uppercase tracking-widest text-pink-700 border-b border-pink-100 mb-1">
+                <div className="absolute right-0 mt-2 w-64 glass-modal shadow-2xl rounded-sm py-2 z-[10000] animate-fadeIn">
+                  <div className="px-3 py-1 font-bold text-[10px] uppercase tracking-widest text-pink-700 mb-1">
                     Select Preset Theme
                   </div>
                   {THEME_PRESETS.map((preset) => (
@@ -301,14 +301,14 @@ export default function TopNavbar() {
                     >
                       <span>{preset.label}</span>
                       <div
-                        className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0"
+                        className="w-3.5 h-3.5 rounded-full shrink-0"
                         style={{ backgroundColor: preset.bg === 'transparent' ? '#E879A0' : preset.bg }}
                       />
                     </button>
                   ))}
 
                   {/* Wallpaper Blur Quick Toggle */}
-                  <div className="border-t border-slate-200/60 mt-1 pt-2 px-3">
+                  <div className="mt-1 pt-2 px-3">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-pink-700 mb-1 flex items-center justify-between">
                       <span>Wallpaper Blur</span>
                       <span className="font-extrabold text-pink-600">
@@ -327,10 +327,10 @@ export default function TopNavbar() {
                           <button
                             key={b.val}
                             onClick={() => updateTheme({ wallpaper_blur: b.val })}
-                            className={`py-0.5 text-[10px] font-bold rounded-sm border cursor-pointer transition-colors text-center ${
+                            className={`py-0.5 text-[10px] font-bold rounded-sm cursor-pointer transition-colors text-center ${
                               active
-                                ? 'bg-pink-500 text-white border-pink-500'
-                                : 'bg-white/70 text-slate-700 border-slate-300 hover:bg-pink-50'
+                                ? 'bg-pink-500 text-white'
+                                : 'bg-white/70 text-slate-700 hover:bg-pink-50'
                             }`}
                           >
                             {b.label}
@@ -360,10 +360,10 @@ export default function TopNavbar() {
                           <button
                             key={o.val}
                             onClick={() => updateTheme({ card_opacity: o.val })}
-                            className={`py-0.5 text-[9px] font-bold rounded-sm border cursor-pointer transition-colors text-center ${
+                            className={`py-0.5 text-[9px] font-bold rounded-sm cursor-pointer transition-colors text-center ${
                               active
-                                ? 'bg-pink-500 text-white border-pink-500'
-                                : 'bg-white/70 text-slate-700 border-slate-300 hover:bg-pink-50'
+                                ? 'bg-pink-500 text-white'
+                                : 'bg-white/70 text-slate-700 hover:bg-pink-50'
                             }`}
                           >
                             {o.label}
@@ -373,7 +373,7 @@ export default function TopNavbar() {
                     </div>
                   </div>
 
-                  <div className="border-t border-slate-200/60 mt-2 pt-1.5 px-3">
+                  <div className="mt-2 pt-1.5 px-3">
                     <button
                       onClick={() => { navigateTo('appearance'); setThemeMenuOpen(false); }}
                       className="w-full text-center text-[11px] font-bold text-pink-600 hover:underline py-1 cursor-pointer"
@@ -386,7 +386,7 @@ export default function TopNavbar() {
             </div>
 
             {user && (
-              <div className="hidden sm:flex items-center gap-2 border-l border-slate-300 pl-3">
+              <div className="hidden sm:flex items-center gap-2 pl-3">
                 <div className="w-8 h-8 bg-pink-500 text-white flex items-center justify-center font-bold text-xs rounded-sm shadow-xs">
                   {user.name ? user.name.charAt(0).toUpperCase() : 'B'}
                 </div>
@@ -416,9 +416,9 @@ export default function TopNavbar() {
 
       {/* Mobile Drawer Menu with Full Search & All 52 Sections */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-b border-pink-200 px-4 py-4 max-h-[85vh] overflow-y-auto space-y-4 shadow-2xl">
+        <div className="lg:hidden bg-white/95 backdrop-blur-xl px-4 py-4 max-h-[85vh] overflow-y-auto space-y-4 shadow-2xl">
           {user && (
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 text-xs font-bold">
+            <div className="flex items-center justify-between pb-3 text-xs font-bold">
               <span className="text-slate-800 flex items-center gap-2">
                 <User className="w-4 h-4 text-pink-600" /> Signed in as {user.name}
               </span>
@@ -442,7 +442,7 @@ export default function TopNavbar() {
 
           {filteredGroups.map((group) => (
             <div key={group.label} className="space-y-1.5">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-pink-700 px-1 border-b border-pink-100 pb-1 flex items-center justify-between">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-pink-700 px-1 pb-1 flex items-center justify-between">
                 <span>{group.label}</span>
                 <span className="bg-pink-100 text-pink-600 text-[10px] px-1.5 py-0.2 rounded-full font-extrabold">
                   {group.items.length}
