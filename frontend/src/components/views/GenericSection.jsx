@@ -26,7 +26,6 @@ export default function GenericSection({ sectionId }) {
     <div className="space-y-6 animate-fadeIn">
       <SectionHeader
         title={config.title}
-        description="Every field is fully editable — click any cell to edit. Changes save automatically."
         onAdd={() => setModal(true)}
       />
 

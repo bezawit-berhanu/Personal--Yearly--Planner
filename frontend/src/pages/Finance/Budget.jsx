@@ -130,7 +130,7 @@ export default function Budget() {
       <div className="rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50 overflow-hidden">
         <div className="px-4 py-3 bg-pink-50/50 border-b border-pink-100/60 flex items-center justify-between">
           <h4 className="font-serif text-sm font-bold text-slate-900">
-            Budget Table — {selectedMonth} ({entries.length} items)
+            Budget Table — {selectedMonth}
           </h4>
           <span className={`text-xs font-bold ${netRemaining >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
             Unallocated / Net Balance: ${netRemaining.toLocaleString()}
@@ -214,7 +214,12 @@ export default function Budget() {
       {showModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white/95 backdrop-blur-md border border-pink-200 p-6 rounded-sm max-w-md w-full shadow-xl space-y-4">
-            <h3 className="font-serif text-lg font-bold text-slate-900">Add Budget Entry</h3>
+            <div className="flex items-center justify-between pb-2 border-b border-pink-100">
+              <h3 className="font-serif text-lg font-bold text-slate-900">Add Budget Entry</h3>
+              <button type="button" onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer">
+                <span className="text-sm font-bold text-slate-500 hover:text-slate-800">✕</span>
+              </button>
+            </div>
 
             <form onSubmit={handleAddEntry} className="space-y-3 text-xs">
               <div>

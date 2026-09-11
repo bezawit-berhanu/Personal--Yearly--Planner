@@ -111,7 +111,7 @@ function MainAppContent() {
           <ActiveView tab={planner.activeTab} />
         </main>
         <footer className="py-4 text-center text-xs font-semibold text-slate-500 bg-white/60 backdrop-blur-md">
-          {user?.name ? `${user.name}'s` : 'Personal'} 2027 Planner OS · Connected to TiDB Cloud Serverless Database
+          {user?.name ? `${user.name}'s` : 'Personal'} 2027 Planner OS
         </footer>
       </div>
     </PlannerContext.Provider>

@@ -5,8 +5,10 @@ export default function ConfirmDeleteModal({
   title = 'Delete Entry',
   message = 'Are you sure you want to delete this entry? This action cannot be undone.',
   onConfirm,
-  onCancel
+  onCancel,
+  onClose
 }) {
+  const handleClose = onCancel || onClose || (() => {});
   if (!isOpen) return null;
 
   return (
@@ -20,7 +22,7 @@ export default function ConfirmDeleteModal({
             <h3 className="font-serif text-lg font-bold text-slate-900 leading-tight">{title}</h3>
           </div>
           <button
-            onClick={onCancel}
+            onClick={handleClose}
             className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
           >
             <X className="w-4 h-4" />
@@ -33,7 +35,7 @@ export default function ConfirmDeleteModal({
 
         <div className="flex items-center justify-end gap-2 pt-2 border-t border-pink-100/50">
           <button
-            onClick={onCancel}
+            onClick={handleClose}
             className="btn-secondary text-xs px-4 py-2 rounded-full cursor-pointer"
           >
             Cancel

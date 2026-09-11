@@ -127,10 +127,7 @@ export default function TopNavbar() {
                 }`}
               >
                 <LayoutGrid className="w-4 h-4" />
-                <span>All {TOTAL_SECTIONS} Sections</span>
-                <span className="bg-pink-100 text-pink-700 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">
-                  {TOTAL_SECTIONS}
-                </span>
+                <span>Planner Sections</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${megaMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -142,10 +139,7 @@ export default function TopNavbar() {
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3 pb-3">
                     <div>
                       <h3 className="font-serif text-sm font-bold text-slate-900 flex items-center gap-2">
-                        <span>All {TOTAL_SECTIONS} Planner Sections</span>
-                        <span className="text-[11px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">
-                          {totalFilteredItems} Visible
-                        </span>
+                        <span>Planner Sections</span>
                       </h3>
                       <p className="text-[11px] text-slate-500 font-semibold">
                         Click any section below to jump directly to your view
@@ -157,7 +151,7 @@ export default function TopNavbar() {
                       <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                       <input
                         type="text"
-                        placeholder={`Search all ${TOTAL_SECTIONS} sections (e.g. 'Cashflow', 'Notes', 'Journal')...`}
+                        placeholder="Search planner sections (e.g. 'Cashflow', 'Notes', 'Journal')..."
                         value={searchFilter}
                         onChange={(e) => setSearchFilter(e.target.value)}
                         className="modal-input pl-9 text-xs font-semibold w-full"
@@ -174,40 +168,6 @@ export default function TopNavbar() {
                     </div>
                   </div>
 
-                  {/* Category Filter Pills Bar */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-2.5 mb-3 scrollbar-none shrink-0">
-                    <button
-                      onClick={() => setSelectedCategory('ALL')}
-                      className={`px-2.5 py-1 text-[11px] font-bold rounded-sm transition-colors shrink-0 cursor-pointer ${
-                        selectedCategory === 'ALL'
-                          ? 'bg-pink-500 text-white shadow-xs'
-                          : 'bg-slate-100 text-slate-700 hover:bg-pink-50 hover:text-pink-700'
-                      }`}
-                    >
-                      All Categories ({TOTAL_SECTIONS})
-                    </button>
-                    {NAV_GROUPS.map((group) => {
-                      const count = group.items.length;
-                      const isSelected = selectedCategory === group.label;
-                      return (
-                        <button
-                          key={group.label}
-                          onClick={() => setSelectedCategory(group.label)}
-                          className={`px-2.5 py-1 text-[11px] font-bold rounded-sm transition-colors shrink-0 cursor-pointer flex items-center gap-1.5 ${
-                            isSelected
-                              ? 'bg-pink-500 text-white shadow-xs'
-                              : 'bg-slate-100 text-slate-700 hover:bg-pink-50 hover:text-pink-700'
-                          }`}
-                        >
-                          <span>{group.label}</span>
-                          <span className={`text-[9px] px-1 rounded-full ${isSelected ? 'bg-pink-700 text-white' : 'bg-slate-200 text-slate-600'}`}>
-                            {count}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
                   {/* Multi-Column Responsive Grid of All Categories */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto pr-1 flex-1 max-h-[60vh]">
                     {filteredGroups.map((group) => (
@@ -216,9 +176,6 @@ export default function TopNavbar() {
                           <h4 className="text-[11px] font-bold uppercase tracking-wider text-pink-700 truncate">
                             {group.label}
                           </h4>
-                          <span className="text-[10px] font-extrabold text-pink-600 bg-white/80 px-1.5 py-0.2 rounded-full shrink-0">
-                            {group.items.length}
-                          </span>
                         </div>
                         <div className="space-y-0.5">
                           {group.items.map((item) => {
@@ -253,7 +210,7 @@ export default function TopNavbar() {
 
                   {/* Footer info bar */}
                   <div className="mt-3 pt-2.5 flex items-center justify-between text-[11px] text-slate-500 font-semibold shrink-0">
-                    <span>{user?.name ? `${user.name}'s` : 'Personal'} Planner OS · Showing all {TOTAL_SECTIONS} active sections</span>
+                    <span>{user?.name ? `${user.name}'s` : 'Personal'} Planner OS</span>
                     <button
                       onClick={() => { navigateTo('appearance'); setMegaMenuOpen(false); }}
                       className="text-pink-600 font-bold hover:underline"

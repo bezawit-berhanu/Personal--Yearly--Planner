@@ -113,7 +113,7 @@ export default function Dashboard() {
             <Sparkles className="w-6 h-6 text-amber-500" />
           </h1>
           <p className="text-xs font-semibold text-slate-500 mt-1">
-            Connected to TiDB Cloud Serverless · Instant sync across all 52 planner views
+            Instant sync across all planner views
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -168,7 +168,7 @@ export default function Dashboard() {
         {Array.isArray(quickLogs) && quickLogs.length > 0 && (
           <div className="pt-2 space-y-2">
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 block mb-1">
-              Recent Log Entries ({quickLogs.length})
+              Recent Log Entries
             </span>
             <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
               {quickLogs.map((log) => {

@@ -92,8 +92,8 @@ export default function HabitTracker() {
         description="Build consistency with weekly refreshable tracking, customizable target days (e.g. 100 to 1000 days), and dynamic streak math."
         onAdd={() => setModal(true)}
       >
-        <button onClick={() => setShowReportsModal(true)} className="btn-secondary rounded-full px-4 py-2 text-xs">
-          <Award className="w-3.5 h-3.5 text-amber-500" /> Past Reports ({reports.length})
+        <button onClick={() => setShowReportsModal(true)} className="btn-secondary rounded-full px-4 py-2 text-xs cursor-pointer">
+          <Award className="w-3.5 h-3.5 text-amber-500" /> Past Reports
         </button>
       </SectionHeader>
 

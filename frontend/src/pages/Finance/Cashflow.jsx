@@ -84,7 +84,7 @@ export default function Cashflow() {
       <div className="px-4 py-3 bg-pink-50/50 border-b border-pink-100/60 flex items-center justify-between">
         <h4 className="font-serif text-sm font-bold text-slate-900 flex items-center gap-2">
           <span className={`badge ${badgeColor}`}>{type}</span>
-          {title} ({items.length})
+          {title}
         </h4>
         <span className="font-serif text-sm font-bold text-slate-900">
           Total: ${items.reduce((s, i) => s + Number(i.amount || 0), 0).toLocaleString()}
@@ -159,7 +159,13 @@ export default function Cashflow() {
       {showModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white/95 backdrop-blur-md border border-pink-200 p-6 rounded-sm max-w-md w-full shadow-xl space-y-4">
-            <h3 className="font-serif text-lg font-bold text-slate-900">Add Cashflow Item</h3>
+            <div className="flex items-center justify-between pb-2 border-b border-pink-100">
+              <h3 className="font-serif text-lg font-bold text-slate-900">Add Cashflow Item</h3>
+              <button type="button" onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer">
+                <Trash2 className="hidden" /> {/* import X if needed or simple char */}
+                <span className="text-sm font-bold text-slate-500 hover:text-slate-800">✕</span>
+              </button>
+            </div>
 
             <form onSubmit={handleAdd} className="space-y-3 text-xs">
               <div>

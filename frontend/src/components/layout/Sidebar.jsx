@@ -98,10 +98,6 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Footer */}
-      <div className="px-4 py-3 border-t border-cream-200 text-center text-[11px] text-cream-400 bg-white shrink-0 flex items-center justify-center gap-1">
-        <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Fully Editable · Auto-saves
-      </div>
     </aside>
   );
 }
