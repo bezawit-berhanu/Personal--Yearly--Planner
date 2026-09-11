@@ -119,7 +119,7 @@ export default function Dashboard() {
           <span className="text-xs text-slate-500 font-medium">— Capture thoughts, tasks, or entries instantly</span>
         </div>
 
-        <form onSubmit={handleAddLog} className="flex flex-col sm:flex-row gap-3">
+        <form onSubmit={handleQuickLog} className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
             className="modal-input flex-1 font-semibold text-sm py-2.5"

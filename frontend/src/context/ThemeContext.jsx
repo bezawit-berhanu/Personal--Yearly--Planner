@@ -4,6 +4,21 @@ import { useAuth } from './AuthContext';
 
 const ThemeContext = createContext();
 
+function safeParseJson(val, fallback = {}) {
+  if (!val) return fallback;
+  if (typeof val === 'object' && val !== null) return val;
+  if (typeof val === 'string') {
+    try {
+      const parsed = JSON.parse(val);
+      if (typeof parsed === 'object' && parsed !== null) return parsed;
+      return fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+  return fallback;
+}
+
 export function ThemeProvider({ children }) {
   const { user } = useAuth();
   const [theme, setTheme] = useState({
@@ -22,7 +37,7 @@ export function ThemeProvider({ children }) {
       api.get('/theme').then(res => {
         if (res.data && res.data.theme) {
           const loaded = res.data.theme;
-          const customJson = typeof loaded.custom_theme_json === 'string' ? JSON.parse(loaded.custom_theme_json || '{}') : (loaded.custom_theme_json || {});
+          const customJson = safeParseJson(loaded.custom_theme_json, {});
           const blurVal = loaded.wallpaper_blur !== undefined ? loaded.wallpaper_blur : (customJson.wallpaper_blur ?? 0);
           const opacityVal = loaded.card_opacity !== undefined ? loaded.card_opacity : (customJson.card_opacity ?? 60);
           const fullTheme = { ...loaded, wallpaper_blur: blurVal, card_opacity: opacityVal, custom_theme_json: customJson };
