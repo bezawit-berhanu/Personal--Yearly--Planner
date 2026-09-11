@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { usePlannerContext } from '../../context/PlannerContext';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import StatCard from '../shared/StatCard';
 import SectionHeader from '../shared/SectionHeader';
 import AddEntryModal from '../shared/AddEntryModal';
 import ConfirmDeleteModal from '../shared/ConfirmDeleteModal';
 import { SECTION_CONFIGS } from '../../data/sectionConfigs';
-import { Trash2, ArrowRight } from 'lucide-react';
+import { Trash2, ArrowRight, Target, BarChart2 } from 'lucide-react';
 
 function priorityColor(p = '') {
   if (p === 'High') return 'border-l-rose-500';
@@ -30,7 +31,13 @@ export default function GoalTracker() {
 
   const completed = goals.filter(g => g.status === 'Completed').length;
   const inProgress = goals.filter(g => g.status === 'In Progress').length;
+  const notStarted = goals.filter(g => !g.status || g.status === 'Not Started').length;
   const avgProgress = goals.length ? Math.round(goals.reduce((s, g) => s + (g.progress || 0), 0) / goals.length) : 0;
+
+  const goalChartData = goals.map(g => ({
+    name: g.title || 'Untitled Goal',
+    progress: g.progress || 0
+  }));
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -47,6 +54,28 @@ export default function GoalTracker() {
         <StatCard label="Completed" value={completed} color="green" />
         <StatCard label="Avg Progress" value={`${avgProgress}%`} color="blue" />
       </div>
+
+      {/* Goal Progress Visual Graph */}
+      {goalChartData.length > 0 && (
+        <div className="p-6 rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50 space-y-4">
+          <h3 className="font-serif text-base font-bold text-slate-900 flex items-center gap-2">
+            <BarChart2 className="w-4 h-4 text-pink-600" />
+            Goal Completion % Visualizer
+          </h3>
+          <ResponsiveContainer width="100%" height={Math.max(160, goalChartData.length * 35)}>
+            <BarChart data={goalChartData} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(236, 72, 153, 0.15)" horizontal={false} />
+              <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11, fill: '#334155', fontWeight: 'bold' }} tickFormatter={v => `${v}%`} />
+              <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: '#334155', fontWeight: 'bold' }} width={160} />
+              <Tooltip
+                contentStyle={{ background: 'rgba(255, 255, 255, 0.95)', border: '1px solid rgba(236, 72, 153, 0.3)', borderRadius: '4px', fontSize: '12px' }}
+                formatter={(v) => [`${v}%`, 'Progress']}
+              />
+              <Bar dataKey="progress" radius={[0, 4, 4, 0]} barSize={20} fill="#EC4899" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
 
       {/* Goal Items — Open Editorial Rows */}
       <div className="space-y-8">

@@ -70,27 +70,27 @@ export default function FinanceTracker() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white border border-cream-200 rounded-2xl p-6 shadow-subtle">
-          <h3 className="font-serif text-base font-semibold text-cream-700 mb-4">Income vs Expenses</h3>
+        <div className="glass-card rounded-sm p-6 shadow-sm">
+          <h3 className="font-serif text-base font-bold text-slate-900 mb-4">Income vs Expenses</h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={barData} margin={{ left: -20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F5ECE4" />
-              <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#8A6953' }} />
-              <YAxis tick={{ fontSize: 11, fill: '#8A6953' }} tickFormatter={v=>`$${v}`} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(236, 72, 153, 0.15)" />
+              <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#334155', fontWeight: 'bold' }} />
+              <YAxis tick={{ fontSize: 11, fill: '#334155', fontWeight: 'bold' }} tickFormatter={v=>`$${v}`} />
               <Tooltip content={<TOOLTIP />} />
-              <Bar dataKey="value" radius={[6,6,0,0]}>
+              <Bar dataKey="value" radius={[4,4,0,0]}>
                 {barData.map((entry, i) => (
-                  <Cell key={i} fill={COLORS[entry.name] || '#D6C0B0'} />
+                  <Cell key={i} fill={COLORS[entry.name] || '#EC4899'} />
                 ))}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white border border-cream-200 rounded-2xl p-6 shadow-subtle">
-          <h3 className="font-serif text-base font-semibold text-cream-700 mb-4">Expense Breakdown</h3>
+        <div className="glass-card rounded-sm p-6 shadow-sm">
+          <h3 className="font-serif text-base font-bold text-slate-900 mb-4">Expense Breakdown</h3>
           {expensePieData.length === 0 ? (
-            <p className="text-cream-400 text-sm italic text-center py-8">No expenses recorded yet</p>
+            <p className="text-slate-400 text-sm italic text-center py-8">No expenses recorded yet</p>
           ) : (
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>

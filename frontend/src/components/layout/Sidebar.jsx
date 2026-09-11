@@ -71,6 +71,7 @@ function NavGroup({ group }) {
 
 export default function Sidebar() {
   const { db } = usePlannerContext();
+  const { user } = useAuth();
 
   return (
     <aside
@@ -83,7 +84,7 @@ export default function Sidebar() {
       {/* Brand */}
       <div className="px-5 py-5 border-b border-cream-200 bg-white shrink-0">
         <h1 className="font-serif text-lg font-bold text-cream-800 tracking-wide leading-tight">
-          Bezawit's 2027
+          {user?.name ? `${user.name}'s` : 'Personal'} 2027
         </h1>
         <p className="text-[11px] font-semibold uppercase tracking-widest text-cream-500 mt-0.5">
           Personal OS · Planner

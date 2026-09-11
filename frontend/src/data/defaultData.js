@@ -24,8 +24,8 @@ export const defaultData = {
   ],
 
   ceoDashboard: [
-    { id: 1, initiative: 'AI Platform V2 Launch', owner: 'Bezawit', status: 'In Progress', priority: 'High', deadline: '2027-06-30', notes: 'Pilot underway' },
-    { id: 2, initiative: 'Fundraising Seed Round', owner: 'Bezawit', status: 'Active', priority: 'High', deadline: '2027-08-01', notes: 'Term sheets pending' },
+    { id: 1, initiative: 'AI Platform V2 Launch', owner: 'Owner', status: 'In Progress', priority: 'High', deadline: '2027-06-30', notes: 'Pilot underway' },
+    { id: 2, initiative: 'Fundraising Seed Round', owner: 'Owner', status: 'Active', priority: 'High', deadline: '2027-08-01', notes: 'Term sheets pending' },
   ],
 
   startupOS: [
@@ -211,9 +211,9 @@ export const defaultData = {
   ],
 
   passwords: [
-    { id: 1, service: 'Substack', username: 'bezawit@icog-labs.com', purpose: 'Publishing', notes: '' },
-    { id: 2, service: 'LinkedIn Premium', username: 'bezawit@icog-labs.com', purpose: 'Networking', notes: '' },
-    { id: 3, service: 'GitHub', username: 'bezawit-dev', purpose: 'Code', notes: '' },
+    { id: 1, service: 'Substack', username: 'user@example.com', purpose: 'Publishing', notes: '' },
+    { id: 2, service: 'LinkedIn Premium', username: 'user@example.com', purpose: 'Networking', notes: '' },
+    { id: 3, service: 'GitHub', username: 'user-dev', purpose: 'Code', notes: '' },
   ],
 
   debts: [

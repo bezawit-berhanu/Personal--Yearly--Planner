@@ -94,7 +94,7 @@ function MainAppContent() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center text-slate-400 text-xs font-semibold uppercase tracking-wider">
-        Loading Bezawit's Planner OS...
+        Loading Planner OS...
       </div>
     );
   }
@@ -111,7 +111,7 @@ function MainAppContent() {
           <ActiveView tab={planner.activeTab} />
         </main>
         <footer className="py-4 text-center text-xs font-semibold text-slate-500 bg-white/60 backdrop-blur-md">
-          Bezawit's 2027 Planner OS · Connected to TiDB Cloud Serverless Database
+          {user?.name ? `${user.name}'s` : 'Personal'} 2027 Planner OS · Connected to TiDB Cloud Serverless Database
         </footer>
       </div>
     </PlannerContext.Provider>

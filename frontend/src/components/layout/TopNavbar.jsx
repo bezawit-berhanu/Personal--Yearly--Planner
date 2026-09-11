@@ -92,7 +92,7 @@ export default function TopNavbar() {
               </div>
               <div>
                 <h1 className="font-serif text-base font-bold text-slate-900 tracking-tight leading-none">
-                  Bezawit's 2027
+                  {user?.name ? `${user.name}'s` : 'Personal'} 2027
                 </h1>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-pink-700">
                   Planner OS
@@ -253,7 +253,7 @@ export default function TopNavbar() {
 
                   {/* Footer info bar */}
                   <div className="mt-3 pt-2.5 flex items-center justify-between text-[11px] text-slate-500 font-semibold shrink-0">
-                    <span>Bezawit's Planner OS · Showing all {TOTAL_SECTIONS} active sections</span>
+                    <span>{user?.name ? `${user.name}'s` : 'Personal'} Planner OS · Showing all {TOTAL_SECTIONS} active sections</span>
                     <button
                       onClick={() => { navigateTo('appearance'); setMegaMenuOpen(false); }}
                       className="text-pink-600 font-bold hover:underline"

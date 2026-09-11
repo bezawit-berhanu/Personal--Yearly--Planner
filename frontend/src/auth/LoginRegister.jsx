@@ -72,7 +72,7 @@ export default function LoginRegister() {
                   type="text"
                   required
                   className="modal-input pl-9"
-                  placeholder="Bezawit"
+                  placeholder="Your Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -90,7 +90,7 @@ export default function LoginRegister() {
                 type="email"
                 required
                 className="modal-input pl-9"
-                placeholder="bezawit@example.com"
+                placeholder="user@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

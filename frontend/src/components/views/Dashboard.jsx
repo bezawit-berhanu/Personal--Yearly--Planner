@@ -6,8 +6,11 @@ import StatCard from '../shared/StatCard';
 import ConfirmDeleteModal from '../shared/ConfirmDeleteModal';
 import { NAV_GROUPS } from '../../data/sectionConfigs';
 import {
+  BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell
+} from 'recharts';
+import {
   Plus, Clock, Sparkles, Send, Trash2, ArrowRight, Upload, Palette,
-  Calendar, Target, Flame, DollarSign, BarChart2, Folder
+  Calendar, Target, Flame, DollarSign, BarChart2, Folder, TrendingUp
 } from 'lucide-react';
 
 function safeString(val, fallback = '') {
@@ -42,6 +45,18 @@ export default function Dashboard() {
     }
     fetchQuickLogs();
   }, []);
+
+  const habits = db.habits || [];
+  const goals = db.goals || [];
+  const goalsCompleted = goals.filter(g => g.status === 'Completed').length;
+  const goalsInProgress = goals.filter(g => g.status === 'In Progress').length;
+
+  const overviewChartData = [
+    { name: 'Completed Goals', count: goalsCompleted, color: '#10B981' },
+    { name: 'Goals In Progress', count: goalsInProgress, color: '#3B82F6' },
+    { name: 'Tracked Habits', count: habits.length, color: '#EC4899' },
+    { name: 'Recent Quick Logs', count: quickLogs.length, color: '#F59E0B' },
+  ];
 
   const handleQuickLog = async (e) => {
     e.preventDefault();
@@ -91,10 +106,10 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 pb-6 border-b border-pink-100/50">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-widest text-pink-700 bg-pink-50 px-2.5 py-1 rounded-full">
-            Bezawit's 2027 Planner OS
+            {user?.name ? `${user.name}'s` : 'Personal'} 2027 Planner OS
           </span>
           <h1 className="font-serif text-3xl md:text-4xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-            Welcome back, {user?.name || 'Bezawit'}
+            Welcome back, {user?.name || 'User'}
             <Sparkles className="w-6 h-6 text-amber-500" />
           </h1>
           <p className="text-xs font-semibold text-slate-500 mt-1">
@@ -189,6 +204,40 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Overview Analytics Visual Graph */}
+      <div className="p-6 rounded-sm bg-white/50 backdrop-blur-md border-b border-pink-100/50 space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="font-serif text-base font-bold text-slate-900 flex items-center gap-2">
+              <BarChart2 className="w-4 h-4 text-pink-600" />
+              Planner Overview & Productivity Analytics
+            </h3>
+            <p className="text-xs text-slate-500 font-medium">Real-time status breakdown across goals, habits, and activity logs</p>
+          </div>
+          <span className="text-xs font-bold text-pink-700 bg-pink-50 px-2.5 py-1 rounded-full">
+            Live Sync
+          </span>
+        </div>
+
+        <div className="pt-2">
+          <ResponsiveContainer width="100%" height={180}>
+            <BarChart data={overviewChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(236, 72, 153, 0.15)" vertical={false} />
+              <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#334155', fontWeight: 'bold' }} />
+              <YAxis tick={{ fontSize: 11, fill: '#334155', fontWeight: 'bold' }} allowDecimals={false} />
+              <Tooltip
+                contentStyle={{ background: 'rgba(255, 255, 255, 0.95)', border: '1px solid rgba(236, 72, 153, 0.3)', borderRadius: '4px', fontSize: '12px' }}
+              />
+              <Bar dataKey="count" radius={[4, 4, 0, 0]} barSize={40}>
+                {overviewChartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Quick Navigation Shortcuts - Open Editorial Row */}
