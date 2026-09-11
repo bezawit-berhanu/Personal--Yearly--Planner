@@ -49,18 +49,23 @@ export function getPool() {
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0,
-      connectTimeout: 5000
+      connectTimeout: 30000
     });
   }
   return pool;
 }
 
-export async function query(sql, params = []) {
+export async function query(sql, params = [], isRetry = false) {
   try {
     const dbPool = getPool();
     const [results] = await dbPool.execute(sql, params);
     return results;
   } catch (err) {
+    if (!isRetry && (err.code === 'ETIMEDOUT' || err.code === 'ECONNRESET' || err.code === 'PROTOCOL_CONNECTION_LOST')) {
+      console.warn(`[DB Connection Warmup] TiDB Cloud transient issue (${err.code}). Retrying in 1s...`);
+      await new Promise(res => setTimeout(res, 1000));
+      return query(sql, params, true);
+    }
     console.error(`[Database Error] Code: ${err.code || 'UNKNOWN'}, Message: ${err.message}. Query: "${sql.slice(0, 80)}..."`);
     if (err.code === 'ER_ACCESS_DENIED_ERROR' || err.code === 'ETIMEDOUT' || err.code === 'ENOTFOUND' || err.code === 'ECONNREFUSED') {
       console.warn(`[DB Fallback Notice] TiDB Cloud connection issue (${err.code}). Using local fallback.`);
