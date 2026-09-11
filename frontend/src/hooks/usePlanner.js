@@ -5,10 +5,19 @@ export function usePlanner(user) {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sections, setSections] = useState({});
+  const sectionsRef = useRef({});
   const loadedSectionsRef = useRef(new Set());
+
+  // Helper to set section data synchronously in ref & state
+  const updateSectionState = useCallback((key, data) => {
+    sectionsRef.current[key] = data;
+    setSections(prev => ({ ...prev, [key]: data }));
+    loadedSectionsRef.current.add(key);
+  }, []);
 
   // Reset loaded cache when user changes (login/logout)
   useEffect(() => {
+    sectionsRef.current = {};
     loadedSectionsRef.current.clear();
     setSections({});
   }, [user?.id]);
@@ -20,19 +29,18 @@ export function usePlanner(user) {
       const res = await api.get(`/sections/${tab}`);
       const data = res.data && res.data.data ? res.data.data : [];
       const parsedData = Array.isArray(data) ? data : (typeof data === 'string' ? JSON.parse(data) : []);
-      setSections(prev => ({ ...prev, [tab]: parsedData }));
-      loadedSectionsRef.current.add(tab);
+      updateSectionState(tab, parsedData);
       return parsedData;
     } catch (e) {
       console.error(`Failed to load section ${tab}:`, e);
-      const fallback = [];
-      setSections(prev => ({ ...prev, [tab]: prev[tab] || fallback }));
+      const fallback = sectionsRef.current[tab] || [];
+      updateSectionState(tab, fallback);
       if (e.response && e.response.status !== 401) {
         loadedSectionsRef.current.add(tab);
       }
       return fallback;
     }
-  }, [user]);
+  }, [user, updateSectionState]);
 
   // Pre-fetch primary sections on login
   useEffect(() => {
@@ -63,57 +71,52 @@ export function usePlanner(user) {
 
   const ensureSectionLoaded = async (key) => {
     if (!loadedSectionsRef.current.has(key)) {
-      const existing = await fetchSectionData(key);
-      return existing;
+      return await fetchSectionData(key);
     }
-    return sections[key] || [];
+    return sectionsRef.current[key] || [];
   };
 
   const saveSection = useCallback(async (key, newData) => {
-    setSections(prev => ({ ...prev, [key]: newData }));
-    loadedSectionsRef.current.add(key);
+    updateSectionState(key, newData);
     try {
       await api.post(`/sections/${key}`, { data: newData });
     } catch (e) {
       console.error(`Failed to save section ${key}:`, e);
     }
-  }, []);
+  }, [updateSectionState]);
 
   const updateField = useCallback(async (key, id, field, value) => {
     const currentList = await ensureSectionLoaded(key);
     const updated = currentList.map(item => item.id === id ? { ...item, [field]: value } : item);
-    setSections(prev => ({ ...prev, [key]: updated }));
-    loadedSectionsRef.current.add(key);
+    updateSectionState(key, updated);
     try {
       await api.post(`/sections/${key}`, { data: updated });
     } catch (e) {
       console.error(`Failed to update field in section ${key}:`, e);
     }
-  }, []);
+  }, [updateSectionState]);
 
   const addItem = useCallback(async (key, newItem) => {
     const currentList = await ensureSectionLoaded(key);
     const updated = [{ id: Date.now() + Math.floor(Math.random() * 1000), ...newItem }, ...currentList];
-    setSections(prev => ({ ...prev, [key]: updated }));
-    loadedSectionsRef.current.add(key);
+    updateSectionState(key, updated);
     try {
       await api.post(`/sections/${key}`, { data: updated });
     } catch (e) {
       console.error(`Failed to add item in section ${key}:`, e);
     }
-  }, []);
+  }, [updateSectionState]);
 
   const deleteItem = useCallback(async (key, id) => {
     const currentList = await ensureSectionLoaded(key);
     const updated = currentList.filter(item => item.id !== id);
-    setSections(prev => ({ ...prev, [key]: updated }));
-    loadedSectionsRef.current.add(key);
+    updateSectionState(key, updated);
     try {
       await api.post(`/sections/${key}`, { data: updated });
     } catch (e) {
       console.error(`Failed to delete item from section ${key}:`, e);
     }
-  }, []);
+  }, [updateSectionState]);
 
   const db = {
     activeTab,
@@ -134,3 +137,4 @@ export function usePlanner(user) {
     saveSection
   };
 }
+

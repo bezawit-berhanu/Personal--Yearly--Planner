@@ -56,18 +56,14 @@ export function getPool() {
 }
 
 export async function query(sql, params = []) {
-  if (useLocalFallback) {
-    return localQueryFallback(sql, params);
-  }
-
   try {
     const dbPool = getPool();
     const [results] = await dbPool.execute(sql, params);
     return results;
   } catch (err) {
-    if (err.code === 'ER_ACCESS_DENIED_ERROR' || err.code === 'ETIMEDOUT' || err.code === 'ENOTFOUND') {
-      console.warn(`[DB Notice] TiDB Cloud connection (${err.code}). Using high-availability storage fallback.`);
-      useLocalFallback = true;
+    console.error(`[Database Error] Code: ${err.code || 'UNKNOWN'}, Message: ${err.message}. Query: "${sql.slice(0, 80)}..."`);
+    if (err.code === 'ER_ACCESS_DENIED_ERROR' || err.code === 'ETIMEDOUT' || err.code === 'ENOTFOUND' || err.code === 'ECONNREFUSED') {
+      console.warn(`[DB Fallback Notice] TiDB Cloud connection issue (${err.code}). Using local fallback.`);
       return localQueryFallback(sql, params);
     }
     throw err;
