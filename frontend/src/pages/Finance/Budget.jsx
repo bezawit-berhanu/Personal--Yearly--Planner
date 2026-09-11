@@ -141,10 +141,10 @@ export default function Budget() {
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="border-b border-pink-100/80 bg-white/60 text-slate-800 font-bold uppercase tracking-wider">
-                <th className="p-2.5 border-r border-pink-100/50">Type</th>
-                <th className="p-2.5 border-r border-pink-100/50">Category</th>
-                <th className="p-2.5 border-r border-pink-100/50">Description / Written Expense</th>
-                <th className="p-2.5 border-r border-pink-100/50 text-right">Amount ($)</th>
+                <th className="p-2.5 table-col-divider">Type</th>
+                <th className="p-2.5 table-col-divider">Category</th>
+                <th className="p-2.5 table-col-divider">Description / Written Expense</th>
+                <th className="p-2.5 table-col-divider text-right">Amount ($)</th>
                 <th className="p-2.5 text-right w-12">Action</th>
               </tr>
             </thead>
@@ -158,7 +158,7 @@ export default function Budget() {
               ) : (
                 entries.map((item) => (
                   <tr key={item.id} className="hover:bg-pink-50/40">
-                    <td className="p-2.5 border-r border-pink-100/50">
+                    <td className="p-2.5 table-col-divider">
                       <span className={`badge ${
                         item.entry_type === 'Income' ? 'badge-green' :
                         item.entry_type === 'Expense' ? 'badge-red' :
@@ -167,9 +167,9 @@ export default function Budget() {
                         {item.entry_type}
                       </span>
                     </td>
-                    <td className="p-2.5 border-r border-pink-100/50 font-semibold text-slate-800">{item.category}</td>
-                    <td className="p-2.5 border-r border-pink-100/50 font-bold text-slate-900">{item.description}</td>
-                    <td className="p-2.5 border-r border-pink-100/50 text-right font-bold text-slate-900">
+                    <td className="p-2.5 table-col-divider font-semibold text-slate-800">{item.category}</td>
+                    <td className="p-2.5 table-col-divider font-bold text-slate-900">{item.description}</td>
+                    <td className="p-2.5 table-col-divider text-right font-bold text-slate-900">
                       ${Number(item.amount).toLocaleString()}
                     </td>
                     <td className="p-2.5 text-right">

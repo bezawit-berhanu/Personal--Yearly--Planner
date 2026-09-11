@@ -179,7 +179,7 @@ export default function EditableTable({ config, items, dataKey }) {
           <thead>
             <tr className="bg-pink-50/60 border-b border-pink-100/60">
               {tableFields.map((fk) => (
-                <th key={fk} className="px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-wider text-slate-700 whitespace-nowrap border-r border-pink-100/50 last:border-r-0">
+                <th key={fk} className="px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-wider text-slate-700 whitespace-nowrap table-col-divider last:border-r-0">
                   {fieldMap[fk]?.label ?? fk}
                 </th>
               ))}
@@ -201,7 +201,7 @@ export default function EditableTable({ config, items, dataKey }) {
                   {tableFields.map((fk) => {
                     const field = fieldMap[fk];
                     return (
-                      <td key={fk} className="px-2 py-1.5 align-middle border-r border-pink-100/30 last:border-r-0">
+                      <td key={fk} className="px-2 py-1.5 align-middle table-col-divider last:border-r-0">
                         <EditableCell
                           field={field}
                           value={item[fk]}

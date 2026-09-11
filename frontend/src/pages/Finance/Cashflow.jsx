@@ -95,10 +95,10 @@ export default function Cashflow() {
         <table className="w-full text-left border-collapse text-xs">
           <thead>
             <tr className="border-b border-pink-100/80 bg-white/60 text-slate-800 font-bold uppercase tracking-wider">
-              <th className="p-2.5 border-r border-pink-100/50">Name / Description</th>
-              <th className="p-2.5 border-r border-pink-100/50">Category</th>
-              <th className="p-2.5 border-r border-pink-100/50 text-right">Amount ($)</th>
-              <th className="p-2.5 border-r border-pink-100/50">Notes</th>
+              <th className="p-2.5 table-col-divider">Name / Description</th>
+              <th className="p-2.5 table-col-divider">Category</th>
+              <th className="p-2.5 table-col-divider text-right">Amount ($)</th>
+              <th className="p-2.5 table-col-divider">Notes</th>
               <th className="p-2.5 text-right w-12">Action</th>
             </tr>
           </thead>
@@ -112,12 +112,12 @@ export default function Cashflow() {
             ) : (
               items.map((item) => (
                 <tr key={item.id} className="hover:bg-pink-50/40">
-                  <td className="p-2.5 border-r border-pink-100/50 font-bold text-slate-900">{item.name}</td>
-                  <td className="p-2.5 border-r border-pink-100/50"><span className="badge badge-gray">{item.category}</span></td>
-                  <td className="p-2.5 border-r border-pink-100/50 text-right font-bold text-slate-900">
+                  <td className="p-2.5 table-col-divider font-bold text-slate-900">{item.name}</td>
+                  <td className="p-2.5 table-col-divider"><span className="badge badge-gray">{item.category}</span></td>
+                  <td className="p-2.5 table-col-divider text-right font-bold text-slate-900">
                     ${Number(item.amount).toLocaleString()}
                   </td>
-                  <td className="p-2.5 border-r border-pink-100/50 font-semibold text-slate-700">{item.notes || '—'}</td>
+                  <td className="p-2.5 table-col-divider font-semibold text-slate-700">{item.notes || '—'}</td>
                   <td className="p-2.5 text-right">
                     <button onClick={() => setDeleteTargetId(item.id)} className="btn-danger p-1 cursor-pointer">
                       <Trash2 className="w-3.5 h-3.5" />

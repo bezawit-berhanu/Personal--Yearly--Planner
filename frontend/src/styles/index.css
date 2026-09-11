@@ -3,12 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  *, ::before, ::after {
-    border-style: none !important;
-    border-width: 0 !important;
-    outline: none !important;
-  }
-
   body {
     @apply bg-white text-slate-900 font-sans antialiased selection:bg-pink-200 selection:text-pink-900 min-h-screen;
     background-color: var(--theme-bg-color, #FFFFFF);
@@ -62,6 +56,11 @@
 .glass-table {
   background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.65));
   @apply backdrop-blur-md shadow-sm text-slate-900 transition-all border-none;
+}
+
+/* Delicate, hairline vertical column divider line for tables */
+.table-col-divider {
+  border-right: 1px solid rgba(148, 163, 184, 0.45) !important;
 }
 
 .glass-modal {
