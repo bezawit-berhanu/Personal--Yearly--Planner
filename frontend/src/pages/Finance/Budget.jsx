@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../../api/client';
 import SectionHeader from '../../components/shared/SectionHeader';
 import StatCard from '../../components/shared/StatCard';
+import ConfirmDeleteModal from '../../components/shared/ConfirmDeleteModal';
 import { Calendar, Plus, Trash2, PieChart, BarChart2 } from 'lucide-react';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -15,6 +16,7 @@ export default function Budget() {
   const [yearReport, setYearReport] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const [entryType, setEntryType] = useState('Expense');
   const [category, setCategory] = useState('Housing');
@@ -69,13 +71,16 @@ export default function Budget() {
     }
   };
 
-  const handleDelete = async (id) => {
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
     try {
-      await api.delete(`/finance/budget/${id}`);
-      setEntries(entries.filter(e => e.id !== id));
+      await api.delete(`/finance/budget/${deleteTargetId}`);
+      setEntries(entries.filter(e => e.id !== deleteTargetId));
       fetchYearReport();
     } catch (err) {
       console.error('Failed to delete budget entry:', err);
+    } finally {
+      setDeleteTargetId(null);
     }
   };
 
@@ -96,7 +101,7 @@ export default function Budget() {
       />
 
       {/* Month Selector & Controls */}
-      <div className="glass-card p-4 rounded-sm shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="p-4 rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Calendar className="w-4 h-4 text-pink-600" />
           <span className="text-xs font-bold uppercase tracking-wider text-slate-800">Select Month:</span>
@@ -122,8 +127,8 @@ export default function Budget() {
       </div>
 
       {/* Budget Table */}
-      <div className="glass-table rounded-sm shadow-sm overflow-hidden">
-        <div className="px-4 py-3 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between">
+      <div className="rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50 overflow-hidden">
+        <div className="px-4 py-3 bg-pink-50/50 border-b border-pink-100/60 flex items-center justify-between">
           <h4 className="font-serif text-sm font-bold text-slate-900">
             Budget Table — {selectedMonth} ({entries.length} items)
           </h4>
@@ -135,15 +140,15 @@ export default function Budget() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-100/70 text-slate-800 font-bold uppercase tracking-wider">
-                <th className="p-2.5">Type</th>
-                <th className="p-2.5">Category</th>
-                <th className="p-2.5">Description / Written Expense</th>
-                <th className="p-2.5 text-right">Amount ($)</th>
+              <tr className="border-b border-pink-100/80 bg-white/60 text-slate-800 font-bold uppercase tracking-wider">
+                <th className="p-2.5 border-r border-pink-100/50">Type</th>
+                <th className="p-2.5 border-r border-pink-100/50">Category</th>
+                <th className="p-2.5 border-r border-pink-100/50">Description / Written Expense</th>
+                <th className="p-2.5 border-r border-pink-100/50 text-right">Amount ($)</th>
                 <th className="p-2.5 text-right w-12">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200/60">
+            <tbody className="divide-y divide-pink-100/40">
               {entries.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-8 text-center text-slate-500 font-medium italic">
@@ -153,7 +158,7 @@ export default function Budget() {
               ) : (
                 entries.map((item) => (
                   <tr key={item.id} className="hover:bg-pink-50/40">
-                    <td className="p-2.5">
+                    <td className="p-2.5 border-r border-pink-100/50">
                       <span className={`badge ${
                         item.entry_type === 'Income' ? 'badge-green' :
                         item.entry_type === 'Expense' ? 'badge-red' :
@@ -162,13 +167,13 @@ export default function Budget() {
                         {item.entry_type}
                       </span>
                     </td>
-                    <td className="p-2.5 font-semibold text-slate-800">{item.category}</td>
-                    <td className="p-2.5 font-bold text-slate-900">{item.description}</td>
-                    <td className="p-2.5 text-right font-bold text-slate-900">
+                    <td className="p-2.5 border-r border-pink-100/50 font-semibold text-slate-800">{item.category}</td>
+                    <td className="p-2.5 border-r border-pink-100/50 font-bold text-slate-900">{item.description}</td>
+                    <td className="p-2.5 border-r border-pink-100/50 text-right font-bold text-slate-900">
                       ${Number(item.amount).toLocaleString()}
                     </td>
                     <td className="p-2.5 text-right">
-                      <button onClick={() => handleDelete(item.id)} className="btn-danger p-1">
+                      <button onClick={() => setDeleteTargetId(item.id)} className="btn-danger p-1 cursor-pointer">
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </td>
@@ -181,7 +186,7 @@ export default function Budget() {
       </div>
 
       {/* Year-End Report Summary */}
-      <div className="glass-card p-6 rounded-sm shadow-sm">
+      <div className="p-6 rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50">
         <h3 className="font-serif text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
           <BarChart2 className="w-4 h-4 text-pink-600" />
           Year-End Financial Overview ({currentYear})
@@ -195,7 +200,7 @@ export default function Budget() {
             const mExpense = mEntries.filter(r => r.entry_type === 'Expense').reduce((s, r) => s + Number(r.total || 0), 0);
 
             return (
-              <div key={mKey} className="border border-slate-200/80 p-3 rounded-sm text-xs text-center bg-white/70 backdrop-blur-xs">
+              <div key={mKey} className="border-b border-pink-100/60 p-3 rounded-sm text-xs text-center bg-white/60 backdrop-blur-xs">
                 <div className="font-bold text-slate-900 mb-1">{mName}</div>
                 <div className="text-[10px] text-emerald-800 font-bold">+${mIncome.toLocaleString()}</div>
                 <div className="text-[10px] text-rose-700 font-bold">-${mExpense.toLocaleString()}</div>
@@ -208,7 +213,7 @@ export default function Budget() {
       {/* Add Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white border border-pink-200 p-6 rounded-sm max-w-md w-full shadow-md space-y-4">
+          <div className="bg-white/95 backdrop-blur-md border border-pink-200 p-6 rounded-sm max-w-md w-full shadow-xl space-y-4">
             <h3 className="font-serif text-lg font-bold text-slate-900">Add Budget Entry</h3>
 
             <form onSubmit={handleAddEntry} className="space-y-3 text-xs">
@@ -260,6 +265,14 @@ export default function Budget() {
           </div>
         </div>
       )}
+
+      <ConfirmDeleteModal
+        isOpen={deleteTargetId !== null}
+        onClose={() => setDeleteTargetId(null)}
+        onConfirm={confirmDelete}
+        title="Delete Budget Entry"
+        message="Are you sure you want to delete this budget item? This action cannot be undone."
+      />
     </div>
   );
 }

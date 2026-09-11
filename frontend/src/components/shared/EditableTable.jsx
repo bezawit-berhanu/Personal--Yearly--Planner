@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Trash2, Eye, EyeOff, Copy, Check, Star } from 'lucide-react';
 import { usePlannerContext } from '../../context/PlannerContext';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
 
 /* ─── Status badge helper ─────────────────────────────────────────────────── */
 function statusClass(val = '') {
@@ -166,6 +167,7 @@ function EditableCell({ field, value, onChange }) {
 /* ─── Main EditableTable ──────────────────────────────────────────────────── */
 export default function EditableTable({ config, items, dataKey }) {
   const { updateField, deleteItem } = usePlannerContext();
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const tableFields = config.tableFields || [];
   const fieldMap    = Object.fromEntries((config.fields || []).map((f) => [f.key, f]));
@@ -175,18 +177,18 @@ export default function EditableTable({ config, items, dataKey }) {
       <div className="overflow-x-auto">
         <table className="w-full text-left min-w-max border-collapse">
           <thead>
-            <tr className="bg-slate-100/90">
+            <tr className="bg-pink-50/60 border-b border-pink-100/60">
               {tableFields.map((fk) => (
-                <th key={fk} className="px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-800 whitespace-nowrap">
+                <th key={fk} className="px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-wider text-slate-700 whitespace-nowrap border-r border-pink-100/50 last:border-r-0">
                   {fieldMap[fk]?.label ?? fk}
                 </th>
               ))}
-              <th className="px-3 py-2.5 text-right text-xs font-bold uppercase tracking-wider text-slate-800 w-12">
+              <th className="px-3 py-2.5 text-right text-[11px] font-bold uppercase tracking-wider text-slate-700 w-12">
                 Del
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-pink-100/40">
             {items.length === 0 ? (
               <tr>
                 <td colSpan={tableFields.length + 1} className="px-6 py-12 text-center text-slate-500 font-medium italic text-xs">
@@ -199,7 +201,7 @@ export default function EditableTable({ config, items, dataKey }) {
                   {tableFields.map((fk) => {
                     const field = fieldMap[fk];
                     return (
-                      <td key={fk} className="px-2 py-1.5 align-middle">
+                      <td key={fk} className="px-2 py-1.5 align-middle border-r border-pink-100/30 last:border-r-0">
                         <EditableCell
                           field={field}
                           value={item[fk]}
@@ -210,7 +212,7 @@ export default function EditableTable({ config, items, dataKey }) {
                   })}
                   <td className="px-2 py-1.5 text-right align-middle">
                     <button
-                      onClick={() => deleteItem(dataKey, item.id)}
+                      onClick={() => setDeleteTargetId(item.id)}
                       className="btn-danger opacity-0 group-hover:opacity-100"
                       title="Delete row"
                     >
@@ -223,6 +225,19 @@ export default function EditableTable({ config, items, dataKey }) {
           </tbody>
         </table>
       </div>
+
+      <ConfirmDeleteModal
+        isOpen={deleteTargetId !== null}
+        title="Delete Row"
+        message="Are you sure you want to delete this row? This action cannot be undone."
+        onConfirm={() => {
+          if (deleteTargetId !== null) {
+            deleteItem(dataKey, deleteTargetId);
+            setDeleteTargetId(null);
+          }
+        }}
+        onCancel={() => setDeleteTargetId(null)}
+      />
     </div>
   );
 }

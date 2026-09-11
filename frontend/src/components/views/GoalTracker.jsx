@@ -3,6 +3,7 @@ import { usePlannerContext } from '../../context/PlannerContext';
 import StatCard from '../shared/StatCard';
 import SectionHeader from '../shared/SectionHeader';
 import AddEntryModal from '../shared/AddEntryModal';
+import ConfirmDeleteModal from '../shared/ConfirmDeleteModal';
 import { SECTION_CONFIGS } from '../../data/sectionConfigs';
 import { Trash2, ArrowRight } from 'lucide-react';
 
@@ -23,27 +24,28 @@ function statusBadge(s = '') {
 export default function GoalTracker() {
   const { db, addItem, updateField, deleteItem } = usePlannerContext();
   const [modal, setModal] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
   const config = SECTION_CONFIGS.goals;
   const goals  = db.goals || [];
 
-  const completed = goals.filter(g=>g.status==='Completed').length;
-  const inProgress = goals.filter(g=>g.status==='In Progress').length;
-  const avgProgress = goals.length ? Math.round(goals.reduce((s,g)=>s+(g.progress||0),0)/goals.length) : 0;
+  const completed = goals.filter(g => g.status === 'Completed').length;
+  const inProgress = goals.filter(g => g.status === 'In Progress').length;
+  const avgProgress = goals.length ? Math.round(goals.reduce((s, g) => s + (g.progress || 0), 0) / goals.length) : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fadeIn">
       <SectionHeader
         title="Goal Tracker"
-        description="Set, track, and achieve your 2027 goals."
+        description="Set, track, and achieve your goals."
         onAdd={() => setModal(true)}
       />
 
       {/* Summary */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <StatCard label="Total Goals"   value={goals.length} />
-        <StatCard label="In Progress"   value={inProgress}   color="amber" />
-        <StatCard label="Completed"     value={completed}    color="green" />
-        <StatCard label="Avg Progress"  value={`${avgProgress}%`} color="blue" />
+        <StatCard label="Total Goals" value={goals.length} color="pink" />
+        <StatCard label="In Progress" value={inProgress} color="amber" />
+        <StatCard label="Completed" value={completed} color="green" />
+        <StatCard label="Avg Progress" value={`${avgProgress}%`} color="blue" />
       </div>
 
       {/* Goal Items — Open Editorial Rows */}
@@ -64,7 +66,11 @@ export default function GoalTracker() {
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <span className={statusBadge(goal.status)}>{goal.status || 'Not Started'}</span>
-                <button onClick={() => deleteItem('goals', goal.id)} className="btn-danger opacity-0 group-hover:opacity-100">
+                <button
+                  onClick={() => setDeleteTargetId(goal.id)}
+                  className="btn-danger opacity-0 group-hover:opacity-100 cursor-pointer"
+                  title="Delete goal"
+                >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -85,7 +91,7 @@ export default function GoalTracker() {
                 </div>
                 <input
                   type="range"
-                  min={0} max={100}
+                  min="0" max="100"
                   value={goal.progress || 0}
                   onChange={(e) => updateField('goals', goal.id, 'progress', Number(e.target.value))}
                   className="w-24 accent-pink-500 cursor-pointer"
@@ -149,6 +155,19 @@ export default function GoalTracker() {
           onClose={() => setModal(false)}
         />
       )}
+
+      <ConfirmDeleteModal
+        isOpen={deleteTargetId !== null}
+        onClose={() => setDeleteTargetId(null)}
+        onConfirm={() => {
+          if (deleteTargetId !== null) {
+            deleteItem('goals', deleteTargetId);
+            setDeleteTargetId(null);
+          }
+        }}
+        title="Delete Goal"
+        message="Are you sure you want to delete this goal? This action cannot be undone."
+      />
     </div>
   );
 }

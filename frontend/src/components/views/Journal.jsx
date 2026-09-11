@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { usePlannerContext } from '../../context/PlannerContext';
 import SectionHeader from '../shared/SectionHeader';
 import StatCard from '../shared/StatCard';
+import ConfirmDeleteModal from '../shared/ConfirmDeleteModal';
 import api from '../../api/client';
 import {
   BookHeart, Plus, Search, Trash2, Edit3, Image as ImageIcon,
@@ -27,6 +28,7 @@ export default function Journal() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [viewingItem, setViewingItem] = useState(null);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   // Form State
   const [form, setForm] = useState({
@@ -240,7 +242,7 @@ export default function Journal() {
                     </button>
 
                     <button
-                      onClick={() => deleteItem('journal', item.id)}
+                      onClick={() => setDeleteTargetId(item.id)}
                       className="p-1.5 rounded-sm hover:bg-rose-500/80 hover:text-white text-rose-400 transition-colors cursor-pointer"
                       title="Delete entry"
                     >
@@ -464,6 +466,19 @@ export default function Journal() {
           </div>
         </div>
       )}
+
+      <ConfirmDeleteModal
+        isOpen={deleteTargetId !== null}
+        onClose={() => setDeleteTargetId(null)}
+        onConfirm={() => {
+          if (deleteTargetId !== null) {
+            deleteItem('journal', deleteTargetId);
+            setDeleteTargetId(null);
+          }
+        }}
+        title="Delete Journal Entry"
+        message="Are you sure you want to delete this journal reflection? This action cannot be undone."
+      />
 
     </div>
   );

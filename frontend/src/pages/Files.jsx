@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api/client';
 import SectionHeader from '../components/shared/SectionHeader';
+import ConfirmDeleteModal from '../components/shared/ConfirmDeleteModal';
 import { FileText, Upload, Trash2, ExternalLink, Image as ImageIcon, File, Loader2 } from 'lucide-react';
 
 function parseErrorText(err) {
@@ -22,6 +23,7 @@ export default function Files() {
   const [notes, setNotes] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState('');
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const fetchFiles = async () => {
     try {
@@ -85,14 +87,19 @@ export default function Files() {
     }
   };
 
-  const handleDelete = async (id) => {
+  const confirmDeleteFile = async () => {
+    if (!deleteTargetId) return;
     try {
-      await api.delete(`/files/${id}`);
-      setFiles(files.filter(f => f.id !== id));
+      await api.delete(`/files/${deleteTargetId}`);
+      setFiles(files.filter(f => f.id !== deleteTargetId));
     } catch (err) {
       console.error('Failed to delete file:', err);
+    } finally {
+      setDeleteTargetId(null);
     }
   };
+
+  const targetFileToDelete = files.find(f => f.id === deleteTargetId);
 
   return (
     <div className="space-y-6">
@@ -101,15 +108,15 @@ export default function Files() {
         description="Upload scanned pictures, receipts, contracts, or documents to track and access anytime."
       />
 
-      {/* Upload Box */}
-      <div className="glass-card p-6 rounded-sm shadow-sm">
+      {/* Upload Form */}
+      <div className="p-6 rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50">
         <h3 className="font-serif text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
           <Upload className="w-4 h-4 text-pink-600" />
           Upload New File / Scanned Picture
         </h3>
 
         {error && (
-          <div className="mb-4 p-3 bg-rose-50/90 border border-rose-300 text-rose-800 text-xs font-bold rounded-sm">
+          <div className="mb-4 p-3 bg-rose-50/90 text-rose-800 text-xs font-bold rounded-sm border-l-2 border-rose-500">
             {typeof error === 'string' ? error : JSON.stringify(error)}
           </div>
         )}
@@ -191,8 +198,8 @@ export default function Files() {
       </div>
 
       {/* Files List */}
-      <div className="glass-card rounded-sm shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+      <div className="space-y-4">
+        <div className="pb-2 border-b border-pink-100/50 flex items-center justify-between">
           <h3 className="font-serif text-base font-bold text-slate-900">
             Uploaded Files ({files.length})
           </h3>
@@ -205,9 +212,9 @@ export default function Files() {
             No files tracked yet. Use the form above to upload scanned pictures or documents.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {files.map((file) => (
-              <div key={file.id} className="bg-white/80 backdrop-blur-xs border border-slate-200 p-4 rounded-sm hover:border-pink-400 transition-colors flex flex-col justify-between">
+              <div key={file.id} className="p-4 rounded-sm bg-white/60 backdrop-blur-xs border-b-2 border-pink-100 hover:border-pink-300 transition-colors flex flex-col justify-between group">
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2 min-w-0">
@@ -221,8 +228,8 @@ export default function Files() {
                       </h4>
                     </div>
                     <button
-                      onClick={() => handleDelete(file.id)}
-                      className="text-slate-500 hover:text-rose-600 transition-colors"
+                      onClick={() => setDeleteTargetId(file.id)}
+                      className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
                       title="Delete file"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -236,7 +243,7 @@ export default function Files() {
                   )}
                 </div>
 
-                <div className="pt-3 border-t border-slate-200/80 flex items-center justify-between mt-2">
+                <div className="pt-3 border-t border-pink-100/40 flex items-center justify-between mt-2">
                   <span className="text-[11px] font-bold text-slate-600">
                     {new Date(file.created_at).toLocaleDateString()}
                   </span>
@@ -254,6 +261,14 @@ export default function Files() {
           </div>
         )}
       </div>
+
+      <ConfirmDeleteModal
+        isOpen={deleteTargetId !== null}
+        onClose={() => setDeleteTargetId(null)}
+        onConfirm={confirmDeleteFile}
+        title="Delete Uploaded File"
+        message={`Are you sure you want to delete file "${targetFileToDelete?.file_name || 'selected file'}"? This action cannot be undone.`}
+      />
     </div>
   );
 }

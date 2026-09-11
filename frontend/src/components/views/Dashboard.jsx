@@ -3,6 +3,7 @@ import { usePlannerContext } from '../../context/PlannerContext';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api/client';
 import StatCard from '../shared/StatCard';
+import ConfirmDeleteModal from '../shared/ConfirmDeleteModal';
 import { NAV_GROUPS } from '../../data/sectionConfigs';
 import {
   Plus, Clock, Sparkles, Send, Trash2, ArrowRight, Upload, Palette,
@@ -24,15 +25,25 @@ export default function Dashboard() {
   const [logContent, setLogContent] = useState('');
   const [logCategory, setLogCategory] = useState('dailyPlanner');
   const [quickLogs, setQuickLogs] = useState([]);
+  const [loadingLogs, setLoadingLogs] = useState(true);
   const [logging, setLogging] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   useEffect(() => {
-    api.get('/quick-logs')
-      .then(res => setQuickLogs(Array.isArray(res.data.logs) ? res.data.logs : []))
-      .catch(console.error);
+    async function fetchQuickLogs() {
+      try {
+        const res = await api.get('/quick-logs');
+        setQuickLogs(res.data.logs || []);
+      } catch (err) {
+        console.error('Failed to load quick logs:', err);
+      } finally {
+        setLoadingLogs(false);
+      }
+    }
+    fetchQuickLogs();
   }, []);
 
-  const handleAddLog = async (e) => {
+  const handleQuickLog = async (e) => {
     e.preventDefault();
     if (!logContent.trim()) return;
     setLogging(true);
@@ -50,12 +61,15 @@ export default function Dashboard() {
     }
   };
 
-  const handleDeleteLog = async (id) => {
+  const confirmDeleteLog = async () => {
+    if (!deleteTargetId) return;
     try {
-      await api.delete(`/quick-logs/${id}`);
-      setQuickLogs(quickLogs.filter(l => l.id !== id));
+      await api.delete(`/quick-logs/${deleteTargetId}`);
+      setQuickLogs(quickLogs.filter(l => l.id !== deleteTargetId));
     } catch (err) {
       console.error('Failed to delete log:', err);
+    } finally {
+      setDeleteTargetId(null);
     }
   };
 
@@ -162,8 +176,8 @@ export default function Dashboard() {
                         <ArrowRight className="w-3 h-3" />
                       </button>
                       <button
-                        onClick={() => handleDeleteLog(log.id)}
-                        className="text-slate-400 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => setDeleteTargetId(log.id)}
+                        className="text-slate-400 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                         title="Delete log"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -196,6 +210,14 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
+
+      <ConfirmDeleteModal
+        isOpen={deleteTargetId !== null}
+        onClose={() => setDeleteTargetId(null)}
+        onConfirm={confirmDeleteLog}
+        title="Delete Quick Log"
+        message="Are you sure you want to delete this log entry? This action cannot be undone."
+      />
     </div>
   );
 }

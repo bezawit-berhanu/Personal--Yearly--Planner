@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { usePlannerContext } from '../../context/PlannerContext';
 import SectionHeader from '../shared/SectionHeader';
 import StatCard from '../shared/StatCard';
+import ConfirmDeleteModal from '../shared/ConfirmDeleteModal';
 import {
   StickyNote, Plus, Search, Trash2, Edit3, Pin, PinOff,
   Tag, Calendar, Sparkles, X, Check, List
@@ -58,6 +59,7 @@ export default function Notes() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const [form, setForm] = useState({
     title: '',
@@ -245,7 +247,7 @@ export default function Notes() {
                     </button>
 
                     <button
-                      onClick={() => deleteItem('notes', item.id)}
+                      onClick={() => setDeleteTargetId(item.id)}
                       className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-100/70 rounded-sm cursor-pointer"
                       title="Delete note"
                     >
@@ -410,6 +412,19 @@ export default function Notes() {
           </div>
         </div>
       )}
+
+      <ConfirmDeleteModal
+        isOpen={deleteTargetId !== null}
+        onClose={() => setDeleteTargetId(null)}
+        onConfirm={() => {
+          if (deleteTargetId !== null) {
+            deleteItem('notes', deleteTargetId);
+            setDeleteTargetId(null);
+          }
+        }}
+        title="Delete Note"
+        message="Are you sure you want to delete this note? This action cannot be undone."
+      />
 
     </div>
   );
