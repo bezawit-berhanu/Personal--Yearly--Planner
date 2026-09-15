@@ -7,7 +7,24 @@ import { ensureTablesExist } from './api/lib/initSchema.js';
 import { generateToken, extractAuthUser } from './api/lib/authHelpers.js';
 
 const app = express();
-app.use(cors());
+
+const allowedOrigins = [
+  'https://personal-yearly-planner.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:3001'
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || (typeof origin === 'string' && origin.endsWith('.vercel.app'))) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json({ limit: '25mb' }));
 
 // Middleware: Normalize URL path for Vercel serverless & local routes
