@@ -24,11 +24,11 @@ export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState({
     bg_wallpaper: '',
     wallpaper_blur: 0,
-    card_opacity: 60,
-    bg_color: '#FFFFFF',
-    text_color: '#1A1A2E',
-    font_family: 'Inter',
-    accent_color: '#E879A0',
+    card_opacity: 82,
+    bg_color: '#FDFBF5',
+    text_color: '#3B0D18',
+    font_family: 'Playfair Display',
+    accent_color: '#6B1D2F',
     custom_theme_json: {}
   });
 
@@ -39,7 +39,7 @@ export function ThemeProvider({ children }) {
           const loaded = res.data.theme;
           const customJson = safeParseJson(loaded.custom_theme_json, {});
           const blurVal = loaded.wallpaper_blur !== undefined ? loaded.wallpaper_blur : (customJson.wallpaper_blur ?? 0);
-          const opacityVal = loaded.card_opacity !== undefined ? loaded.card_opacity : (customJson.card_opacity ?? 60);
+          const opacityVal = loaded.card_opacity !== undefined ? loaded.card_opacity : (customJson.card_opacity ?? 82);
           const fullTheme = { ...loaded, wallpaper_blur: blurVal, card_opacity: opacityVal, custom_theme_json: customJson };
           setTheme(fullTheme);
           applyCssVariables(fullTheme);
@@ -58,14 +58,14 @@ export function ThemeProvider({ children }) {
     const blurPx = t.wallpaper_blur !== undefined ? t.wallpaper_blur : (t.custom_theme_json?.wallpaper_blur ?? 0);
     root.style.setProperty('--theme-wallpaper-blur', `${blurPx}px`);
 
-    const opacity = t.card_opacity !== undefined ? t.card_opacity : (t.custom_theme_json?.card_opacity ?? 60);
+    const opacity = t.card_opacity !== undefined ? t.card_opacity : (t.custom_theme_json?.card_opacity ?? 82);
     const alpha = (Number(opacity) / 100).toFixed(2);
     root.style.setProperty('--theme-card-opacity', `${opacity}%`);
-    root.style.setProperty('--theme-card-bg', `rgba(255, 255, 255, ${alpha})`);
+    root.style.setProperty('--theme-card-bg', `rgba(255, 253, 247, ${alpha})`);
 
-    root.style.setProperty('--theme-bg-color', t.bg_color || '#FFFFFF');
-    root.style.setProperty('--theme-text-color', t.text_color || '#1A1A2E');
-    root.style.setProperty('--theme-font-family', t.font_family || 'Inter, sans-serif');
+    root.style.setProperty('--theme-bg-color', t.bg_color || '#FDFBF5');
+    root.style.setProperty('--theme-text-color', t.text_color || '#3B0D18');
+    root.style.setProperty('--theme-font-family', t.font_family ? `'${t.font_family}', Georgia, serif` : "'Playfair Display', Georgia, serif");
   };
 
   const updateTheme = async (newSettings) => {

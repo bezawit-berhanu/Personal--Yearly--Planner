@@ -90,13 +90,13 @@ function FieldInput({ field, value, onChange }) {
         <div className="flex items-center gap-3">
           <input
             type="range"
-            className="flex-1 accent-pink-500"
+            className="flex-1 accent-[#6B1D2F]"
             min={0}
             max={100}
             value={value ?? 0}
             onChange={(e) => onChange(Number(e.target.value))}
           />
-          <span className="text-xs font-bold text-slate-700 w-10 text-right">{value ?? 0}%</span>
+          <span className="text-xs font-bold text-[#3B0D18] w-10 text-right">{value ?? 0}%</span>
         </div>
       );
 
@@ -105,47 +105,49 @@ function FieldInput({ field, value, onChange }) {
         <input
           type="text"
           className="modal-input"
+          placeholder={field.placeholder || ''}
           value={value ?? ''}
-          placeholder={field.placeholder ?? `Enter ${field.label.toLowerCase()}…`}
           onChange={(e) => onChange(e.target.value)}
-          required={field.required}
         />
       );
   }
 }
 
-export default function AddEntryModal({ config, onSave, onClose }) {
-  const allFields = (config.fields || []);
-  const initialState = Object.fromEntries(allFields.map((f) => [f.key, f.type === 'number' || f.type === 'progress' || f.type === 'rating' ? 0 : '']));
-  const [form, setForm] = useState(initialState);
+export default function AddEntryModal({ isOpen, onClose, onSave, config }) {
+  const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
 
+  const allFields = config?.fields || DEFAULT_FIELDS;
+
   useEffect(() => {
-    const handler = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [onClose]);
+    const init = {};
+    allFields.forEach((f) => {
+      init[f.key] = f.default !== undefined ? f.default : '';
+    });
+    setForm(init);
+    setErrors({});
+  }, [config, isOpen]);
+
+  if (!isOpen || !config) return null;
 
   function handleChange(key, val) {
     setForm((prev) => ({ ...prev, [key]: val }));
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: false }));
   }
 
-  function validate() {
-    const errs = {};
-    allFields.forEach((f) => {
-      if (f.required && (form[f.key] === '' || form[f.key] === null || form[f.key] === undefined)) {
-        errs[f.key] = true;
-      }
-    });
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  }
-
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!validate()) return;
+    const newErrors = {};
+    allFields.forEach((f) => {
+      if (f.required && (form[f.key] === undefined || form[f.key] === '')) {
+        newErrors[f.key] = true;
+      }
+    });
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
     setSaving(true);
     await new Promise((r) => setTimeout(r, 150));
     onSave(form);
@@ -157,17 +159,17 @@ export default function AddEntryModal({ config, onSave, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="glass-modal rounded-sm shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col">
+      <div className="glass-modal rounded-none shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col border border-[#C5A059]/40 bg-[#FFFDF7]">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-pink-100">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#C5A059]/30 bg-[#FDFBF5]">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600">Add New Entry</span>
-            <h3 className="font-serif text-lg font-bold text-slate-800">{config.title}</h3>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#6B1D2F]">Add New Entry</span>
+            <h3 className="font-serif text-lg font-bold text-[#3B0D18]">{config.title}</h3>
           </div>
-          <button onClick={onClose} className="btn-ghost p-1 text-slate-400">
+          <button onClick={onClose} className="btn-ghost p-1 text-[#6B1D2F]/60 hover:text-[#6B1D2F]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -179,12 +181,12 @@ export default function AddEntryModal({ config, onSave, onClose }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {gridFields.map((field) => (
                   <div key={field.key} className={field.type === 'progress' || field.type === 'rating' ? 'sm:col-span-2' : ''}>
-                    <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
-                      {field.label} {field.required && <span className="text-rose-500">*</span>}
+                    <label className="block text-xs font-semibold uppercase text-[#6B1D2F]/80 mb-1">
+                      {field.label} {field.required && <span className="text-rose-600">*</span>}
                     </label>
                     <FieldInput field={field} value={form[field.key]} onChange={(v) => handleChange(field.key, v)} />
                     {errors[field.key] && (
-                      <p className="text-rose-500 text-[11px] mt-0.5">Required field</p>
+                      <p className="text-rose-600 text-[11px] mt-0.5">Required field</p>
                     )}
                   </div>
                 ))}
@@ -193,20 +195,20 @@ export default function AddEntryModal({ config, onSave, onClose }) {
 
             {wideFields.map((field) => (
               <div key={field.key}>
-                <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
-                  {field.label} {field.required && <span className="text-rose-500">*</span>}
+                <label className="block text-xs font-semibold uppercase text-[#6B1D2F]/80 mb-1">
+                  {field.label} {field.required && <span className="text-rose-600">*</span>}
                 </label>
                 <FieldInput field={field} value={form[field.key]} onChange={(v) => handleChange(field.key, v)} />
                 {errors[field.key] && (
-                  <p className="text-rose-500 text-[11px] mt-0.5">Required field</p>
+                  <p className="text-rose-600 text-[11px] mt-0.5">Required field</p>
                 )}
               </div>
             ))}
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between px-5 py-3 border-t border-pink-100 bg-white/40 backdrop-blur-md shrink-0">
-            <span className="text-[11px] text-slate-400">* Required fields</span>
+          <div className="flex items-center justify-between px-5 py-3 border-t border-[#C5A059]/30 bg-[#FDFBF5] shrink-0">
+            <span className="text-[11px] text-[#6B1D2F]/60">* Required fields</span>
             <div className="flex gap-2">
               <button type="button" onClick={onClose} className="btn-secondary text-xs">Cancel</button>
               <button type="submit" disabled={saving} className="btn-primary text-xs">

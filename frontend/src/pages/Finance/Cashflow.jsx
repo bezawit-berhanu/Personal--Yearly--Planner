@@ -80,13 +80,13 @@ export default function Cashflow() {
   const netCashflow = totalIncome - totalExpenses;
 
   const renderTable = (title, items, type, badgeColor) => (
-    <div className="rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50 overflow-hidden mb-6">
-      <div className="px-4 py-3 bg-pink-50/50 border-b border-pink-100/60 flex items-center justify-between">
-        <h4 className="font-serif text-sm font-bold text-slate-900 flex items-center gap-2">
+    <div className="rounded-none bg-[#FFFDF7]/80 backdrop-blur-md border border-[#C5A059]/30 shadow-md overflow-hidden mb-6">
+      <div className="px-4 py-3 bg-[#FDFBF5] border-b border-[#C5A059]/30 flex items-center justify-between">
+        <h4 className="font-serif text-sm font-bold text-[#3B0D18] flex items-center gap-2">
           <span className={`badge ${badgeColor}`}>{type}</span>
           {title}
         </h4>
-        <span className="font-serif text-sm font-bold text-slate-900">
+        <span className="font-serif text-sm font-bold text-[#6B1D2F]">
           Total: ${items.reduce((s, i) => s + Number(i.amount || 0), 0).toLocaleString()}
         </span>
       </div>
@@ -94,7 +94,7 @@ export default function Cashflow() {
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-xs">
           <thead>
-            <tr className="border-b border-pink-100/80 bg-white/60 text-slate-800 font-bold uppercase tracking-wider">
+            <tr className="border-b border-[#C5A059]/30 bg-[#FFFDF7] text-[#6B1D2F] font-bold uppercase tracking-wider">
               <th className="p-2.5 table-col-divider">Name / Description</th>
               <th className="p-2.5 table-col-divider">Category</th>
               <th className="p-2.5 table-col-divider text-right">Amount ($)</th>
@@ -102,10 +102,10 @@ export default function Cashflow() {
               <th className="p-2.5 text-right w-12">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-pink-100/40">
+          <tbody className="divide-y divide-[#C5A059]/20">
             {items.length === 0 ? (
               <tr>
-                <td colSpan={5} className="p-6 text-center text-slate-500 font-medium italic">
+                <td colSpan={5} className="p-6 text-center text-[#6B1D2F]/60 font-serif italic">
                   No {type.toLowerCase()} items recorded. Click "Add Cashflow Entry" to log.
                 </td>
               </tr>

@@ -40,22 +40,22 @@ export default function LoginRegister() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white border border-pink-200 shadow-sm p-8 rounded-sm">
+    <div className="min-h-screen bg-[#FDFBF5] flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-[#FFFDF7] border border-[#C5A059]/30 shadow-xl p-8 rounded-none">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-pink-100 text-pink-600 rounded-sm mb-3">
-            <Sparkles className="w-6 h-6" />
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-[#6B1D2F]/10 text-[#6B1D2F] rounded-full mb-3 border border-[#C5A059]/30">
+            <Sparkles className="w-6 h-6 text-[#C5A059]" />
           </div>
-          <h1 className="font-serif text-2xl font-bold text-slate-800 tracking-tight">
-            2019 Planner OS
+          <h1 className="font-serif text-2xl font-bold text-[#3B0D18] tracking-tight">
+            Personal Yearly Planner
           </h1>
-          <p className="text-xs text-pink-600 font-semibold tracking-wider uppercase mt-1">
+          <p className="text-xs text-[#6B1D2F] font-semibold tracking-wider uppercase mt-1">
             {isRegister ? 'Create Your Account' : 'Sign In To Your Workspace'}
           </p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-sm font-semibold">
+          <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-none font-semibold">
             {typeof error === 'string' ? error : JSON.stringify(error)}
           </div>
         )}
@@ -63,11 +63,11 @@ export default function LoginRegister() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {isRegister && (
             <div>
-              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+              <label className="block text-xs font-semibold uppercase text-[#6B1D2F]/80 mb-1">
                 Full Name
               </label>
               <div className="relative">
-                <User className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                <User className="w-4 h-4 text-[#C5A059] absolute left-3 top-3" />
                 <input
                   type="text"
                   required
@@ -81,11 +81,11 @@ export default function LoginRegister() {
           )}
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+            <label className="block text-xs font-semibold uppercase text-[#6B1D2F]/80 mb-1">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <Mail className="w-4 h-4 text-[#C5A059] absolute left-3 top-3" />
               <input
                 type="email"
                 required
@@ -98,11 +98,11 @@ export default function LoginRegister() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+            <label className="block text-xs font-semibold uppercase text-[#6B1D2F]/80 mb-1">
               Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <Lock className="w-4 h-4 text-[#C5A059] absolute left-3 top-3" />
               <input
                 type="password"
                 required
@@ -130,14 +130,14 @@ export default function LoginRegister() {
           </button>
         </form>
 
-        <div className="mt-6 pt-4 border-t border-slate-100 text-center text-xs text-slate-500">
+        <div className="mt-6 pt-4 border-t border-[#C5A059]/20 text-center text-xs text-[#6B1D2F]/70">
           {isRegister ? (
             <p>
               Already have an account?{' '}
               <button
                 type="button"
                 onClick={() => { setIsRegister(false); setError(''); }}
-                className="text-pink-600 font-semibold hover:underline"
+                className="text-[#6B1D2F] font-bold hover:underline"
               >
                 Sign In
               </button>
@@ -148,7 +148,7 @@ export default function LoginRegister() {
               <button
                 type="button"
                 onClick={() => { setIsRegister(true); setError(''); }}
-                className="text-pink-600 font-semibold hover:underline"
+                className="text-[#6B1D2F] font-bold hover:underline"
               >
                 Create Account
               </button>

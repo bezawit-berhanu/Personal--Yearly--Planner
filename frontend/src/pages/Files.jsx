@@ -109,14 +109,14 @@ export default function Files() {
       />
 
       {/* Upload Form */}
-      <div className="p-6 rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50">
-        <h3 className="font-serif text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-          <Upload className="w-4 h-4 text-pink-600" />
+      <div className="p-6 rounded-none bg-[#FFFDF7]/80 backdrop-blur-md border border-[#C5A059]/30 shadow-md">
+        <h3 className="font-serif text-base font-bold text-[#3B0D18] mb-4 flex items-center gap-2">
+          <Upload className="w-4 h-4 text-[#6B1D2F]" />
           Upload New File / Scanned Picture
         </h3>
 
         {error && (
-          <div className="mb-4 p-3 bg-rose-50/90 text-rose-800 text-xs font-bold rounded-sm border-l-2 border-rose-500">
+          <div className="mb-4 p-3 bg-rose-50/90 text-rose-800 text-xs font-bold rounded-none border-l-2 border-rose-500">
             {typeof error === 'string' ? error : JSON.stringify(error)}
           </div>
         )}
@@ -124,7 +124,7 @@ export default function Files() {
         <form onSubmit={handleUpload} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+              <label className="block text-xs font-bold uppercase text-[#6B1D2F]/80 mb-1">
                 Select File / Scan
               </label>
               <input
@@ -135,7 +135,7 @@ export default function Files() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+              <label className="block text-xs font-bold uppercase text-[#6B1D2F]/80 mb-1">
                 File Display Name
               </label>
               <input
@@ -148,7 +148,7 @@ export default function Files() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+              <label className="block text-xs font-bold uppercase text-[#6B1D2F]/80 mb-1">
                 Category / Section
               </label>
               <select
@@ -167,7 +167,7 @@ export default function Files() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase text-slate-700 mb-1">
+            <label className="block text-xs font-bold uppercase text-[#6B1D2F]/80 mb-1">
               Notes & Description
             </label>
             <input
@@ -190,7 +190,7 @@ export default function Files() {
               </span>
             ) : (
               <span className="flex items-center gap-2">
-                <Upload className="w-4 h-4" /> Upload & Track File
+                <Upload className="w-4 h-4 text-[#C5A059]" /> Upload & Track File
               </span>
             )}
           </button>
@@ -199,52 +199,52 @@ export default function Files() {
 
       {/* Files List */}
       <div className="space-y-4">
-        <div className="pb-2 border-b border-pink-100/50 flex items-center justify-between">
-          <h3 className="font-serif text-base font-bold text-slate-900">
+        <div className="pb-2 border-b border-[#C5A059]/30 flex items-center justify-between">
+          <h3 className="font-serif text-base font-bold text-[#3B0D18]">
             Uploaded Files ({files.length})
           </h3>
         </div>
 
         {loading ? (
-          <div className="p-8 text-center text-slate-600 text-xs font-semibold">Loading tracked files...</div>
+          <div className="p-8 text-center text-[#6B1D2F]/70 text-xs font-semibold">Loading tracked files...</div>
         ) : files.length === 0 ? (
-          <div className="p-12 text-center text-slate-500 font-medium italic text-sm">
+          <div className="p-12 text-center text-[#6B1D2F]/60 font-serif italic text-sm">
             No files tracked yet. Use the form above to upload scanned pictures or documents.
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {files.map((file) => (
-              <div key={file.id} className="p-4 rounded-sm bg-white/60 backdrop-blur-xs border-b-2 border-pink-100 hover:border-pink-300 transition-colors flex flex-col justify-between group">
+              <div key={file.id} className="p-4 rounded-none bg-[#FFFDF7] border border-[#C5A059]/30 hover:border-[#C5A059] shadow-sm transition-all flex flex-col justify-between group">
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2 min-w-0">
                       {file.file_url?.match(/\.(jpeg|jpg|gif|png|webp)/i) ? (
-                        <ImageIcon className="w-5 h-5 text-pink-600 shrink-0" />
+                        <ImageIcon className="w-5 h-5 text-[#6B1D2F] shrink-0" />
                       ) : (
-                        <File className="w-5 h-5 text-slate-600 shrink-0" />
+                        <File className="w-5 h-5 text-[#6B1D2F]/70 shrink-0" />
                       )}
-                      <h4 className="font-bold text-sm text-slate-900 truncate" title={file.file_name}>
+                      <h4 className="font-serif font-bold text-sm text-[#3B0D18] truncate" title={file.file_name}>
                         {file.file_name}
                       </h4>
                     </div>
                     <button
                       onClick={() => setDeleteTargetId(file.id)}
-                      className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
+                      className="text-[#6B1D2F]/40 hover:text-rose-600 transition-colors cursor-pointer"
                       title="Delete file"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
 
-                  <span className="badge badge-pink mb-2">{file.section_category || 'General'}</span>
+                  <span className="badge badge-gold mb-2">{file.section_category || 'General'}</span>
 
                   {file.notes && (
-                    <p className="text-xs font-semibold text-slate-700 mb-3 line-clamp-2">{file.notes}</p>
+                    <p className="text-xs font-medium text-[#3B0D18]/80 mb-3 line-clamp-2">{file.notes}</p>
                   )}
                 </div>
 
-                <div className="pt-3 border-t border-pink-100/40 flex items-center justify-between mt-2">
-                  <span className="text-[11px] font-bold text-slate-600">
+                <div className="pt-3 border-t border-[#C5A059]/20 flex items-center justify-between mt-2">
+                  <span className="text-[11px] font-semibold text-[#6B1D2F]/70">
                     {new Date(file.created_at).toLocaleDateString()}
                   </span>
                   <a

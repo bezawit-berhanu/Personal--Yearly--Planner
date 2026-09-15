@@ -57,21 +57,21 @@ export default function GoalTracker() {
 
       {/* Goal Progress Visual Graph */}
       {goalChartData.length > 0 && (
-        <div className="p-6 rounded-sm bg-white/40 backdrop-blur-md border-b border-pink-100/50 space-y-4">
-          <h3 className="font-serif text-base font-bold text-slate-900 flex items-center gap-2">
-            <BarChart2 className="w-4 h-4 text-pink-600" />
+        <div className="p-6 rounded-md bg-[#FFFDF7]/90 backdrop-blur-md border border-[#6B1D2F]/15 space-y-4 shadow-sm">
+          <h3 className="font-serif text-base font-bold text-[#3B0D18] flex items-center gap-2">
+            <BarChart2 className="w-4 h-4 text-[#C5A059]" />
             Goal Completion % Visualizer
           </h3>
           <ResponsiveContainer width="100%" height={Math.max(160, goalChartData.length * 35)}>
             <BarChart data={goalChartData} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(236, 72, 153, 0.15)" horizontal={false} />
-              <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11, fill: '#334155', fontWeight: 'bold' }} tickFormatter={v => `${v}%`} />
-              <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: '#334155', fontWeight: 'bold' }} width={160} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(107, 29, 47, 0.12)" horizontal={false} />
+              <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11, fill: '#3B0D18', fontWeight: 'bold' }} tickFormatter={v => `${v}%`} />
+              <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: '#3B0D18', fontWeight: 'bold' }} width={160} />
               <Tooltip
-                contentStyle={{ background: 'rgba(255, 255, 255, 0.95)', border: '1px solid rgba(236, 72, 153, 0.3)', borderRadius: '4px', fontSize: '12px' }}
+                contentStyle={{ background: '#FFFDF7', border: '1px solid rgba(197, 160, 89, 0.5)', borderRadius: '6px', fontSize: '12px', color: '#3B0D18' }}
                 formatter={(v) => [`${v}%`, 'Progress']}
               />
-              <Bar dataKey="progress" radius={[0, 4, 4, 0]} barSize={20} fill="#EC4899" />
+              <Bar dataKey="progress" radius={[0, 4, 4, 0]} barSize={20} fill="#6B1D2F" />
             </BarChart>
           </ResponsiveContainer>
         </div>

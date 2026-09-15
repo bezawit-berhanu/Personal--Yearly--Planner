@@ -77,7 +77,7 @@ export default function TopNavbar() {
   const activeCategory = NAV_GROUPS.find(g => g.items.some(i => i.id === db.activeTab));
 
   return (
-    <header className="sticky top-0 z-[10000] bg-white/90 backdrop-blur-md shadow-sm">
+    <header className="sticky top-0 z-[10000] bg-[#FFFDF7]/90 backdrop-blur-md border-b border-[#C5A059]/25 shadow-xs">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 gap-3">
 
@@ -87,15 +87,15 @@ export default function TopNavbar() {
               onClick={() => navigateTo('dashboard')}
               className="flex items-center gap-2.5 text-left focus:outline-none cursor-pointer group"
             >
-              <div className="w-9 h-9 bg-pink-100/90 text-pink-700 flex items-center justify-center rounded-sm group-hover:bg-pink-200 transition-colors shadow-xs">
-                <Sparkles className="w-5 h-5 text-pink-600" />
+              <div className="w-9 h-9 bg-[#6B1D2F] text-[#FFFDF7] flex items-center justify-center rounded-md group-hover:bg-[#5B1425] transition-colors border border-[#C5A059]/40 shadow-xs">
+                <Crown className="w-5 h-5 text-[#E6C687]" />
               </div>
               <div>
-                <h1 className="font-serif text-base font-bold text-slate-900 tracking-tight leading-none">
+                <h1 className="font-serif text-base font-bold text-[#3B0D18] tracking-tight leading-none">
                   {user?.name ? `${user.name}'s` : 'Personal'} 2027
                 </h1>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-pink-700">
-                  Planner OS
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B1D2F]">
+                  Royal Planner OS
                 </span>
               </div>
             </button>
@@ -107,26 +107,26 @@ export default function TopNavbar() {
             {/* Quick 1-Click Shortcuts */}
             <button
               onClick={() => navigateTo('dashboard')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-sm transition-all cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all cursor-pointer border ${
                 db.activeTab === 'dashboard'
-                  ? 'bg-pink-500 text-white shadow-xs'
-                  : 'text-slate-800 hover:bg-pink-50 hover:text-pink-700'
+                  ? 'bg-[#6B1D2F] text-[#FFFDF7] border-[#C5A059]/40 shadow-xs'
+                  : 'text-[#3B0D18] border-transparent hover:bg-[#6B1D2F]/10 hover:text-[#6B1D2F]'
               }`}
             >
               Dashboard
             </button>
 
-            {/* UNIFIED SINGLE MEGA-DROPDOWN BUTTON WITH EXACT COUNT (52) */}
+            {/* UNIFIED SINGLE MEGA-DROPDOWN BUTTON */}
             <div className="relative">
               <button
                 onClick={() => setMegaMenuOpen(!megaMenuOpen)}
-                className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-sm transition-all cursor-pointer shadow-sm ${
+                className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all cursor-pointer border ${
                   megaMenuOpen || (activeCategory && db.activeTab !== 'dashboard')
-                    ? 'bg-pink-500 text-white'
-                    : 'bg-white/85 text-slate-800 hover:bg-pink-50'
+                    ? 'bg-[#6B1D2F] text-[#FFFDF7] border-[#C5A059]/40'
+                    : 'bg-[#FFFDF7] text-[#3B0D18] border-[#6B1D2F]/20 hover:bg-[#F8F3EC]'
                 }`}
               >
-                <LayoutGrid className="w-4 h-4" />
+                <LayoutGrid className="w-4 h-4 text-[#C5A059]" />
                 <span>Planner Sections</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${megaMenuOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -171,9 +171,9 @@ export default function TopNavbar() {
                   {/* Multi-Column Responsive Grid of All Categories */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto pr-1 flex-1 max-h-[60vh]">
                     {filteredGroups.map((group) => (
-                      <div key={group.label} className="bg-white/40 rounded-sm p-2.5 space-y-1.5 flex flex-col justify-start">
-                        <div className="flex items-center justify-between bg-pink-50/90 px-2 py-1 rounded-sm">
-                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-pink-700 truncate">
+                      <div key={group.label} className="bg-[#F8F3EC]/80 border border-[#6B1D2F]/10 rounded-md p-2.5 space-y-1.5 flex flex-col justify-start">
+                        <div className="flex items-center justify-between bg-[#6B1D2F]/10 px-2 py-1 rounded-sm border-b border-[#6B1D2F]/15">
+                          <h4 className="font-serif text-[11px] font-bold uppercase tracking-wider text-[#6B1D2F] truncate">
                             {group.label}
                           </h4>
                         </div>
@@ -189,17 +189,17 @@ export default function TopNavbar() {
                                   setMegaMenuOpen(false);
                                   setSearchFilter('');
                                 }}
-                                className={`w-full text-left px-2 py-1.5 text-xs font-semibold rounded-sm transition-colors flex items-center justify-between cursor-pointer ${
+                                className={`w-full text-left px-2 py-1.5 text-xs font-semibold rounded-md transition-all flex items-center justify-between cursor-pointer ${
                                   active
-                                    ? 'bg-pink-500 text-white font-bold shadow-xs'
-                                    : 'text-slate-800 hover:bg-pink-50 hover:text-pink-800'
+                                    ? 'bg-[#6B1D2F] text-[#FFFDF7] font-bold shadow-xs border border-[#C5A059]/40'
+                                    : 'text-[#3B0D18] hover:bg-[#FFFDF7] hover:text-[#6B1D2F]'
                                 }`}
                               >
                                 <div className="flex items-center gap-2 truncate">
-                                  <IconComponent className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-white' : 'text-pink-600'}`} />
+                                  <IconComponent className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-[#E6C687]' : 'text-[#C5A059]'}`} />
                                   <span className="truncate">{item.label}</span>
                                 </div>
-                                {active && <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0 ml-1"></span>}
+                                {active && <span className="w-1.5 h-1.5 rounded-full bg-[#E6C687] shrink-0 ml-1"></span>}
                               </button>
                             );
                           })}
@@ -209,13 +209,13 @@ export default function TopNavbar() {
                   </div>
 
                   {/* Footer info bar */}
-                  <div className="mt-3 pt-2.5 flex items-center justify-between text-[11px] text-slate-500 font-semibold shrink-0">
-                    <span>{user?.name ? `${user.name}'s` : 'Personal'} Planner OS</span>
+                  <div className="mt-3 pt-2.5 flex items-center justify-between text-[11px] text-[#7A5C63] font-semibold shrink-0 border-t border-[#6B1D2F]/15">
+                    <span>{user?.name ? `${user.name}'s` : 'Personal'} 2027 Royal Planner OS</span>
                     <button
                       onClick={() => { navigateTo('appearance'); setMegaMenuOpen(false); }}
-                      className="text-pink-600 font-bold hover:underline"
+                      className="text-[#6B1D2F] font-bold hover:underline"
                     >
-                      Configure Themes & Blurry Wallpapers →
+                      Configure Themes & Wallpapers →
                     </button>
                   </div>
                 </div>
@@ -233,13 +233,13 @@ export default function TopNavbar() {
                 className="btn-secondary text-xs p-2 sm:px-3 sm:py-1.5"
                 title="Choose UI Theme"
               >
-                <Palette className="w-4 h-4 text-pink-600" />
+                <Palette className="w-4 h-4 text-[#C5A059]" />
                 <span className="hidden sm:inline">Theme</span>
               </button>
 
               {themeMenuOpen && (
-                <div className="absolute right-0 mt-2 w-64 glass-modal shadow-2xl rounded-sm py-2 z-[10000] animate-fadeIn">
-                  <div className="px-3 py-1 font-bold text-[10px] uppercase tracking-widest text-pink-700 mb-1">
+                <div className="absolute right-0 mt-2 w-64 glass-modal shadow-2xl rounded-none py-2 z-[10000] animate-fadeIn border border-[#C5A059]/40 bg-[#FFFDF7]">
+                  <div className="px-3 py-1 font-bold text-[10px] uppercase tracking-widest text-[#6B1D2F] mb-1 border-b border-[#C5A059]/20">
                     Select Preset Theme
                   </div>
                   {THEME_PRESETS.map((preset) => (
@@ -254,21 +254,21 @@ export default function TopNavbar() {
                         });
                         setThemeMenuOpen(false);
                       }}
-                      className="w-full text-left px-3 py-2 hover:bg-pink-50/80 text-slate-800 font-semibold transition-colors flex items-center justify-between cursor-pointer text-xs"
+                      className="w-full text-left px-3 py-2 hover:bg-[#6B1D2F]/10 text-[#3B0D18] font-semibold transition-colors flex items-center justify-between cursor-pointer text-xs"
                     >
                       <span>{preset.label}</span>
                       <div
-                        className="w-3.5 h-3.5 rounded-full shrink-0"
-                        style={{ backgroundColor: preset.bg === 'transparent' ? '#E879A0' : preset.bg }}
+                        className="w-3.5 h-3.5 rounded-full shrink-0 border border-[#C5A059]/40"
+                        style={{ backgroundColor: preset.bg === 'transparent' ? '#6B1D2F' : preset.bg }}
                       />
                     </button>
                   ))}
 
                   {/* Wallpaper Blur Quick Toggle */}
                   <div className="mt-1 pt-2 px-3">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-pink-700 mb-1 flex items-center justify-between">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#6B1D2F] mb-1 flex items-center justify-between">
                       <span>Wallpaper Blur</span>
-                      <span className="font-extrabold text-pink-600">
+                      <span className="font-extrabold text-[#6B1D2F]">
                         {theme.wallpaper_blur !== undefined ? theme.wallpaper_blur : (theme.custom_theme_json?.wallpaper_blur ?? 0)}px
                       </span>
                     </div>
@@ -284,10 +284,10 @@ export default function TopNavbar() {
                           <button
                             key={b.val}
                             onClick={() => updateTheme({ wallpaper_blur: b.val })}
-                            className={`py-0.5 text-[10px] font-bold rounded-sm cursor-pointer transition-colors text-center ${
+                            className={`py-0.5 text-[10px] font-bold rounded-none cursor-pointer transition-colors text-center border ${
                               active
-                                ? 'bg-pink-500 text-white'
-                                : 'bg-white/70 text-slate-700 hover:bg-pink-50'
+                                ? 'bg-[#6B1D2F] text-[#FFFDF7] border-[#C5A059]'
+                                : 'bg-[#FFFDF7] text-[#3B0D18] border-[#C5A059]/30 hover:bg-[#6B1D2F]/10'
                             }`}
                           >
                             {b.label}
@@ -297,9 +297,9 @@ export default function TopNavbar() {
                     </div>
 
                     {/* Card Transparency / Opacity Quick Selector */}
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-pink-700 mb-1 flex items-center justify-between">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#6B1D2F] mb-1 flex items-center justify-between">
                       <span>Card Transparency</span>
-                      <span className="font-extrabold text-pink-600">
+                      <span className="font-extrabold text-[#6B1D2F]">
                         {100 - (theme.card_opacity !== undefined ? theme.card_opacity : (theme.custom_theme_json?.card_opacity ?? 60))}% Translucent
                       </span>
                     </div>
@@ -317,10 +317,10 @@ export default function TopNavbar() {
                           <button
                             key={o.val}
                             onClick={() => updateTheme({ card_opacity: o.val })}
-                            className={`py-0.5 text-[9px] font-bold rounded-sm cursor-pointer transition-colors text-center ${
+                            className={`py-0.5 text-[9px] font-bold rounded-none cursor-pointer transition-colors text-center border ${
                               active
-                                ? 'bg-pink-500 text-white'
-                                : 'bg-white/70 text-slate-700 hover:bg-pink-50'
+                                ? 'bg-[#6B1D2F] text-[#FFFDF7] border-[#C5A059]'
+                                : 'bg-[#FFFDF7] text-[#3B0D18] border-[#C5A059]/30 hover:bg-[#6B1D2F]/10'
                             }`}
                           >
                             {o.label}
@@ -333,7 +333,7 @@ export default function TopNavbar() {
                   <div className="mt-2 pt-1.5 px-3">
                     <button
                       onClick={() => { navigateTo('appearance'); setThemeMenuOpen(false); }}
-                      className="w-full text-center text-[11px] font-bold text-pink-600 hover:underline py-1 cursor-pointer"
+                      className="w-full text-center text-[11px] font-bold text-[#6B1D2F] hover:underline py-1 cursor-pointer"
                     >
                       Custom Wallpaper & Settings →
                     </button>
@@ -344,24 +344,17 @@ export default function TopNavbar() {
 
             {user && (
               <div className="hidden sm:flex items-center gap-2 pl-3">
-                <div className="w-8 h-8 bg-pink-500 text-white flex items-center justify-center font-bold text-xs rounded-sm shadow-xs">
+                <div className="w-8 h-8 bg-[#6B1D2F] text-[#FFFDF7] border border-[#C5A059]/40 flex items-center justify-center font-bold text-xs rounded-full shadow-xs">
                   {user.name ? user.name.charAt(0).toUpperCase() : 'B'}
                 </div>
-                <span className="text-xs font-bold text-slate-800">{user.name}</span>
-                <button
-                  onClick={logout}
-                  title="Sign Out"
-                  className="btn-ghost p-1.5 text-slate-500 hover:text-rose-600 cursor-pointer"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
+                <span className="text-xs font-bold text-[#3B0D18]">{user.name}</span>
               </div>
             )}
 
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden btn-ghost p-2 text-slate-800"
+              className="lg:hidden btn-ghost p-2 text-[#6B1D2F]"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -373,13 +366,13 @@ export default function TopNavbar() {
 
       {/* Mobile Drawer Menu with Full Search & All 52 Sections */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/95 backdrop-blur-xl px-4 py-4 max-h-[85vh] overflow-y-auto space-y-4 shadow-2xl">
+        <div className="lg:hidden bg-[#FFFDF7]/95 backdrop-blur-xl px-4 py-4 max-h-[85vh] overflow-y-auto space-y-4 shadow-2xl border-b border-[#C5A059]/30">
           {user && (
-            <div className="flex items-center justify-between pb-3 text-xs font-bold">
-              <span className="text-slate-800 flex items-center gap-2">
-                <User className="w-4 h-4 text-pink-600" /> Signed in as {user.name}
+            <div className="flex items-center justify-between pb-3 text-xs font-bold border-b border-[#C5A059]/20">
+              <span className="text-[#3B0D18] flex items-center gap-2">
+                <User className="w-4 h-4 text-[#6B1D2F]" /> Signed in as {user.name}
               </span>
-              <button onClick={logout} className="text-rose-600 flex items-center gap-1 cursor-pointer hover:underline">
+              <button onClick={logout} className="text-rose-700 flex items-center gap-1 cursor-pointer hover:underline">
                 <LogOut className="w-3.5 h-3.5" /> Logout
               </button>
             </div>
@@ -387,7 +380,7 @@ export default function TopNavbar() {
 
           {/* Mobile Search */}
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-[#C5A059] absolute left-3 top-2.5" />
             <input
               type="text"
               placeholder={`Search all ${TOTAL_SECTIONS} planner sections...`}
@@ -399,9 +392,9 @@ export default function TopNavbar() {
 
           {filteredGroups.map((group) => (
             <div key={group.label} className="space-y-1.5">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-pink-700 px-1 pb-1 flex items-center justify-between">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[#6B1D2F] px-1 pb-1 flex items-center justify-between">
                 <span>{group.label}</span>
-                <span className="bg-pink-100 text-pink-600 text-[10px] px-1.5 py-0.2 rounded-full font-extrabold">
+                <span className="bg-[#6B1D2F]/10 text-[#6B1D2F] border border-[#C5A059]/30 text-[10px] px-1.5 py-0.2 rounded-full font-extrabold">
                   {group.items.length}
                 </span>
               </div>
@@ -417,13 +410,13 @@ export default function TopNavbar() {
                         setMobileMenuOpen(false);
                         setSearchFilter('');
                       }}
-                      className={`text-left px-2.5 py-2 text-xs rounded-sm transition-colors cursor-pointer flex items-center gap-2 ${
+                      className={`text-left px-2.5 py-2 text-xs rounded-none transition-colors cursor-pointer flex items-center gap-2 border ${
                         active
-                          ? 'bg-pink-500 text-white font-bold shadow-xs'
-                          : 'text-slate-800 bg-slate-100/90 hover:bg-pink-50'
+                          ? 'bg-[#6B1D2F] text-[#FFFDF7] border-[#C5A059] font-bold shadow-xs'
+                          : 'text-[#3B0D18] bg-[#FDFBF5] border-[#C5A059]/20 hover:bg-[#6B1D2F]/10'
                       }`}
                     >
-                      <IconComponent className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-white' : 'text-pink-600'}`} />
+                      <IconComponent className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-[#E6C687]' : 'text-[#6B1D2F]'}`} />
                       <span className="truncate">{item.label}</span>
                     </button>
                   );

@@ -117,17 +117,17 @@ export default function Appearance() {
         </div>
       )}
 
-      <form onSubmit={handleSaveTheme} className="glass-card p-6 rounded-sm shadow-sm space-y-6">
+      <form onSubmit={handleSaveTheme} className="glass-card p-6 rounded-none shadow-md space-y-6">
 
         {/* Wallpaper Upload */}
         <div>
-          <h3 className="font-serif text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
-            <ImageIcon className="w-4 h-4 text-pink-600" />
+          <h3 className="font-serif text-sm font-bold text-[#3B0D18] mb-2 flex items-center gap-2">
+            <ImageIcon className="w-4 h-4 text-[#6B1D2F]" />
             Background Wallpaper Image
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-[#6B1D2F]/80 mb-1">
                 Upload Custom Wallpaper Image
               </label>
               <input
@@ -136,11 +136,11 @@ export default function Appearance() {
                 onChange={handleWallpaperUpload}
                 className="modal-input text-xs cursor-pointer font-semibold"
               />
-              {uploading && <p className="text-[11px] font-bold text-pink-700 mt-1">Uploading wallpaper...</p>}
+              {uploading && <p className="text-[11px] font-bold text-[#6B1D2F] mt-1">Uploading wallpaper...</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-[#6B1D2F]/80 mb-1">
                 Or Wallpaper Image Direct URL
               </label>
               <input
@@ -157,10 +157,10 @@ export default function Appearance() {
           </div>
 
           {/* Wallpaper Blur Intensity Control */}
-          <div className="mt-4 pt-4 border-t border-slate-200/60">
+          <div className="mt-4 pt-4 border-t border-[#C5A059]/20">
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-800">
-                Wallpaper Blur Intensity: <span className="text-pink-600 font-extrabold">{wallpaperBlur}px</span>
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#3B0D18]">
+                Wallpaper Blur Intensity: <span className="text-[#6B1D2F] font-extrabold">{wallpaperBlur}px</span>
               </label>
               <div className="flex items-center gap-1">
                 {BLUR_PRESETS.map((p) => (
@@ -171,10 +171,10 @@ export default function Appearance() {
                       setWallpaperBlur(p.val);
                       updateTheme({ wallpaper_blur: p.val });
                     }}
-                    className={`px-2 py-0.5 text-[11px] font-bold rounded-sm border cursor-pointer transition-colors ${
+                    className={`px-2 py-0.5 text-[11px] font-bold rounded-none border cursor-pointer transition-colors ${
                       Number(wallpaperBlur) === p.val
-                        ? 'bg-pink-500 text-white border-pink-500'
-                        : 'bg-white/80 text-slate-700 border-slate-300 hover:bg-pink-50'
+                        ? 'bg-[#6B1D2F] text-[#FFFDF7] border-[#C5A059]'
+                        : 'bg-[#FFFDF7] text-[#3B0D18] border-[#C5A059]/30 hover:bg-[#6B1D2F]/10'
                     }`}
                   >
                     {p.label}
@@ -184,7 +184,7 @@ export default function Appearance() {
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-xs font-bold text-slate-500">0px</span>
+              <span className="text-xs font-bold text-[#6B1D2F]/60">0px</span>
               <input
                 type="range"
                 min={0}
@@ -196,17 +196,17 @@ export default function Appearance() {
                   setWallpaperBlur(val);
                   updateTheme({ wallpaper_blur: val });
                 }}
-                className="flex-1 accent-pink-500 cursor-pointer"
+                className="flex-1 accent-[#6B1D2F] cursor-pointer"
               />
-              <span className="text-xs font-bold text-slate-500">30px</span>
+              <span className="text-xs font-bold text-[#6B1D2F]/60">30px</span>
             </div>
           </div>
 
           {/* Component Card Transparency Control */}
-          <div className="mt-4 pt-4 border-t border-slate-200/60">
+          <div className="mt-4 pt-4 border-t border-[#C5A059]/20">
             <div className="flex items-center justify-between mb-2">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-800">
-                Component Card Opacity / Transparency: <span className="text-pink-600 font-extrabold">{cardOpacity}% Solid ({100 - cardOpacity}% Translucent)</span>
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#3B0D18]">
+                Component Card Opacity / Transparency: <span className="text-[#6B1D2F] font-extrabold">{cardOpacity}% Solid ({100 - cardOpacity}% Translucent)</span>
               </label>
               <div className="flex items-center gap-1 overflow-x-auto">
                 {OPACITY_PRESETS.map((p) => (
@@ -217,10 +217,10 @@ export default function Appearance() {
                       setCardOpacity(p.val);
                       updateTheme({ card_opacity: p.val });
                     }}
-                    className={`px-2 py-0.5 text-[10px] font-bold rounded-sm border cursor-pointer transition-colors whitespace-nowrap ${
+                    className={`px-2 py-0.5 text-[10px] font-bold rounded-none border cursor-pointer transition-colors whitespace-nowrap ${
                       Number(cardOpacity) === p.val
-                        ? 'bg-pink-500 text-white border-pink-500'
-                        : 'bg-white/80 text-slate-700 border-slate-300 hover:bg-pink-50'
+                        ? 'bg-[#6B1D2F] text-[#FFFDF7] border-[#C5A059]'
+                        : 'bg-[#FFFDF7] text-[#3B0D18] border-[#C5A059]/30 hover:bg-[#6B1D2F]/10'
                     }`}
                   >
                     {p.label}
@@ -230,7 +230,7 @@ export default function Appearance() {
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-xs font-bold text-slate-500">0% (Clear)</span>
+              <span className="text-xs font-bold text-[#6B1D2F]/60">0% (Clear)</span>
               <input
                 type="range"
                 min={0}
@@ -242,15 +242,15 @@ export default function Appearance() {
                   setCardOpacity(val);
                   updateTheme({ card_opacity: val });
                 }}
-                className="flex-1 accent-pink-500 cursor-pointer"
+                className="flex-1 accent-[#6B1D2F] cursor-pointer"
               />
-              <span className="text-xs font-bold text-slate-500">100% (Opaque)</span>
+              <span className="text-xs font-bold text-[#6B1D2F]/60">100% (Opaque)</span>
             </div>
           </div>
 
           {wallpaperUrl && (
-            <div className="mt-3 relative h-32 border border-slate-300 rounded-sm overflow-hidden bg-cover bg-center shadow-xs" style={{ backgroundImage: `url("${wallpaperUrl}")` }}>
-              <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-xs flex items-center justify-between px-4 text-white">
+            <div className="mt-3 relative h-32 border border-[#C5A059]/40 rounded-none overflow-hidden bg-cover bg-center shadow-xs" style={{ backgroundImage: `url("${wallpaperUrl}")` }}>
+              <div className="absolute inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-between px-4 text-white">
                 <span className="text-xs font-bold drop-shadow-md">
                   Wallpaper Preview (Active Blur: {wallpaperBlur}px)
                 </span>
@@ -267,21 +267,21 @@ export default function Appearance() {
         </div>
 
         {/* Font Color & Styling */}
-        <div className="pt-4 border-t border-slate-200/80">
-          <h3 className="font-serif text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-            <Palette className="w-4 h-4 text-pink-600" />
+        <div className="pt-4 border-t border-[#C5A059]/20">
+          <h3 className="font-serif text-sm font-bold text-[#3B0D18] mb-3 flex items-center gap-2">
+            <Palette className="w-4 h-4 text-[#6B1D2F]" />
             Color Palette & Font Styling
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-[#6B1D2F]/80 mb-1">
                 Global Background Color
               </label>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
-                  className="w-9 h-9 border border-slate-300 rounded-sm cursor-pointer p-0.5"
+                  className="w-9 h-9 border border-[#C5A059]/40 rounded-none cursor-pointer p-0.5"
                   value={bgColor}
                   onChange={(e) => setBgColor(e.target.value)}
                 />
@@ -295,13 +295,13 @@ export default function Appearance() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-[#6B1D2F]/80 mb-1">
                 Global Font Text Color
               </label>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
-                  className="w-9 h-9 border border-slate-300 rounded-sm cursor-pointer p-0.5"
+                  className="w-9 h-9 border border-[#C5A059]/40 rounded-none cursor-pointer p-0.5"
                   value={textColor}
                   onChange={(e) => setTextColor(e.target.value)}
                 />
@@ -315,13 +315,13 @@ export default function Appearance() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
-                Pink Accent Theme Color
+              <label className="block text-xs font-bold text-[#6B1D2F]/80 mb-1">
+                Royal Burgundy Accent Color
               </label>
               <div className="flex items-center gap-2">
                 <input
                   type="color"
-                  className="w-9 h-9 border border-slate-300 rounded-sm cursor-pointer p-0.5"
+                  className="w-9 h-9 border border-[#C5A059]/40 rounded-none cursor-pointer p-0.5"
                   value={accentColor}
                   onChange={(e) => setAccentColor(e.target.value)}
                 />
@@ -337,9 +337,9 @@ export default function Appearance() {
         </div>
 
         {/* Font Family */}
-        <div className="pt-4 border-t border-slate-200/80">
-          <h3 className="font-serif text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-            <Type className="w-4 h-4 text-pink-600" />
+        <div className="pt-4 border-t border-[#C5A059]/20">
+          <h3 className="font-serif text-sm font-bold text-[#3B0D18] mb-3 flex items-center gap-2">
+            <Type className="w-4 h-4 text-[#6B1D2F]" />
             Global Font Family
           </h3>
 
@@ -349,21 +349,21 @@ export default function Appearance() {
               value={fontFamily}
               onChange={(e) => setFontFamily(e.target.value)}
             >
+              <option value="Playfair Display">Playfair Display (Royal Serif)</option>
+              <option value="Cormorant Garamond">Cormorant Garamond (Vintage Serif)</option>
               <option value="Inter">Inter (Clean Modern Sans)</option>
-              <option value="Playfair Display">Playfair Display (Elegant Serif)</option>
               <option value="Georgia">Georgia (Classic Serif)</option>
-              <option value="Fira Code">Fira Code (Monospace)</option>
             </select>
           </div>
         </div>
 
-        <div className="pt-4 border-t border-slate-200/80 flex items-center justify-between">
+        <div className="pt-4 border-t border-[#C5A059]/20 flex items-center justify-between">
           <button
             type="button"
             onClick={resetDefault}
             className="btn-secondary text-xs flex items-center gap-1"
           >
-            <RefreshCw className="w-3.5 h-3.5" /> Reset Default Pure White/Pink
+            <RefreshCw className="w-3.5 h-3.5" /> Reset Royal Theme Default
           </button>
 
           <button type="submit" className="btn-primary text-xs">

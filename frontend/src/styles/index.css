@@ -1,20 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --royal-burgundy-deep: #3B0D18;
+  --royal-burgundy: #6B1D2F;
+  --royal-burgundy-hover: #5B1425;
+  --royal-wine: #7A1C31;
+  --royal-oxblood: #4A101E;
+  --royal-ivory: #FFFDF7;
+  --royal-ivory-warm: #FDFBF5;
+  --royal-cream: #F8F3EC;
+  --royal-parchment: #F3ECE3;
+  --royal-gold: #C5A059;
+  --royal-gold-light: #E6C687;
+  --royal-gold-muted: #D4AF37;
+  --royal-text-dark: #3B0D18;
+  --royal-text-muted: #7A5C63;
+  --royal-border-subtle: rgba(107, 29, 47, 0.15);
+  --royal-border-gold: rgba(197, 160, 89, 0.35);
+}
+
 @layer base {
   body {
-    @apply bg-white text-slate-900 font-sans antialiased selection:bg-pink-200 selection:text-pink-900 min-h-screen;
-    background-color: var(--theme-bg-color, #FFFFFF);
-    color: var(--theme-text-color, #1A1A2E);
-    font-family: var(--theme-font-family, 'Inter', sans-serif);
+    @apply antialiased selection:bg-[#6B1D2F]/20 selection:text-[#3B0D18] min-h-screen;
+    background-color: var(--theme-bg-color, #FDFBF5);
+    color: var(--theme-text-color, #3B0D18);
+    font-family: var(--theme-font-family, 'Playfair Display', Georgia, serif);
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.01em;
   }
 }
 
 /* Custom wallpaper background with blur intensity filter */
 .app-wallpaper {
   position: relative;
-  background-color: var(--theme-bg-color, #FFFFFF);
+  background-color: var(--theme-bg-color, #FDFBF5);
   transition: background-color 0.3s ease;
 }
 
@@ -47,82 +73,109 @@
   z-index: 1;
 }
 
-/* Glassmorphism translucent containers & cards — borderless style */
+/* Glassmorphism translucent containers & cards — Royal Ivory & Gold border style */
 .glass-card {
-  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.60));
-  @apply backdrop-blur-md shadow-sm text-slate-900 transition-all border-none;
+  background-color: var(--theme-card-bg, rgba(255, 253, 247, 0.82));
+  border: 1px solid rgba(107, 29, 47, 0.12);
+  box-shadow: 0 4px 20px -2px rgba(59, 13, 24, 0.04);
+  @apply backdrop-blur-md text-[#3B0D18] transition-all rounded-md;
+}
+
+.glass-card:hover {
+  border-color: rgba(197, 160, 89, 0.35);
 }
 
 .glass-table {
-  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.65));
-  @apply backdrop-blur-md shadow-sm text-slate-900 transition-all border-none;
+  background-color: var(--theme-card-bg, rgba(255, 253, 247, 0.88));
+  border: 1px solid rgba(107, 29, 47, 0.14);
+  box-shadow: 0 4px 20px -2px rgba(59, 13, 24, 0.04);
+  @apply backdrop-blur-md text-[#3B0D18] transition-all rounded-md;
 }
 
-/* Delicate, hairline vertical column divider line for tables */
+/* Hairline vertical column divider line for tables */
 .table-col-divider {
-  border-right: 1px solid rgba(148, 163, 184, 0.45) !important;
+  border-right: 1px solid rgba(107, 29, 47, 0.16) !important;
 }
 
 .glass-modal {
-  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.85));
-  @apply backdrop-blur-xl shadow-2xl text-slate-900 transition-all border-none;
+  background-color: var(--theme-card-bg, rgba(255, 253, 247, 0.95));
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  box-shadow: 0 20px 40px -10px rgba(59, 13, 24, 0.25);
+  @apply backdrop-blur-xl text-[#3B0D18] transition-all rounded-md;
 }
 
 .glass-input {
-  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.50));
-  @apply backdrop-blur-md text-slate-900 placeholder:text-slate-500 font-medium focus:bg-white/90 focus:outline-none transition-all border-none;
+  background-color: var(--theme-card-bg, rgba(255, 253, 247, 0.70));
+  border: 1px solid rgba(107, 29, 47, 0.18);
+  @apply backdrop-blur-md text-[#3B0D18] placeholder:text-[#7A5C63]/60 font-medium focus:bg-[#FFFDF7] focus:border-[#6B1D2F] focus:outline-none transition-all rounded-md;
 }
 
 /* Cell inputs - clean, translucent and highly legible */
 .cell-input {
-  @apply w-full bg-transparent border-none px-2 py-1 text-sm font-semibold transition-all focus:bg-white/80 focus:outline-none rounded-sm text-slate-900;
+  @apply w-full bg-transparent border-none px-2 py-1 text-sm font-semibold transition-all focus:bg-[#FFFDF7]/90 focus:outline-none rounded-md text-[#3B0D18];
 }
 
 .cell-select {
-  @apply bg-transparent border-none px-2 py-1 text-sm font-semibold focus:bg-white/80 focus:outline-none rounded-sm text-slate-900 cursor-pointer;
+  @apply bg-transparent border-none px-2 py-1 text-sm font-semibold focus:bg-[#FFFDF7]/90 focus:outline-none rounded-md text-[#3B0D18] cursor-pointer;
 }
 
 .cell-textarea {
-  @apply w-full bg-transparent border-none p-2 text-sm font-semibold transition-all focus:bg-white/80 focus:outline-none rounded-sm text-slate-900 resize-y;
+  @apply w-full bg-transparent border-none p-2 text-sm font-semibold transition-all focus:bg-[#FFFDF7]/90 focus:outline-none rounded-md text-[#3B0D18] resize-y;
 }
 
 .modal-input {
-  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.65));
-  @apply backdrop-blur-md border-none px-3 py-2 text-sm font-medium focus:bg-white/95 focus:outline-none rounded-sm text-slate-900 transition-all;
+  background-color: var(--theme-card-bg, rgba(255, 253, 247, 0.80));
+  border: 1px solid rgba(107, 29, 47, 0.20);
+  @apply backdrop-blur-md px-3 py-2 text-sm font-medium focus:bg-[#FFFDF7] focus:border-[#6B1D2F] focus:ring-1 focus:ring-[#C5A059]/40 focus:outline-none rounded-md text-[#3B0D18] transition-all;
 }
 
 .modal-select {
-  background-color: var(--theme-card-bg, rgba(255, 255, 255, 0.65));
-  @apply backdrop-blur-md border-none px-3 py-2 text-sm font-medium focus:bg-white/95 focus:outline-none rounded-sm text-slate-900 cursor-pointer transition-all;
+  background-color: var(--theme-card-bg, rgba(255, 253, 247, 0.80));
+  border: 1px solid rgba(107, 29, 47, 0.20);
+  @apply backdrop-blur-md px-3 py-2 text-sm font-medium focus:bg-[#FFFDF7] focus:border-[#6B1D2F] focus:ring-1 focus:ring-[#C5A059]/40 focus:outline-none rounded-md text-[#3B0D18] cursor-pointer transition-all;
 }
 
-/* Buttons - flat & high contrast */
+/* Buttons — Royal Burgundy & Gold Palette */
 .btn-primary {
-  @apply bg-pink-500/90 hover:bg-pink-600 active:bg-pink-700 text-white font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 shadow-sm cursor-pointer backdrop-blur-sm border-none;
+  background-color: #6B1D2F;
+  color: #FFFDF7;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  box-shadow: 0 2px 8px rgba(107, 29, 47, 0.2);
+  @apply font-bold px-4 py-2 text-sm transition-all rounded-md inline-flex items-center gap-2 cursor-pointer hover:bg-[#5B1425] hover:border-[#C5A059] hover:-translate-y-0.5 active:translate-y-0;
 }
 
 .btn-secondary {
-  @apply bg-white/75 hover:bg-pink-50 text-slate-800 hover:text-pink-700 font-bold px-4 py-2 text-sm transition-all rounded-sm inline-flex items-center gap-2 cursor-pointer backdrop-blur-sm border-none;
+  background-color: rgba(255, 253, 247, 0.90);
+  color: #6B1D2F;
+  border: 1px solid rgba(107, 29, 47, 0.25);
+  box-shadow: 0 2px 6px rgba(59, 13, 24, 0.03);
+  @apply font-bold px-4 py-2 text-sm transition-all rounded-md inline-flex items-center gap-2 cursor-pointer hover:bg-[#F8F3EC] hover:border-[#6B1D2F] hover:-translate-y-0.5 active:translate-y-0;
 }
 
 .btn-ghost {
-  @apply text-slate-800 font-bold hover:text-pink-600 hover:bg-pink-50/70 p-2 text-sm transition-colors rounded-sm cursor-pointer border-none;
+  color: #6B1D2F;
+  border: 1px solid transparent;
+  @apply font-bold hover:text-[#5B1425] hover:bg-[#6B1D2F]/10 p-2 text-sm transition-all rounded-md cursor-pointer;
 }
 
 .btn-danger {
-  @apply bg-rose-50/90 hover:bg-rose-100 text-rose-700 font-bold px-2 py-1 text-xs transition-colors rounded-sm cursor-pointer border-none;
+  background-color: #FDF2F4;
+  color: #8B1D2F;
+  border: 1px solid rgba(139, 29, 47, 0.25);
+  @apply font-bold px-2 py-1 text-xs transition-all rounded-md cursor-pointer hover:bg-[#F8E1E5];
 }
 
-/* Badges with high text contrast */
+/* Badges with high text contrast & royal borders */
 .badge {
-  @apply inline-flex items-center px-2 py-0.5 text-xs font-bold rounded-sm border-none uppercase tracking-wider backdrop-blur-sm;
+  @apply inline-flex items-center px-2 py-0.5 text-xs font-bold rounded-md uppercase tracking-wider backdrop-blur-sm;
 }
-.badge-green { @apply bg-emerald-50/90 text-emerald-800 border-none; }
-.badge-amber { @apply bg-amber-50/90 text-amber-900 border-none; }
-.badge-red   { @apply bg-rose-50/90 text-rose-800 border-none; }
-.badge-blue  { @apply bg-sky-50/90 text-sky-900 border-none; }
-.badge-gray  { @apply bg-slate-100/90 text-slate-800 border-none; }
-.badge-pink  { @apply bg-pink-50/90 text-pink-800 border-none; }
+.badge-green { @apply bg-[#EAF5EF] text-[#1E5235] border border-[#1E5235]/25; }
+.badge-amber { @apply bg-[#FDF6E7] text-[#8C6B1C] border border-[#8C6B1C]/25; }
+.badge-red   { @apply bg-[#FDF2F4] text-[#8B1D2F] border border-[#8B1D2F]/25; }
+.badge-blue  { @apply bg-[#F0F5FA] text-[#2C5282] border border-[#2C5282]/25; }
+.badge-gray  { @apply bg-[#F3ECE3] text-[#4A3B3C] border border-[#4A3B3C]/25; }
+.badge-pink  { @apply bg-[#FDF0F3] text-[#6B1D2F] border border-[#6B1D2F]/25; }
+.badge-gold  { @apply bg-[#FDF8EB] text-[#8C6B1C] border border-[#C5A059]/40; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
@@ -130,11 +183,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(248, 250, 252, 0.4);
+  background: rgba(248, 243, 236, 0.6);
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background-color: rgba(197, 160, 89, 0.4);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background-color: rgba(107, 29, 47, 0.6);
 }

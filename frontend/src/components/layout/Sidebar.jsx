@@ -37,10 +37,10 @@ function NavGroup({ group }) {
     <div className="mb-1">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-cream-500 hover:text-cream-700 transition"
+        className="w-full flex items-center justify-between px-3 py-1.5 font-serif text-xs font-bold uppercase tracking-widest text-[#6B1D2F] hover:text-[#5B1425] transition cursor-pointer"
       >
         {group.label}
-        {open ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+        {open ? <ChevronDown className="w-3 h-3 text-[#C5A059]" /> : <ChevronRight className="w-3 h-3 text-[#C5A059]" />}
       </button>
 
       {open && (
@@ -52,13 +52,13 @@ function NavGroup({ group }) {
               <button
                 key={item.id}
                 onClick={() => navigateTo(item.id)}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all duration-150
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-all duration-150 cursor-pointer
                   ${active
-                    ? 'bg-white text-cream-700 font-semibold shadow-subtle border border-cream-200'
-                    : 'text-cream-600 hover:bg-cream-150 hover:text-cream-700'
+                    ? 'bg-[#6B1D2F] text-[#FFFDF7] font-bold shadow-xs border border-[#C5A059]/40'
+                    : 'text-[#3B0D18] hover:bg-[#FFFDF7] hover:text-[#6B1D2F]'
                   }`}
               >
-                {Icon && <Icon className="w-4 h-4 shrink-0" />}
+                {Icon && <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-[#E6C687]' : 'text-[#C5A059]'}`} />}
                 <span className="truncate">{item.label}</span>
               </button>
             );
@@ -76,18 +76,19 @@ export default function Sidebar() {
   return (
     <aside
       className={`
-        flex flex-col bg-cream-100 border-r border-cream-200 z-20 transition-all duration-300
+        flex flex-col bg-[#F8F3EC]/90 border-r border-[#6B1D2F]/15 backdrop-blur-md z-20 transition-all duration-300
         ${db.sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'}
         shrink-0
       `}
     >
       {/* Brand */}
-      <div className="px-5 py-5 border-b border-cream-200 bg-white shrink-0">
-        <h1 className="font-serif text-lg font-bold text-cream-800 tracking-wide leading-tight">
+      <div className="px-5 py-5 border-b border-[#6B1D2F]/15 bg-[#FFFDF7] shrink-0">
+        <h1 className="font-serif text-lg font-bold text-[#3B0D18] tracking-wide leading-tight flex items-center gap-2">
+          <Crown className="w-5 h-5 text-[#C5A059]" />
           {user?.name ? `${user.name}'s` : 'Personal'} 2027
         </h1>
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-cream-500 mt-0.5">
-          Personal OS · Planner
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-[#6B1D2F] mt-0.5">
+          Royal Planner OS
         </p>
       </div>
 
