@@ -39,12 +39,17 @@ function writeLocalDb(data) {
 
 export function getPool() {
   if (!pool) {
+    let targetDb = process.env.TIDB_DATABASE ? process.env.TIDB_DATABASE.trim() : '';
+    if (!targetDb || targetDb === 'sys' || targetDb === 'information_schema') {
+      targetDb = 'bezawit_planner';
+    }
+
     pool = mysql.createPool({
-      host: process.env.TIDB_HOST || 'gateway01.eu-central-1.prod.aws.tidbcloud.com',
+      host: (process.env.TIDB_HOST && process.env.TIDB_HOST.trim()) || 'gateway01.eu-central-1.prod.aws.tidbcloud.com',
       port: Number(process.env.TIDB_PORT) || 4000,
-      user: process.env.TIDB_USER || '31FwaATgxkvo1q9.root',
-      password: process.env.TIDB_PASSWORD || 'pPtt3fgQ7zow5INT',
-      database: process.env.TIDB_DATABASE || 'bezawit_planner',
+      user: (process.env.TIDB_USER && process.env.TIDB_USER.trim()) || '31FwaATgxkvo1q9.root',
+      password: (process.env.TIDB_PASSWORD && process.env.TIDB_PASSWORD.trim()) || 'pPtt3fgQ7zow5INT',
+      database: targetDb,
       ssl: { rejectUnauthorized: false },
       waitForConnections: true,
       connectionLimit: 10,
